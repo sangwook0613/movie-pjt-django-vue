@@ -1,3 +1,4 @@
+import re
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -7,10 +8,16 @@ from .serializers import UserSerializer
 @api_view(['POST'])
 def signup(request):
 	#1-1. Client에서 온 데이터를 받아서
+    email = request.data.get('email')
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
+
+    #1-2. 이메일 형식 체크
+    email_chk = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+    if email_chk.match(email) == None:
+        return Response({'error': '이메일 형식이 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 		
-	#1-2. 패스워드 일치 여부 체크
+	#1-3. 패스워드 일치 여부 체크
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 		
