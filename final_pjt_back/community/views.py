@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from .models import Review, Comment
 from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializer
 
@@ -33,6 +37,11 @@ def review_detail(request, review_pk):
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
+        # 내가 작성한 리뷰중에 해당하는 리뷰가 없으면
+        if not request.user.reviews.filter(pk=review_pk).exists():
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        # 있으면 삭제
         review.delete()
         data = {
             'delete': f'{review_pk}번 글이 정상적으로 삭제되었습니다.'
@@ -40,8 +49,13 @@ def review_detail(request, review_pk):
         return Response(data, status=status.HTTP_204_NO_CONTENT)
     
     elif request.method == 'PUT':
+        # 내가 작성한 리뷰중에 해당하는 리뷰가 없으면
+        if not request.user.reviews.filter(pk=review_pk).exists():
+            # 403 반환
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        # 있으면 수정
         serializer = ReviewSerializer(review, data=request.data)
-
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
@@ -65,6 +79,10 @@ def comment_detail(request, comment_pk):
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
+        # 내가 작성한 댓글중에 해당하는 댓글이 없으면
+        if not request.user.comments.filter(pk=comment_pk).exists():
+            # 403 error 반환
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         comment.delete()
         data = {
             'delete': f'{comment_pk}번 댓글이 정상적으로 삭제되었습니다.'
@@ -72,6 +90,10 @@ def comment_detail(request, comment_pk):
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'PUT':
+        # 내가 작성한 댓글중에 해당하는 댓글이 없으면
+        if not request.user.comments.filter(pk=comment_pk).exists():
+            # 403 error 반환
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -81,8 +103,8 @@ def comment_detail(request, comment_pk):
 # 댓글 작성
 @api_view(['POST'])
 def create_comment(request, review_pk):
-    article = get_object_or_404(Review, pk=review_pk)
+    review = get_object_or_404(Review, pk=review_pk)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(article=article)
+        serializer.save(review=review)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
