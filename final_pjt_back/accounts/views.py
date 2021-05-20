@@ -1,9 +1,12 @@
 import re
+from django.http.response import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserProfileSerializer, AllUserSerializer
 
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 @api_view(['POST'])
 def signup(request):
@@ -33,3 +36,36 @@ def signup(request):
     # password는 직렬화 과정에는 포함 되지만 → 표현(response)할 때는 나타나지 않는다.
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+@api_view(['GET'])
+def profile(request, username):
+    if request.method == 'GET':
+        # User 모델 불러오기
+        User = get_user_model()
+        # 특정 유저 가져오기
+        person = get_object_or_404(User, username=username)
+        serializer = UserProfileSerializer(person)
+        return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def user_follow(request, user_pk):
+    if request.method == 'POST':
+        User = get_user_model()
+        you = get_object_or_404(User, pk=user_pk)
+        me = request.user
+        # 자기 자신은 follow 할 수 없다.
+        if me == you:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # 이미 팔로우 상태면
+        if you.followers.filter(pk=me.pk).exists():
+            # 언팔
+            you.followers.remove(me)
+        # 아니면
+        else:
+            # 팔로우
+            you.followers.add(me)
+
+        serializer = UserProfileSerializer(User)
+        return Response(serializer.data)
