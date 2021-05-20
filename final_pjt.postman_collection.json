@@ -1,0 +1,489 @@
+{
+	"info": {
+		"_postman_id": "e1b4d0a0-e4c4-4b37-af15-f0bc65b1fadc",
+		"name": "프로젝트",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOP_RATED",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/top_rated?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR&page=2",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"top_rated"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Popular",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/popular?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR&page=1&region=KR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"popular"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "region",
+							"value": "KR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "전체 장르",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/genre/movie/list?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"genre",
+						"movie",
+						"list"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREDIT 목록",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/155/credits?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"155",
+						"credits"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PERSON (배우 or 감독 검색용)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/person/525?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"person",
+						"525"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KEYWORDS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "movie_id",
+							"value": "3",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/155/keywords?api_key=2f6e2467882449898b073c342aa59532",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"155",
+						"keywords"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "네이버 영화 검색",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Naver-Client-Id",
+						"value": "T7mGDaOu1MXS9MNmuTW9",
+						"type": "text"
+					},
+					{
+						"key": "X-Naver-Client-Secret",
+						"value": "RgLTGonQwF",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "query",
+							"value": "The Godfather: Part III",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openapi.naver.com/v1/search/movie.json?query=기생충&yearfrom=2019&yearto=2019&country=KR",
+					"protocol": "https",
+					"host": [
+						"openapi",
+						"naver",
+						"com"
+					],
+					"path": [
+						"v1",
+						"search",
+						"movie.json"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "기생충"
+						},
+						{
+							"key": "yearfrom",
+							"value": "2019"
+						},
+						{
+							"key": "yearto",
+							"value": "2019"
+						},
+						{
+							"key": "country",
+							"value": "KR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "파파고",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Naver-Client-Id",
+						"value": "T7mGDaOu1MXS9MNmuTW9",
+						"type": "text"
+					},
+					{
+						"key": "X-Naver-Client-Secret",
+						"value": "RgLTGonQwF",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "charset",
+						"value": "UTF-8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://openapi.naver.com/v1/papago/detectLangs?query=hello",
+					"protocol": "https",
+					"host": [
+						"openapi",
+						"naver",
+						"com"
+					],
+					"path": [
+						"v1",
+						"papago",
+						"detectLangs"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "hello"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "파파고 번역",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Naver-Client-Id",
+						"value": "T7mGDaOu1MXS9MNmuTW9",
+						"type": "text"
+					},
+					{
+						"key": "X-Naver-Client-Secret",
+						"value": "RgLTGonQwF",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "charset",
+						"value": "UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "source",
+							"value": "en",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "target",
+							"value": "ko",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "text",
+							"value": "hello",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://openapi.naver.com/v1/papago/n2mt?source=en&target=ko&text=hello",
+					"protocol": "https",
+					"host": [
+						"openapi",
+						"naver",
+						"com"
+					],
+					"path": [
+						"v1",
+						"papago",
+						"n2mt"
+					],
+					"query": [
+						{
+							"key": "source",
+							"value": "en"
+						},
+						{
+							"key": "target",
+							"value": "ko"
+						},
+						{
+							"key": "text",
+							"value": "hello"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "similar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/1234/similar?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR&page=1",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"1234",
+						"similar"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.themoviedb.org/3/movie/122?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"themoviedb",
+						"org"
+					],
+					"path": [
+						"3",
+						"movie",
+						"122"
+					],
+					"query": [
+						{
+							"key": "api_key",
+							"value": "2f6e2467882449898b073c342aa59532"
+						},
+						{
+							"key": "language",
+							"value": "ko-KR"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
