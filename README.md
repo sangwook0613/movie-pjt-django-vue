@@ -72,15 +72,9 @@ $ git branch -d <branch name> 삭제해준다
 3. 작업 (이동한 branch에서 작업)
 4. git push (작업한 branch에서 push)
    - $ git push origin `<branch name>`
-5. 원격 저장소에서 merge
+5. 원격 저장소에서 merge(pull request)
 6. 충돌 없으면 merge 하고, 충돌 있으면 상의
 7. 로컬 + 원격에서  branch 삭제
-
-
-
-
-
-
 
 
 
@@ -135,14 +129,20 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 
 
 
-```bash
-# 전체 영화 조회 /api/m1/movie/
-127.0.0.1:8000/api/m1/movie/
-
-# 단일 영화 조회 /api/m1/movie/<movie_pk>/
-127.0.0.1:8000/api/m1/movie/1
-```
-
 - server/url 수정 완료
 - 전체 영화, 단일 영화 시리얼라이즈+view 완료
-- user_profile_image => 사진으로 하면 저장할 방법 필요, 아니면 선택지?
+
+
+
+
+
+## 고민해야 할 사항
+
+### 0520
+
+1. review 작성 시 영화를 DB에 있는 것만 작성을 할 수 있게 하려고 하는데 선택지가 너무 많아진다
+   - 해결할 방법 필요 or 검색
+
+2. Keyword 번역문제 아직 해결 안됨
+3. user_profile_image => 사진으로 하면 저장할 방법 필요 => 캐릭터같은거 선택지를 준다.
+4. 화면 전환할 때 Vue-router로 어떻게 처리할지?
