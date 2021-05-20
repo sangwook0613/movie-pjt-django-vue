@@ -24,14 +24,14 @@ X_Naver_Client_Id = config('X_Naver_Client_Id')
 X_Naver_Client_Secret = config('X_Naver_Client_Secret')
 headers = {'X-Naver-Client-Id': X_Naver_Client_Id, 'X-Naver-Client-Secret': X_Naver_Client_Secret, 
                 'Content-Type': 'application/x-www-form-urlencoded','charset':'utf-8'}
-
+MOVIE_POPULAR_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_API_KEY}&language=ko-KR&region=KR'
+GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 
 def updateDB(request):
     page = 1
-    while page < 5:
-        MOVIE_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_API_KEY}&language=ko-KR&page={page}&region=KR'
+    while page <= 5:
+        MOVIE_URL = f'{MOVIE_POPULAR_URL}&page={page}'
         # 전체 장르 테이블 만들때 사용
-        GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
         request_movies = requests.get(MOVIE_URL).json()
         request_genres = requests.get(GENRE_URL).json()
         genres = request_genres.get('genres')
@@ -55,8 +55,8 @@ def updateDB(request):
             movie_genres = movie.get('genre_ids')
             movie_runtime = movie_detail.get('runtime')
             movie_data = Movie(title=movie_title, original_title=movie_original_title, overview=movie_overview,
-                poster_path=f'https://image.tmdb.org/t/p/original/{movie_poster_path}', runtime=movie_runtime,
-                backdrop_path=movie_backdrop_path, release_date=movie_release_date,)
+                poster_path=f'https://image.tmdb.org/t/p/original{movie_poster_path}', runtime=movie_runtime,
+                backdrop_path=f'https://image.tmdb.org/t/p/original{movie_backdrop_path}', release_date=movie_release_date,)
 
             # 영화 제목으로 중복 체크
             if not Movie.objects.filter(title=movie_title).exists():
@@ -103,7 +103,7 @@ def updateDB(request):
                     if not Actor.objects.filter(id=actor_id).exists():
                         # 테이블에 없는 배우면 추가
                         people_data = Actor(id=actor_id, actor_gender=actor_gender, actor_name=actor_name, 
-                            actor_eng_name=actor_eng_name, actor_profile_path=f'https://image.tmdb.org/t/p/original/{actor_profile_path}')
+                            actor_eng_name=actor_eng_name, actor_profile_path=f'https://image.tmdb.org/t/p/original{actor_profile_path}')
                         people_data.save()
 
                     # 해당 영화 배우들 M:N 테이블에 추가
@@ -139,7 +139,7 @@ def updateDB(request):
                     if not Director.objects.filter(id=director_id).exists():
                         # 테이블에 없는 감독이면 추가         
                         director_data = Director(id=director_id, director_gender=director_gender, director_name=director_name, 
-                            director_eng_name=director_eng_name, director_profile_path=f'https://image.tmdb.org/t/p/original/{director_profile_path}')
+                            director_eng_name=director_eng_name, director_profile_path=f'https://image.tmdb.org/t/p/original{director_profile_path}')
                         director_data.save()
                     
                     # 해당 영화 배우들 M:N 테이블에 추가

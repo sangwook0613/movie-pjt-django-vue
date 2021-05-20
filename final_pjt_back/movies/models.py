@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 # Create your models here.
 
 class Genre(models.Model):
@@ -46,6 +47,7 @@ class Movie(models.Model):
     actors = models.ManyToManyField(Actor)
     directors = models.ManyToManyField(Director)
     keywords = models.ManyToManyField(Keyword)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
 
     def __str__(self):
         return self.title

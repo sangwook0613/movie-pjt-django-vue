@@ -21,6 +21,13 @@ X_Naver_Client_Secret = config('X_Naver_Client_Secret')
 
 
 
+```bash
+$ python manage.py migrate
+$ python manage.py createsuperuser
+```
+
+
+
 ### Commit 규칙
 
 1. 첫 문자는 대문자 and 동사 (Update, Create, Delete...)
