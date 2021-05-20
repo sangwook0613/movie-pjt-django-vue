@@ -7,7 +7,7 @@ from rest_framework import status
 from .models import Review, Comment
 from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializer
 
-# 전체 리뷰 조회
+# 전체 리뷰 조회, 리뷰 작성
 @api_view(['GET', 'POST'])
 def review_list(request):
     if request.method == 'GET':
@@ -35,7 +35,7 @@ def review_detail(request, review_pk):
     elif request.method == 'DELETE':
         review.delete()
         data = {
-            'delete': f'데이터 {review_pk}번이 정상적으로 삭제되었습니다.'
+            'delete': f'{review_pk}번 글이 정상적으로 삭제되었습니다.'
         }
         return Response(data, status=status.HTTP_204_NO_CONTENT)
     
@@ -67,7 +67,7 @@ def comment_detail(request, comment_pk):
     elif request.method == 'DELETE':
         comment.delete()
         data = {
-            'delete': f'데이터 {comment_pk}번이 정상적으로 삭제되었습니다.'
+            'delete': f'{comment_pk}번 댓글이 정상적으로 삭제되었습니다.'
         }
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
