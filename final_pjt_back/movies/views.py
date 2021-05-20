@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from pprint import pprint
 from bs4 import BeautifulSoup
@@ -69,18 +70,36 @@ def movie_detail(request, movie_pk):
             return Response(serializer.data)
     '''
 
+@api_view(['POST'])
+def movie_like(request, movie_pk):
+    if request.method == 'POST':
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        # 좋아요 눌려있으면
+        if movie.like_movies.filter(pk=request.user.pk).exists():
+            # 취소
+            movie.like_movies.remove(request.user)
+        #아니면
+        else:
+            # 좋아요
+            movie.like_movies.add(request.user)
+
+        # 시리얼 라이징
+        serializer = MovieSerializer(movie)
+        # 반환
+        return Response(serializer.data)
 
 
+@api_view(['POST'])
+def movie_hate(request, movie_pk):
+    if request.method =='POST':
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        if movie.hate_movies.filter(pk=request.user.pk).exists():
+            movie.hate_movies.remove(request.user)
+        else:
+            movie.hate_movies.add(request.user)
 
-
-
-
-
-
-
-
-
-
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
 
 
 

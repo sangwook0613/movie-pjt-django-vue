@@ -28,6 +28,16 @@ $ python manage.py createsuperuser
 
 
 
+### front
+
+> npm i + .env.local 에 아래꺼 추가
+
+```bash
+VUE_APP_SERVER_URL=http://127.0.0.1:8000
+```
+
+
+
 ### Commit 규칙
 
 1. 첫 문자는 대문자 and 동사 (Update, Create, Delete...)
@@ -131,6 +141,7 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 
 - server/url 수정 완료
 - 전체 영화, 단일 영화 시리얼라이즈+view 완료
+- serializers 추천 알고리즘, Profile 제외하고 완료
 
 
 
@@ -142,7 +153,12 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 
 1. review 작성 시 영화를 DB에 있는 것만 작성을 할 수 있게 하려고 하는데 선택지가 너무 많아진다
    - 해결할 방법 필요 or 검색
-
 2. Keyword 번역문제 아직 해결 안됨
 3. user_profile_image => 사진으로 하면 저장할 방법 필요 => 캐릭터같은거 선택지를 준다.
 4. 화면 전환할 때 Vue-router로 어떻게 처리할지?
+5. movie에 연결된 like와 hate 각각 처리했는데, like가 눌리면 hate가 취소되고 반대로도 되야함
+   - front랑 back 에서 모두 처리해야 할듯
+6. UserProfileSerializer 에서 작성한 리뷰, 작성한 댓글, 좋아요 한 리뷰, 좋아요, 싫어요 영화 가져오기 해야함
+   - 팔로워수, 팔로잉수 까지만 완료
+7.  serializers 인증,권한 기능은 나중에 front 어느정도 되면 추가예정
+

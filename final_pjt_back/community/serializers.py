@@ -13,14 +13,14 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        # read_only_fields = ('review')
+        read_only_fields = ('review')
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # comments = CommentSerializer(many=True, read_only=True)
-    # comment_count = serializers.IntegerField(source='comments.count', read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='comments.count', read_only=True)
 
     class Meta:
         model = Review
-        fields = '__all__'
-        # fields = ('id', 'content', 'created_at', 'updated_at', 'rating', 'likes', 'comments', 'comment_count',) 
+        # fields = '__all__'
+        fields = ('id', 'content', 'created_at', 'updated_at', 'rating', 'likes', 'comments', 'comment_count',) 
