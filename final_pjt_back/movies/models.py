@@ -7,7 +7,7 @@ class Genre(models.Model):
     
     def __str__(self):
         return self.name
-
+'''
 class Actor(models.Model):
     actor_name = models.CharField(max_length=50)
     actor_eng_name = models.CharField(max_length=50)
@@ -25,6 +25,16 @@ class Director(models.Model):
     
     def __str__(self):
         return self.director_name
+'''
+class Person(models.Model):
+    name = models.CharField(max_length=50)
+    eng_name = models.CharField(max_length=50)
+    profile_path = models.CharField(max_length=200)
+    gender = models.IntegerField()
+    job = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 class Keyword(models.Model):
     keyword_name = models.CharField(max_length=50, blank=True)
@@ -44,8 +54,8 @@ class Movie(models.Model):
     backdrop_path = models.CharField(max_length=200)
     runtime = models.IntegerField(default=0)
     genres = models.ManyToManyField(Genre)
-    actors = models.ManyToManyField(Actor)
-    directors = models.ManyToManyField(Director)
+    actors = models.ManyToManyField(Person, related_name='movie_actor')
+    directors = models.ManyToManyField(Person, related_name='movie_director')
     keywords = models.ManyToManyField(Keyword)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
 

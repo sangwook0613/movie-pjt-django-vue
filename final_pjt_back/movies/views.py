@@ -5,16 +5,16 @@ import requests
 
 from decouple import config
 
-# from rest_framework import status
-# from rest_framework.response import Response
-# from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
-# from rest_framework.decorators import authentication_classes, permission_classes
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-# from .serializers import MovieSerializer
-from .models import Genre, Movie, Actor, Director, Keyword
+from .serializers import MovieSerializer
+from .models import Genre, Movie, Keyword, Person
 
 # Create your views here.
 NAVER_PAPAGO_DETECT_URL = 'https://openapi.naver.com/v1/papago/detectLangs'
@@ -100,10 +100,11 @@ def updateDB(request):
                             break
 
                     # Actor 테이블에 중복검사
-                    if not Actor.objects.filter(id=actor_id).exists():
+                    if not Person.objects.filter(id=actor_id).exists():
                         # 테이블에 없는 배우면 추가
-                        people_data = Actor(id=actor_id, actor_gender=actor_gender, actor_name=actor_name, 
-                            actor_eng_name=actor_eng_name, actor_profile_path=f'https://image.tmdb.org/t/p/original{actor_profile_path}')
+                        people_data = Person(id=actor_id, gender=actor_gender, name=actor_name, 
+                            eng_name=actor_eng_name, profile_path=f'https://image.tmdb.org/t/p/original{actor_profile_path}',
+                            job='Actor')
                         people_data.save()
 
                     # 해당 영화 배우들 M:N 테이블에 추가
@@ -136,10 +137,11 @@ def updateDB(request):
                             break
 
                     # Director 테이블에 중복검사
-                    if not Director.objects.filter(id=director_id).exists():
+                    if not Person.objects.filter(id=director_id).exists():
                         # 테이블에 없는 감독이면 추가         
-                        director_data = Director(id=director_id, director_gender=director_gender, director_name=director_name, 
-                            director_eng_name=director_eng_name, director_profile_path=f'https://image.tmdb.org/t/p/original{director_profile_path}')
+                        director_data = Person(id=director_id, gender=director_gender, name=director_name, 
+                            eng_name=director_eng_name, profile_path=f'https://image.tmdb.org/t/p/original{director_profile_path}',
+                            job='Director')
                         director_data.save()
                     
                     # 해당 영화 배우들 M:N 테이블에 추가

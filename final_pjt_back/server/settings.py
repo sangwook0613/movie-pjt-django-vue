@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'accounts',
     'community',
 
-    # 'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,10 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
+    
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     # django cors middleware setting
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,7 +68,7 @@ MIDDLEWARE = [
 # ]
 
 # 2. 모든 Origin 허용
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'server.urls'
 
@@ -145,6 +147,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# JWT_AUTH = {
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1)
-# }
+import datetime
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1)
+}

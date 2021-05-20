@@ -42,6 +42,37 @@ $ git commit -m "Update front movie_detail Detail.Vue"
 
 
 
+### Git branch
+
+```bash
+# 확인
+$ git branch
+
+# 생성
+$ git branch <branch name>
+
+# 이동
+$ git switch <branch name>
+
+# 삭제
+$ git branch -d <branch name>
+
+# 병합
+$ git merge <branch name>
+$ git log --oneline --graph
+$ git branch -d <branch name> 삭제해준다
+```
+
+
+
+1. 생성
+2. 이동
+3. 작업
+4. git push
+5. 원격 저장소에서 merge
+
+
+
 
 
 
