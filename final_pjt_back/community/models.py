@@ -23,12 +23,12 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(choices=RANK_CHOICES)
-    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews')
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews', blank=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    content = models.CharField(max_length=200)
