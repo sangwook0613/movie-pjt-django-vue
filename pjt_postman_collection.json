@@ -417,43 +417,6 @@
 			"response": []
 		},
 		{
-			"name": "similar",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://api.themoviedb.org/3/movie/1234/similar?api_key=2f6e2467882449898b073c342aa59532&language=ko-KR&page=1",
-					"protocol": "https",
-					"host": [
-						"api",
-						"themoviedb",
-						"org"
-					],
-					"path": [
-						"3",
-						"movie",
-						"1234",
-						"similar"
-					],
-					"query": [
-						{
-							"key": "api_key",
-							"value": "2f6e2467882449898b073c342aa59532"
-						},
-						{
-							"key": "language",
-							"value": "ko-KR"
-						},
-						{
-							"key": "page",
-							"value": "1"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Movie Detail",
 			"request": {
 				"method": "GET",
@@ -480,6 +443,54 @@
 							"key": "language",
 							"value": "ko-KR"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "영화 전체리스트 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8000/api/m1/movie/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"m1",
+						"movie",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "단일 영화 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8000/api/m1/movie/1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"m1",
+						"movie",
+						"1"
 					]
 				}
 			},

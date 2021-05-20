@@ -7,25 +7,7 @@ class Genre(models.Model):
     
     def __str__(self):
         return self.name
-'''
-class Actor(models.Model):
-    actor_name = models.CharField(max_length=50)
-    actor_eng_name = models.CharField(max_length=50)
-    actor_profile_path = models.CharField(max_length=200)
-    actor_gender = models.IntegerField()
 
-    def __str__(self):
-        return self.actor_name
-
-class Director(models.Model):
-    director_name = models.CharField(max_length=50)
-    director_eng_name = models.CharField(max_length=50)
-    director_profile_path = models.CharField(max_length=200)
-    director_gender = models.IntegerField()
-    
-    def __str__(self):
-        return self.director_name
-'''
 class Person(models.Model):
     name = models.CharField(max_length=50)
     eng_name = models.CharField(max_length=50)

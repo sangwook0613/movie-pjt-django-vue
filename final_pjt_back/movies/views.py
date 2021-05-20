@@ -13,10 +13,94 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer, MovieListSerializer
 from .models import Genre, Movie, Keyword, Person
 
-# Create your views here.
+
+
+# 전체 영화 리스트
+# @api_view(['GET', 'POST'])
+@api_view(['GET'])
+def movie_list(request):
+    if request.method == 'GET':
+        # 영화 전체 쿼리셋 가져오기
+        movies = get_list_or_404(Movie)
+        # 시리얼라이징
+        serializer = MovieListSerializer(movies, many=True)
+        #반환
+        return Response(serializer.data)
+    '''
+    elif request.method == 'POST':
+        serializer = MovieListSerializer(data=request.data)
+        # 유효성 검사를 진행한다. -> 만약 유효하지 않은 데이터가 들어온다면 400 Bad Request 에러를 발생
+        if serializer.is_valid(raise_exception=True):
+            # 저장한다.
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    '''
+
+# 단일 영화 페이지
+# @api_view(['GET', 'PUT', 'DELETE'])
+# PUT, DELETE는 admin페이지에서 해서 주석처리
+@api_view(['GET'])
+def movie_detail(request, movie_pk):
+    # pk에 해당하는 영화 하나
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if request.method == 'GET':
+        # 시리얼라이징
+        serializer = MovieSerializer(movie)
+        # 반환
+        return Response(serializer.data)
+    '''
+    elif request.method == 'DELETE':
+        #1. 삭제한다.
+        movie.delete()
+        data = {
+            'delete': f'데이터 {movie_pk}번이 정상적으로 삭제되었습니다.'
+        }
+        #2. 어떤 데이터가 삭제 되었는지 알 수 있는 정보를 상태 코드와 함께 응답한다.
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
+        
+    # 수정
+    elif request.method == 'PUT':
+        serializer = MovieDetailSerializer(Movie, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    '''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 NAVER_PAPAGO_DETECT_URL = 'https://openapi.naver.com/v1/papago/detectLangs'
 NAVER_PAPAGO_TRANSLATE_URL = 'https://openapi.naver.com/v1/papago/n2mt'
 MOVIE_API_KEY = config('MOVIE_API_KEY')

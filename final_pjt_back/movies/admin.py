@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person , Genre, Keyword, Movie
+from .models import Person, Genre, Keyword, Movie
 # Register your models here.
 
 @admin.register(Keyword)
@@ -11,17 +11,7 @@ class KeywordAdmin(admin.ModelAdmin):
 class GenreAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
     list_display_links = ['id']
-'''
-@admin.register(Actor)
-class ActorAdmin(admin.ModelAdmin):
-    list_display = ['id', 'actor_name', 'actor_eng_name', ]
-    list_display_links = ['id']
 
-@admin.register(Director)
-class DirectorAdmin(admin.ModelAdmin):
-    list_display = ['id', 'director_name', 'director_eng_name', ]
-    list_display_links = ['id']
-'''
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'eng_name', 'job' ]

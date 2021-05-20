@@ -89,7 +89,7 @@ $ git branch -d <branch name> 삭제해준다
 #### 0519
 
 - **movies model 작성**
-- **URL 정리** = POSTMAN 파일로 올림 (final_pjt.postman_collection.json)
+- **URL 정리** = POSTMAN 파일로 올림 (pjt_postman_collection.json)
 - account 수업때 했던 코드 옮겨놈
 - drf, drf-jwt, cors 설치해놈 -> freeze완료
 
@@ -124,7 +124,25 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 
 
 
-- 할 일
-  1. token 숨기기(.env 사용?)
-  2. 영화 POPULAR, NATION 등 지정했을 때 중복 잘 들어가는지 확인하기
-  3. url으로 실행하는 법 말고 다른 방법 있는지?
+
+
+#### 0520
+
+- 현재 모델 상황
+- Director + Actor = Person 으로 교체
+
+![image-20210520181056564](README.assets/image-20210520181056564.png)
+
+
+
+```bash
+# 전체 영화 조회 /api/m1/movie/
+127.0.0.1:8000/api/m1/movie/
+
+# 단일 영화 조회 /api/m1/movie/<movie_pk>/
+127.0.0.1:8000/api/m1/movie/1
+```
+
+- server/url 수정 완료
+- 전체 영화, 단일 영화 시리얼라이즈+view 완료
+- user_profile_image => 사진으로 하면 저장할 방법 필요, 아니면 선택지?
