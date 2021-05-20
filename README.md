@@ -1,4 +1,27 @@
-# last pjt
+# final pjt
+
+> 초기세팅: final_pjt_back에 .env 파일 만들어서 다음과 같이 사용
+
+```bash
+# install 필요
+$ pip install python-decouple
+# .env
+MOVIE_API_KEY={TMDB_KEY}
+X_Naver_Client_Id={X_Naver_Client_Id}
+X_Naver_Client_Secret={X_Naver_Client_Secret}
+```
+
+```python
+# movies/views.py
+from decouple import config
+MOVIE_API_KEY = config('MOVIE_API_KEY')
+X_Naver_Client_Id = config('X_Naver_Client_Id')
+X_Naver_Client_Secret = config('X_Naver_Client_Secret')
+```
+
+
+
+
 
 #### 0519
 
