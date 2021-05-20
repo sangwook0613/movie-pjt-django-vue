@@ -65,11 +65,16 @@ $ git branch -d <branch name> 삭제해준다
 
 
 
+#### 작업 순서
+
 1. 생성
 2. 이동
-3. 작업
-4. git push
+3. 작업 (이동한 branch에서 작업)
+4. git push (작업한 branch에서 push)
+   - $ git push origin `<branch name>`
 5. 원격 저장소에서 merge
+6. 충돌 없으면 merge 하고, 충돌 있으면 상의
+7. 로컬 + 원격에서  branch 삭제
 
 
 
