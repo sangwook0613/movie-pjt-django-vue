@@ -21,6 +21,26 @@ X_Naver_Client_Secret = config('X_Naver_Client_Secret')
 
 
 
+### Commit 규칙
+
+1. 첫 문자는 대문자 and 동사 (Update, Create, Delete...)
+2. 두 번째는 front 인지 back 인지 (front, back)
+3. 추가한 기능 + (수정한 파일)
+
+```bash
+$ git commit -m "Update back signup view.py"
+
+$ git commit -m "Update front movie_detail Detail.Vue"
+```
+
+
+
+
+
+
+
+
+
 
 
 #### 0519
