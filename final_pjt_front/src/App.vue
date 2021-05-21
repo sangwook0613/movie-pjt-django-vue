@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to='#'>Home</router-link> |
+      <router-link :to="{ name: 'Movie' }">Movie</router-link> |
       <router-link to='#'>Community</router-link> |
       <router-link to='#'>Search</router-link> |
       <span v-if="isLoggedIn">
@@ -12,20 +12,20 @@
         <router-link :to="{ name: 'Login' }">로그인</router-link>
       </span>
     </div>
-    <Home/>
-    <!-- <router-view/> -->
+    <!-- <Home/> -->
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Home from '@/views/Home'
+// import Home from '@/views/Home'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
-  components: {
-    Home,
-  },
+  // components: {
+  //   Home,
+  // },
   methods: {
     ...mapActions([
       'logout',

@@ -10,11 +10,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     authToken: localStorage.getItem('jwt'),
+    movies: [],
+    movieDetail: [],
   },
   getters: {
     isLoggedIn: function (state) {
       return state.authToken ? true : false
-    }
+    },
   },
   mutations: {
     SET_TOKEN: function (state, token) {
@@ -24,7 +26,13 @@ export default new Vuex.Store({
     REMOVE_TOKEN: function (state) {
       state.authToken = ''
       localStorage.removeItem('jwt')
-    }
+    },
+    GET_MOVIES: function (state, movies) {
+      state.movies = movies
+    },
+    GET_MOVIE_DETAIL: function (state, movie) {
+      state.movieDetail = movie
+    },
   },
   actions: {
     login: function ({ commit }, credentials) {
@@ -58,7 +66,34 @@ export default new Vuex.Store({
       commit('REMOVE_TOKEN')
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })
-    }
+    },
+    getMovie: function ({ commit }) {
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getMovie,
+        method: 'get',
+      })
+      .then((res) => {
+        commit('GET_MOVIES', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getMovieDetail: function ({ commit }, movieId) {
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getMovie + movieId,
+        method: 'get',
+      })
+      .then((res) => {
+        commit('GET_MOVIE_DETAIL', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+
   },
   modules: {
   }
