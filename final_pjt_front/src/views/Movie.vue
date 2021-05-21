@@ -16,6 +16,14 @@
       />
     </div> -->
     <router-view></router-view>
+    <carousel v-if="movies.length > 0" :nav="false" :items="5">
+      <div v-for="(movie, idx) in movies" :key="idx" class='card'>
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+        </router-link>
+      </div>
+    </carousel>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
@@ -55,3 +63,6 @@ export default {
   },
 }
 </script>
+
+<style>
+</style>
