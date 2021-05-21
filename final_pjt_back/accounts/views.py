@@ -5,15 +5,26 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer, UserProfileSerializer, UpdateUserSerializer
 
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+User = get_user_model()
 
 @api_view(['POST'])
 def signup(request):
-	#1-1. Client에서 온 데이터를 받아서
+	#1. Client에서 온 데이터를 받아서
     email = request.data.get('email')
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
+
+    # 1-1. username 체크
+    username = request.data.get('username')
+    users=User.objects.all()
+    if users.filter(username=username).exists():
+        return Response({'error': '이미 존재하는 아이디입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
     #1-2. 이메일 형식 체크
     email_chk = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
@@ -38,6 +49,8 @@ def signup(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def profile(request, username):
     # User 모델 불러오기
     User = get_user_model()
@@ -78,6 +91,8 @@ def profile(request, username):
 
 
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def user_follow(request, username):
     if request.method == 'POST':
         User = get_user_model()

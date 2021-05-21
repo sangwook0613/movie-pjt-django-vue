@@ -10,4 +10,6 @@ urlpatterns = [
     path('search/<search_word>/', views.search),
     path('person/<name>/', views.search_person),
     path('movie/recommend/random/', views.recommend_random),
+    path('movie/recommend/genre/most/', views.recommend_genre_most),
+    path('movie/recommend/genre/', views.recommend_genre),
 ]
