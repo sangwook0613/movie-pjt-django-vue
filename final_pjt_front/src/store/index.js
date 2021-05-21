@@ -9,9 +9,9 @@ Vue.use(Vuex)
 
 
 const movieStore = {
+  namespaced: true,
   state: {
-    hi: '1111',
-    movies: ['dummy'],
+    movies: [],
     recommendMovies: [],
     movieDetail: [],
   },
@@ -54,6 +54,7 @@ const movieStore = {
 }
 
 const accountStore = {
+  namespaced: true,
   state: {
     // profile: '',
   },
@@ -63,9 +64,9 @@ const accountStore = {
 
 const store = new Vuex.Store({
   modules: {
-    // 키: 값 형태로 저장됩니다.
-    movieStore: movieStore,
-    accountStore: accountStore,
+    // 축약 상태 사용
+    movieStore,
+    accountStore,
   },
   // 공통으로 사용하는 state 와 mutation, action 들은 모두 token의 생성과 등록에 관련된 내용들
   state: {
@@ -128,3 +129,4 @@ const store = new Vuex.Store({
 export default store
 
 console.log(store)
+console.log(store._actions.getMovie)

@@ -7,21 +7,26 @@
     <div>
       <h1>{{ }}</h1>
     </div>
-    {{ $store.state.movieDetail }}
+    {{ movieDetail }}
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'MovieDetail',
   methods: {
-    ...mapActions([
+    ...mapActions('movieStore', [
       'getMovieDetail',
     ])
   },
-  mounted: function () {
+  computed: {
+    ...mapState('movieStore', [
+      'movieDetail',
+    ])
+  },
+  created: function () {
     this.getMovieDetail(this.$route.params.movieId)
     // if (this.$store.getters.isLoggedIn) {
     //   this.getTodos()
