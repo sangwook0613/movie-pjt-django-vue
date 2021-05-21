@@ -96,7 +96,7 @@ const store = new Vuex.Store({
       })
       .then((res) => {
         commit('SET_TOKEN', res.data.token)
-        // console.log(res.data)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)
