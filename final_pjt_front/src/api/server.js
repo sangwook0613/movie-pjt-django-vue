@@ -5,5 +5,6 @@ export default {
   ROUTES: {
     signup: '/api/a1/signup/',
     login: '/api/a1/api-token-auth/',
+    getMovie: '/api/m1/movie/',
   }
 }

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '@/views/Home.vue'
+// import Home from '@/views/Home.vue'
 
 // Accounts
-import Signup from '@/components/accounts/Signup.vue'
-import Login from '@/components/accounts/Login.vue'
+import Signup from '@/components/accounts/Signup'
+import Login from '@/components/accounts/Login'
 
 // Movies
-// import  from '@/components/movies/.vue'
-import MovieDetail from '@/components/movies/MovieDetail.vue'
+import Movie from '@/views/Movie'
+import MovieDetail from '@/components/movies/MovieDetail'
 
 Vue.use(VueRouter)
 
@@ -25,15 +25,24 @@ const routes = [
     component: Login,
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
+    path: '/movie',
+    name: 'Movie',
+    component: Movie,
+    
+    // 중첩된 라우트는 children 속성으로 하위 라우트를 정의할 수 있다.
+    children: [
+      { path: ":movieId",
+        name: 'MovieDetail',
+        component: MovieDetail,
+      },
+      // { path: "detail", component: { template: "<div>Post Detail</div>" } },
+    ],
   },
-  {
-    path: '/movie/:id',
-    name: 'MovieDetail',
-    component: MovieDetail,
-  },
+  // {
+  //   path: '/movie/',
+  //   name: 'MovieDetail',
+  //   component: MovieDetail,
+  // },
 ]
 
 const router = new VueRouter({
