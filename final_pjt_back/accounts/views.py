@@ -3,7 +3,7 @@ from django.http.response import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import UserSerializer, UserProfileSerializer, AllUserSerializer
+from .serializers import UserSerializer, UserProfileSerializer, UpdateUserSerializer
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -37,23 +37,51 @@ def signup(request):
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def profile(request, username):
+    # User 모델 불러오기
+    User = get_user_model()
     if request.method == 'GET':
-        # User 모델 불러오기
-        User = get_user_model()
         # 특정 유저 가져오기
         person = get_object_or_404(User, username=username)
         serializer = UserProfileSerializer(person)
         return Response(serializer.data)
+    
+    # 탈퇴
+    elif request.method == 'DELETE':
+        # 본인인지
+        if request.user.username != username:
+            # 403 error 반환
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        User.delete()
+        data = {
+            'delete': f'{username}이 정상적으로 삭제되었습니다.'
+        }
+        # 삭제 잘 됐으면 204
+        return Response(data, status=status.HTTP_204_NO_CONTENT)
 
+    # 프로필 수정
+    elif request.method == 'PUT':
+        # 본인이 아니면
+        if request.user.username != username:
+            # 403 error 반환
+            return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = UpdateUserSerializer(User, data=request.data)
+        # 유효성 검사 통과 못하면 400
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.save()
+            # 비밀번호 해싱
+            user.set_password(request.data.get('password'))
+            user.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['POST'])
-def user_follow(request, user_pk):
+def user_follow(request, username):
     if request.method == 'POST':
         User = get_user_model()
-        you = get_object_or_404(User, pk=user_pk)
+        you = get_object_or_404(User, username=username)
         me = request.user
         # 자기 자신은 follow 할 수 없다.
         if me == you:

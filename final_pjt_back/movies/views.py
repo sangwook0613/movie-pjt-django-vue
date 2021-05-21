@@ -14,7 +14,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
-from .serializers import MovieSerializer, MovieListSerializer
+from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
 
 
@@ -102,17 +102,35 @@ def movie_hate(request, movie_pk):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+def search(request, search_word):
+    movies = Movie.objects.all()
+    if request.method == 'GET':
+        search_title = movies.filter(title__contains=search_word)
+        search_overview = movies.filter(overview__contains=search_word)
+        result = search_title.union(search_overview, all=True)
+
+        if result:
+            serializer = MovieListSerializer(result, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
+@api_view(['GET'])
+def search_person(request, name):
+    people = Person.objects.all()
+    if request.method == 'GET':
+        search_name = people.filter(name__contains=name)
+        search_eng_name = people.filter(eng_name__contains=name)
+        result = search_name.union(search_eng_name, all=True)
 
-
-
-
-
-
-
-
+        if result:
+            serializer = PeopleSerializer(result, many=True)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
