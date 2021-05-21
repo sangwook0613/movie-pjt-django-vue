@@ -6,7 +6,7 @@ import VueRouter from 'vue-router'
 // Accounts
 import Signup from '@/components/accounts/Signup'
 import Login from '@/components/accounts/Login'
-
+import Profile from '@/components/accounts/Profile'
 // Movies
 import Movie from '@/views/Movie'
 import MovieDetail from '@/components/movies/MovieDetail'
@@ -23,6 +23,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/profile/:username',
+    name: 'Profile',
+    component: Profile,
   },
   {
     path: '/movie',
