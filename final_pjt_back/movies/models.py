@@ -38,9 +38,9 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     actors = models.ManyToManyField(Person, related_name='movie_actor')
     directors = models.ManyToManyField(Person, related_name='movie_director')
-    keywords = models.ManyToManyField(Keyword)
-    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
-    hates = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='hate_movies')
+    keywords = models.ManyToManyField(Keyword, related_name='movie_keywords')
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies', blank=True)
+    hates = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='hate_movies', blank=True)
 
     def __str__(self):
         return self.title
