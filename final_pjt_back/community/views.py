@@ -13,6 +13,8 @@ from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializ
 
 # 전체 리뷰 조회, 리뷰 작성
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def review_list(request):
     if request.method == 'GET':
         reviews = get_list_or_404(Review)
@@ -30,6 +32,8 @@ def review_list(request):
 
 # 단일 리뷰 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'GET':
@@ -63,6 +67,8 @@ def review_detail(request, review_pk):
 
 # 전체 댓글 조회
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def comment_list(request):
     comments = get_list_or_404(Comment)
     serializer = CommentSerializer(comments, many=True)
@@ -71,6 +77,8 @@ def comment_list(request):
 
 # 댓글 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
 
@@ -102,6 +110,8 @@ def comment_detail(request, comment_pk):
 
 # 댓글 작성
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def create_comment(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     serializer = CommentSerializer(data=request.data)

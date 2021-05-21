@@ -1,13 +1,15 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render, get_object_or_404, get_list_or_404
 from pprint import pprint
 from bs4 import BeautifulSoup
 import requests
 from random import choice
 
+from django.http.response import HttpResponse
+from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.db.models import Max, query
+
 from decouple import config
 
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -18,11 +20,13 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
 
-
+from django.contrib.auth import get_user_model
 
 # 전체 영화 리스트
 # @api_view(['GET', 'POST'])
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
+@permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def movie_list(request):
     if request.method == 'GET':
         # 영화 전체 쿼리셋 가져오기
@@ -40,11 +44,12 @@ def movie_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     '''
-
 # 단일 영화 페이지
 # @api_view(['GET', 'PUT', 'DELETE'])
 # PUT, DELETE는 admin페이지에서 해서 주석처리
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_pk):
     # pk에 해당하는 영화 하나
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -72,6 +77,8 @@ def movie_detail(request, movie_pk):
     '''
 
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_like(request, movie_pk):
     if request.method == 'POST':
         movie = get_object_or_404(Movie, pk=movie_pk)
@@ -91,6 +98,8 @@ def movie_like(request, movie_pk):
 
 
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def movie_hate(request, movie_pk):
     if request.method =='POST':
         movie = get_object_or_404(Movie, pk=movie_pk)
@@ -104,6 +113,8 @@ def movie_hate(request, movie_pk):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def search(request, search_word):
     movies = Movie.objects.all()
     if request.method == 'GET':
@@ -120,6 +131,8 @@ def search(request, search_word):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def search_person(request, name):
     people = Person.objects.all()
     if request.method == 'GET':
@@ -135,24 +148,136 @@ def search_person(request, name):
 
 
 
-
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def recommend_random(request):
-    pks =  Movie.objects.values_list('pk', flat=True).order_by('id')
-    print(pks)
-    random_pk = choice(pks)
-    movies = Movie.objects.get(pk=random_pk)
+    # 랜덤 정렬하고 앞에서 15개
+    movies = Movie.objects.order_by('?')[:15]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
 
 
 
+# most 장르 추천
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def recommend_genre_most(request):
+    # 내가 좋아요 한 영화들 가져온다.
+    movies = request.user.like_movies.all()
+    # 장르 카운팅할 dict
+    genre_cnt = {}
+    # 영화들 반복하면서
+    for movie in movies:
+        # 장르들을 가져온다.
+        genres = movie.genres.all()
+        # 장르를 돌면서 카운팅
+        for genre in genres:
+            if genre_cnt.get(genre):
+                genre_cnt[genre] += 1
+            else:
+                genre_cnt[genre] = 1
+    
+    # 최댓값 가진 장르 찾기
+    most_genre = 0
+    most_cnt = 0
+    for key, value in sorted(genre_cnt.items(), key=lambda item: item[1], reverse=True):
+        if not most_genre:
+            most_genre = key
+            break
+
+    # 제일 좋아하는 장르의 id
+    most_genre_id = most_genre.pk
+
+    # 내가 이미 좋아요 누른 장르들 제외하고 전체 영화 쿼리셋 생성
+    exclude_movies = Movie.objects.exclude(pk__in=[movie.pk for movie in movies]).order_by('-vote_count')
+    count = 0
+    recommend_movies = []
+    # 15개 추출할때까지 반복
+    for ex_movie in exclude_movies:
+        if count >= 15:
+            break
+        ex_movie_genres = ex_movie.genres.all()
+        for ex_movie_genre in ex_movie_genres:
+            # 같은 장르 id가 있으면 추가해준다
+            if ex_movie_genre.id == most_genre_id:
+                recommend_movies.append(ex_movie)
+                count += 1
+                break
+
+    # 시리얼라이징 후 반환
+    serializer = MovieListSerializer(recommend_movies, many=True)
+    return Response(serializer.data)
 
 
+# 장르별로 추천
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def recommend_genre(request):
+    # 내가 좋아요 한 영화들 가져온다.
+    movies = request.user.like_movies.all()
+    genre_cnt = {}
+    for movie in movies:
+        genres = movie.genres.all()
+        for genre in genres:
+            if genre_cnt.get(genre):
+                genre_cnt[genre] += 1
+            else:
+                genre_cnt[genre] = 1
+    
+    # 2,3,4 번째 좋아하는 장르 찾기
+    most_genre = most_genre2 = most_genre3 = most_genre4 = 0
+    for key, value in sorted(genre_cnt.items(), key=lambda item: item[1], reverse=True):
+        if not most_genre:
+            most_genre = key
+        elif not most_genre2 and most_genre2 != most_genre:
+            most_genre2 = key
+        elif not most_genre3 and most_genre3 != most_genre2:
+            most_genre3 = key
+        elif not most_genre4 and most_genre4 != most_genre3:
+            most_genre4 = key
+            break
+        
+    # 제일 좋아하는 장르의 id
+    if most_genre2:
+        most_genre_id2 = most_genre2.pk
+    if most_genre3:
+        most_genre_id3 = most_genre3.pk
+    if most_genre3:
+        most_genre_id4 = most_genre4.pk
 
+    # 내가 이미 좋아요 누른 장르들 제외하고 전체 영화 쿼리셋 생성
+    exclude_movies = Movie.objects.exclude(pk__in=[movie.pk for movie in movies]).order_by('-vote_count')
+    recommend_movies = set()
 
+    # 5개씩 추출
+    for ex_movie in exclude_movies:
+        if len(recommend_movies) < 5:
+            ex_movie_genres = ex_movie.genres.all()
+            for ex_movie_genre in ex_movie_genres:
+                # 같은 장르 id가 있으면 추가해준다
+                if ex_movie_genre.id == most_genre_id2:
+                    recommend_movies.add(ex_movie)
+                    
+        elif len(recommend_movies) < 10:
+            ex_movie_genres = ex_movie.genres.all()
+            for ex_movie_genre in ex_movie_genres:
+                if ex_movie_genre.id == most_genre_id3:
+                    recommend_movies.add(ex_movie)
+                    
+        elif len(recommend_movies) < 15:
+            ex_movie_genres = ex_movie.genres.all()
+            for ex_movie_genre in ex_movie_genres:
+                if ex_movie_genre.id == most_genre_id4:
+                    recommend_movies.add(ex_movie)
+        else:
+            break
 
-
-
-
+    # 시리얼라이징 후 반환
+    serializer = MovieListSerializer(recommend_movies, many=True)
+    return Response(serializer.data)
 
 
 
