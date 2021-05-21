@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axios from 'axios'
+import jwt_decode from "jwt-decode"
 import SERVER from '@/api/server.js'
 import router from '@/router/index.js'
-import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,12 @@ const movieStore = {
     recommendMovies: [],
     movieDetail: [],
   },
+  getters: {
+    // 부모 store의 getters에 있는 config를 받아와서 사용
+    config: function (state, getters, rootState, rootGetters) {
+      return rootGetters.config
+    }
+  },
   mutations: {
     GET_MOVIES: function (state, movies) {
       state.movies = movies
@@ -24,14 +31,16 @@ const movieStore = {
     },
   },
   actions: {
-    getMovie: function ({ commit }) {
+    getMovie: function ({ commit, getters }) {
+      const headers = getters.config
       axios({
         url: SERVER.URL + SERVER.ROUTES.getMovie,
         method: 'get',
+        headers,
       })
       .then((res) => {
         commit('GET_MOVIES', res.data)
-        console.log(res)
+        // console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -44,7 +53,7 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIE_DETAIL', res.data)
-        console.log(res)
+        // console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -76,6 +85,15 @@ const store = new Vuex.Store({
     isLoggedIn: function (state) {
       return state.authToken ? true : false
     },
+    config: function (state) {
+      return {
+        Authorization: `JWT ${state.authToken}`
+      }
+    },
+    jwtUsername: function (state) {
+      const decode = jwt_decode(state.authToken)
+      return decode.username
+    }
   },
   mutations: {
     SET_TOKEN: function (state, token) {
@@ -96,7 +114,6 @@ const store = new Vuex.Store({
       })
       .then((res) => {
         commit('SET_TOKEN', res.data.token)
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -120,13 +137,7 @@ const store = new Vuex.Store({
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })
     },
-    getMovie: function () {
-      console.log('hadadadad')
-    }
   },
 })
 
 export default store
-
-console.log(store)
-console.log(store._actions.getMovie)

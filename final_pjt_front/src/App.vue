@@ -5,28 +5,23 @@
       <router-link to='#'>Community</router-link> |
       <router-link to='#'>Search</router-link> |
       <span v-if="isLoggedIn">
-        <!-- <router-link :to="{ name: 'Profile' { params: { username: config.data.username } } }">Profile</router-link> | -->
-        <router-link @click.native="logout" to="#">로그아웃</router-link> 
+        <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
+        <router-link @click.native="logout" to="#">로그아웃</router-link>
       </span>
       <span v-else>
         <router-link :to="{ name: 'Signup' }">회원가입</router-link> |
         <router-link :to="{ name: 'Login' }">로그인</router-link>
       </span>
     </div>
-    <!-- <Home/> -->
     <router-view/>
   </div>
 </template>
 
 <script>
-// import Home from '@/views/Home'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
-  // components: {
-  //   Home,
-  // },
   methods: {
     ...mapActions([
       'logout',
@@ -35,6 +30,7 @@ export default {
   computed: {
     ...mapGetters([
       'isLoggedIn',
+      'jwtUsername',
     ])
   }
 }
