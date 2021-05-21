@@ -9,4 +9,5 @@ urlpatterns = [
     path('movie/<int:movie_pk>/hate/', views.movie_hate),
     path('search/<search_word>/', views.search),
     path('person/<name>/', views.search_person),
+    path('movie/recommend/random/', views.recommend_random),
 ]

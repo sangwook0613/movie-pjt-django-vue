@@ -35,6 +35,8 @@ class Movie(models.Model):
     poster_path = models.CharField(max_length=200)
     backdrop_path = models.CharField(max_length=200)
     runtime = models.IntegerField(default=0)
+    vote_average = models.IntegerField(default=0, blank=True)
+    vote_count = models.IntegerField(default=0, blank=True)
     genres = models.ManyToManyField(Genre)
     actors = models.ManyToManyField(Person, related_name='movie_actor')
     directors = models.ManyToManyField(Person, related_name='movie_director')

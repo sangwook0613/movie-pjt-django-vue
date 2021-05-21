@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from pprint import pprint
 from bs4 import BeautifulSoup
 import requests
+from random import choice
 
 from decouple import config
 
@@ -135,6 +136,35 @@ def search_person(request, name):
 
 
 
+@api_view(['GET'])
+def recommend_random(request):
+    pks =  Movie.objects.values_list('pk', flat=True).order_by('id')
+    print(pks)
+    random_pk = choice(pks)
+    movies = Movie.objects.get(pk=random_pk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -175,9 +205,12 @@ def updateDB(request):
             movie_backdrop_path = movie.get('backdrop_path')
             movie_genres = movie.get('genre_ids')
             movie_runtime = movie_detail.get('runtime')
+            vote_average = movie.get('vote_average')
+            vote_count = movie.get('vote_count')
             movie_data = Movie(title=movie_title, original_title=movie_original_title, overview=movie_overview,
                 poster_path=f'https://image.tmdb.org/t/p/original{movie_poster_path}', runtime=movie_runtime,
-                backdrop_path=f'https://image.tmdb.org/t/p/original{movie_backdrop_path}', release_date=movie_release_date,)
+                backdrop_path=f'https://image.tmdb.org/t/p/original{movie_backdrop_path}', release_date=movie_release_date,
+                vote_average=vote_average, vote_count=vote_count)
 
             # 영화 제목으로 중복 체크
             if not Movie.objects.filter(title=movie_title).exists():
