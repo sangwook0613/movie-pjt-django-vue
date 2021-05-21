@@ -7,11 +7,69 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+
+const movieStore = {
+  state: {
+    hi: '1111',
+    movies: ['dummy'],
+    recommendMovies: [],
+    movieDetail: [],
+  },
+  mutations: {
+    GET_MOVIES: function (state, movies) {
+      state.movies = movies
+    },
+    GET_MOVIE_DETAIL: function (state, movie) {
+      state.movieDetail = movie
+    },
+  },
+  actions: {
+    getMovie: function ({ commit }) {
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getMovie,
+        method: 'get',
+      })
+      .then((res) => {
+        commit('GET_MOVIES', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getMovieDetail: function ({ commit }, movieId) {
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getMovie + movieId,
+        method: 'get',
+      })
+      .then((res) => {
+        commit('GET_MOVIE_DETAIL', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+  },
+}
+
+const accountStore = {
+  state: {
+    // profile: '',
+  },
+}
+
+
+
+const store = new Vuex.Store({
+  modules: {
+    // 키: 값 형태로 저장됩니다.
+    movieStore: movieStore,
+    accountStore: accountStore,
+  },
+  // 공통으로 사용하는 state 와 mutation, action 들은 모두 token의 생성과 등록에 관련된 내용들
   state: {
     authToken: localStorage.getItem('jwt'),
-    movies: [],
-    movieDetail: [],
   },
   getters: {
     isLoggedIn: function (state) {
@@ -26,12 +84,6 @@ export default new Vuex.Store({
     REMOVE_TOKEN: function (state) {
       state.authToken = ''
       localStorage.removeItem('jwt')
-    },
-    GET_MOVIES: function (state, movies) {
-      state.movies = movies
-    },
-    GET_MOVIE_DETAIL: function (state, movie) {
-      state.movieDetail = movie
     },
   },
   actions: {
@@ -67,34 +119,12 @@ export default new Vuex.Store({
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })
     },
-    getMovie: function ({ commit }) {
-      axios({
-        url: SERVER.URL + SERVER.ROUTES.getMovie,
-        method: 'get',
-      })
-      .then((res) => {
-        commit('GET_MOVIES', res.data)
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    },
-    getMovieDetail: function ({ commit }, movieId) {
-      axios({
-        url: SERVER.URL + SERVER.ROUTES.getMovie + movieId,
-        method: 'get',
-      })
-      .then((res) => {
-        commit('GET_MOVIE_DETAIL', res.data)
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    },
-
+    getMovie: function () {
+      console.log('hadadadad')
+    }
   },
-  modules: {
-  }
 })
+
+export default store
+
+console.log(store)
