@@ -17,9 +17,8 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'eng_name', 'job' ]
     list_display_links = ['id']
 
-
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'original_title', ]
+    list_display = ('id', 'title', 'original_title','display_genre')
     list_display_links = ['id']
 

@@ -44,3 +44,8 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genres.all())
+
+    display_genre.short_description = 'Genre'
