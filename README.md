@@ -65,7 +65,7 @@ $ git branch <branch name>
 $ git switch <branch name>
 
 # 삭제
-$ git branch -d <branch name>
+$ git branch -D <branch name>
 
 # 병합
 $ git merge <branch name>
@@ -93,7 +93,7 @@ $ git branch -d <branch name> 삭제해준다
 #### 0519
 
 - **movies model 작성**
-- **URL 정리** = POSTMAN 파일로 올림 (pjt_postman_collection.json)
+- **URL 정리**
 - account 수업때 했던 코드 옮겨놈
 - drf, drf-jwt, cors 설치해놈 -> freeze완료
 
