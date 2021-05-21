@@ -16,6 +16,13 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
 
+class ProfileMovieSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'original_title')
+
+
 class PeopleSerializer(serializers.ModelSerializer):
     
     class Meta:

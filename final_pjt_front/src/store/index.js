@@ -43,7 +43,7 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIES', res.data)
-        // console.log(res)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -85,8 +85,82 @@ const movieStore = {
 const accountStore = {
   namespaced: true,
   state: {
-    // profile: '',
+    profile: null,
+    isFollow: false,
+    isMyself: false,
   },
+  getters: {
+    // 부모 store의 getters에 있는 config를 받아와서 사용
+    config: function (state, getters, rootState, rootGetters) {
+      return rootGetters.config
+    },
+    isFollow : function (state) {
+      return state.isFollow
+    },
+    isMyself: function (state) {
+      return state.isMyself
+    },
+  },
+  mutations: {
+    GET_PROFILE: function (state, profile) {
+      state.profile = profile
+      let currentUsername = store.getters.jwtUsername
+
+      // 현재 사용자가 자기자신이면 isMyself = false
+      // 본인 프로필에서 팔로우 버튼 숨기기용
+      if (profile.username === currentUsername) {
+        state.isMyself = false
+      } else {
+        state.isMyself = true
+      }
+      // 현재 로그인한 사용자가 팔로워 목록에 있는지 확인
+      // 생성될 때 확인해야 팔로우 버튼 제대로 가능
+      for (let follower of profile.followers) {
+        if (currentUsername === follower.username) {
+          // 있으면 isFollow = true
+          state.isFollow = true
+          break
+        } else {
+          state.isFollow = false
+        }
+      }
+    },
+    FOLLOW_USER: function (state, profile) {
+      state.profile = profile
+      state.isFollow = !state.isFollow
+    },
+  },
+  actions: {
+    getProfile: function ({ commit, getters }, username) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.profile + username,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_PROFILE', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    followUser: function ({ commit, getters }, username) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.profile + `${username}/follow/`,
+        method: 'post',
+        headers,
+      })
+      .then((res) => {
+        commit('FOLLOW_USER', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+  }
 }
 
 
