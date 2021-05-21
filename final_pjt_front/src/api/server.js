@@ -5,7 +5,7 @@ export default {
   ROUTES: {
     signup: '/api/a1/signup/',
     login: '/api/a1/api-token-auth/',
-    profile: '/api/a1/person/<name>/',
+    profile: '/api/a1/profile/',
 
     // 영화 관련 API
     getMovie: '/api/m1/movie/',

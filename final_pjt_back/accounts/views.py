@@ -110,5 +110,5 @@ def user_follow(request, username):
             # 팔로우
             you.followers.add(me)
 
-        serializer = UserProfileSerializer(User)
-        return Response(serializer.data)
+        serializer = UserProfileSerializer(you)
+        return Response(serializer.data, status=status.HTTP_200_OK)

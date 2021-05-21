@@ -146,6 +146,9 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 #### 0521
 
 - serializers profile, 검색
+- profile 페이지 초안 완료
+
+
 
 
 
@@ -159,20 +162,14 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
    - 해결할 방법 필요 or 검색
 2. Keyword 번역문제 아직 해결 안됨
 3. user_profile_image => 사진으로 하면 저장할 방법 필요 => 캐릭터같은거 선택지를 준다.
-4. 화면 전환할 때 Vue-router로 어떻게 처리할지?
-5. movie에 연결된 like와 hate 각각 처리했는데, like가 눌리면 hate가 취소되고 반대로도 되야함
+4. movie에 연결된 like와 hate 각각 처리했는데, like가 눌리면 hate가 취소되고 반대로도 되야함
    - front랑 back 에서 모두 처리해야 할듯
-7.  serializers 인증,권한 기능은 나중에 front 어느정도 되면 추가예정
-
-
 
 ### 0521
 
 #### back
 
 1. keyword로 검색 기능 구현해야함
-2. profile GET 제외하고 postman 테스트 못해봄
 
 #### front
 
-1. 
