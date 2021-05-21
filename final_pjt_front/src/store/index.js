@@ -13,7 +13,7 @@ const movieStore = {
   namespaced: true,
   state: {
     movies: [],
-    recommendMovies: [],
+    randomRecommendMovies: [],
     movieDetail: [],
   },
   getters: {
@@ -28,6 +28,9 @@ const movieStore = {
     },
     GET_MOVIE_DETAIL: function (state, movie) {
       state.movieDetail = movie
+    },
+    GET_RANDOM_RECOMMEND_MOVIES: function (state, movies) {
+      state.randomRecommendMovies = movies
     },
   },
   actions: {
@@ -46,14 +49,31 @@ const movieStore = {
         console.log(err)
       })
     },
-    getMovieDetail: function ({ commit }, movieId) {
+    getMovieDetail: function ({ commit, getters }, movieId) {
+      const headers = getters.config
       axios({
         url: SERVER.URL + SERVER.ROUTES.getMovie + movieId,
         method: 'get',
+        headers,
       })
       .then((res) => {
         commit('GET_MOVIE_DETAIL', res.data)
-        // console.log(res)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getRandomRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getRandomRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_RANDOM_RECOMMEND_MOVIES', res.data)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)

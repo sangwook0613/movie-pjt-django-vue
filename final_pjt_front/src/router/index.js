@@ -38,7 +38,10 @@ const routes = [
     children: [
       { path: ":movieId",
         name: 'MovieDetail',
-        component: MovieDetail,
+        components: {
+          default: '',
+          a: MovieDetail,
+        }
       },
       // { path: "detail", component: { template: "<div>Post Detail</div>" } },
     ],
