@@ -147,8 +147,8 @@ const movieStore = {
         headers,
       })
       .then((res) => {
-        commit('SEARCH_MOVIES', res.data)
         console.log(res.data)
+        commit('SEARCH_MOVIES', res.data)
         // if (res.status === 204) {
         //   alert('검색 결과가 없습니다.')
         // }

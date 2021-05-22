@@ -177,6 +177,12 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 4. review 모델 컬럼명 수정 필요할듯..!
    - movie -> movie_id
 
+
+
+
+
+### 0522
+
 #### front
 
 네비게이션 에러
@@ -185,3 +191,12 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 NavigationDuplicated: Avoided redundant navigation to current location: "/search?q=%EC%B9%B4%EC%98%A4%EC%8A%A4"."
 ```
 
+
+
+타입에러
+
+```
+TypeError: Cannot read property 'length' of undefined
+```
+
+=> 데이터 없는 경우 undefined는 length 구할수 없음

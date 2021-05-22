@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Review, Comment
 from django.db import models
-
 from movies.serializers import MovieSerializer
 
 class ReviewListSerializer(serializers.ModelSerializer):
