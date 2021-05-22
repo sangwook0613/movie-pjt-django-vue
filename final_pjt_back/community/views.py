@@ -1,3 +1,4 @@
+from re import L
 from django.shortcuts import get_list_or_404, get_object_or_404
 
 from rest_framework.response import Response
@@ -63,6 +64,27 @@ def review_detail(request, review_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
+# 리뷰 좋아요
+@api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def review_like(request, review_pk):
+    if request.method == 'POST':
+        review = get_object_or_404(Review, pk=review_pk)
+        # 좋아요 눌려있으면
+        if review.like_reviews.filter(pk=request.user.pk).exists():
+            # 취소
+            review.like_reviews.remove(request.user)
+        #아니면
+        else:
+            # 좋아요
+            review.like_reviews.add(request.user)
+
+        # 시리얼 라이징
+        serializer = ReviewSerializer(review)
+        # 반환
+        return Response(serializer.data)
 
 
 # 전체 댓글 조회

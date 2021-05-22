@@ -27,7 +27,7 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(choices=RANK_CHOICES)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews', blank=True)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="review_movies")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_reviews')
     
     def __str__(self):
         return self.title
