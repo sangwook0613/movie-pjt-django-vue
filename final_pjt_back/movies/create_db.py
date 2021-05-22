@@ -18,7 +18,7 @@ MOVIE_POPULAR_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_
 MOVIE_TOP_RATED_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={MOVIE_API_KEY}&language=ko-KR&region=KR'
 GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 MOVIE_API_URL = [MOVIE_POPULAR_URL, MOVIE_TOP_RATED_URL]
-MOVIE_MAX_PAGE = [500, 130]
+MOVIE_MAX_PAGE = [100, 100]
 
 
 def createDB(request):

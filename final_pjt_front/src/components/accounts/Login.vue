@@ -4,7 +4,7 @@
     <h1 class="text-primary fw-bold">환상의 SSAFY에 오신걸 환영합니다.</h1>
     <br>
     <!-- ID -->
-    <div class="row col-lg-4 d-flex">
+    <div class="row">
       <div class="input-group mt-3 mb-1 justify-content-center">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">ID</span>
@@ -27,8 +27,8 @@
     <div class="d-flex justify-content-center">
       <button type="submit" class="btn btn-dark btn-block"
       @click="login(credentials)">로그인</button>
-      <button type="button" class="btn btn-dark btn-block mx-3"
-      onclick="location.href='/signup/'">회원가입</button>
+      <router-link :to="{ name: 'Signup' }" class="btn btn-dark btn-block mx-3">회원가입</router-link>
+
     </div>
   </div>
 </template>
@@ -55,5 +55,57 @@ export default {
 </script>
 
 <style>
+body{
+    display: table;
+    background-color: #e0f2f1 !important;
+}
 
+html, body {
+    height: 100%;
+}
+
+.medium-small {
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+.login-form {
+    width: 280px;
+}
+
+.login-form-text {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+}
+
+.login-text {
+    margin-top: -6px;
+    margin-left: -6px !important;
+}
+
+.margin {
+    margin: 0 !important;
+}
+
+.pointer-events {
+  pointer-events: auto !important;
+}
+
+.input-field >.material-icons  {
+  padding-top:10px;
+}
+
+.input-field div.error{
+    position: relative;
+    top: -1rem;
+    left: 3rem;
+    font-size: 0.8rem;
+    color:#FF4081;
+    -webkit-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -o-transform: translateY(0%);
+    transform: translateY(0%);
+}
 </style>
