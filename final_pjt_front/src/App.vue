@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link :to="{ name: 'Movie' }">Movie</router-link> |
-      <router-link to='#'>Community</router-link> |
+      <router-link :to="{ name: 'Community' }">Community</router-link> |
       <router-link to='#'>Search</router-link> |
       <span v-if="isLoggedIn">
         <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
