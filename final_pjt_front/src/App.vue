@@ -3,7 +3,6 @@
     <div id="nav">
       <router-link :to="{ name: 'Movie' }">Movie</router-link> |
       <router-link :to="{ name: 'Community' }">Community</router-link> |
-      <router-link to='#'>Search</router-link> |
       <span v-if="isLoggedIn">
         <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
         <router-link @click.native="logout" to="#">로그아웃</router-link>
@@ -15,7 +14,9 @@
       <span v-if="searchBtn">
         <input type="text" v-model.trim="searchInput" @keypress.enter="searchMovie(searchInput)">
         <!-- <input type="text" :searchInput="searchInput" @keypress.enter="searchMovie(searchInput)"> -->
-        <button @click="clickSearchCancelBtn">x</button>
+        <button @click="clickSearchCancelBtn">
+          <router-link to="/search/hi">Search</router-link>
+        </button>
       </span>
       <span v-else>
         <button @click="clickSearchBtn">Search</button>

@@ -12,6 +12,9 @@ import Movie from '@/views/Movie'
 import MovieDetail from '@/components/movies/MovieDetail'
 // Community
 import Community from '@/views/Community'
+// Search
+import Search from '@/views/Search'
+import SearchDetail from '@/components/search/SearchDetail'
 
 
 Vue.use(VueRouter)
@@ -26,6 +29,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/community',
+    name: 'Community',
+    component: Community,
   },
   {
     path: '/profile/:username',
@@ -57,9 +65,16 @@ const routes = [
     ],
   },
   {
-    path: '/community/',
-    name: 'Community',
-    component: Community,
+    path: '/search',
+    name: 'Search',
+    component: Search,
+    
+    children: [
+      { path: 'hi',
+        name: 'SearchDetail',
+        component: SearchDetail,
+      },
+    ],
   },
 ]
 
