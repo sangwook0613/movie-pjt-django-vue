@@ -1,15 +1,6 @@
 <template>
   <div class="movie container">
     <h1>홈페이지!</h1>
-    <!-- 모든 영화 보기 -->
-    <!-- <carousel v-if="movies.length > 0" :nav="false" :items="5">
-      <div v-for="(movie, idx) in movies" :key="idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(0)">
-        </router-link>
-      </div>
-    </carousel>
-    <router-view v-show="checkClicked[0]"></router-view> -->
     <!-- 랜덤 추천 영화 -->
     <h3>랜덤 추천 영화</h3>
     <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="5">
@@ -59,7 +50,6 @@ export default {
   },
   computed: {
     ...mapState('movieStore', [
-      'movies',
       'randomRecommendMovies',
       'mostGenreRecommendMovie',
       'genreRecommendMovie',
@@ -67,7 +57,6 @@ export default {
   },
   methods: {
     ...mapActions('movieStore', [
-      'getMovie',
       'getRandomRecommendMovie',
       'getMostGenreRecommendMovie',
       'getGenreRecommendMovie',
@@ -78,7 +67,6 @@ export default {
     }
   },
   created: function () {
-    this.getMovie()
     this.getRandomRecommendMovie()
     this.getMostGenreRecommendMovie()
     this.getGenreRecommendMovie()
