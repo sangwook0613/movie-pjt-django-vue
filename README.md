@@ -177,5 +177,11 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 4. review 모델 컬럼명 수정 필요할듯..!
    - movie -> movie_id
 
-
 #### front
+
+네비게이션 에러
+
+```
+NavigationDuplicated: Avoided redundant navigation to current location: "/search?q=%EC%B9%B4%EC%98%A4%EC%8A%A4"."
+```
+
