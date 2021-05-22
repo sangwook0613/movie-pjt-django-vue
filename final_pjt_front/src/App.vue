@@ -1,5 +1,4 @@
 <template>
-
   <div id="app">
     <span v-if="isLoggedIn">
       <div id="nav">
@@ -16,12 +15,12 @@
         <input @input="updateSearchInput" @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" type="text" placeholder="제목으로 검색">
         <button @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
       </div>
-      <!-- <router-view/> -->
     </span>
-    <!-- <div v-else class="container">
-      <Start />
-    </div> -->
-    <router-view/>
+
+    <!-- v-else하면 안보임 -->
+    <div class="container">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -84,5 +83,10 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+html {
+    display: table;
+    margin: auto;
 }
 </style>
