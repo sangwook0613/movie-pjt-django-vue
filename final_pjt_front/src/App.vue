@@ -3,7 +3,6 @@
     <div id="nav">
       <router-link :to="{ name: 'Movie' }">Movie</router-link> |
       <router-link to='#'>Community</router-link> |
-      <router-link to='#'>Search</router-link> |
       <span v-if="isLoggedIn">
         <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
         <router-link @click.native="logout" to="#">로그아웃</router-link>
@@ -12,27 +11,65 @@
         <router-link :to="{ name: 'Signup' }">회원가입</router-link> |
         <router-link :to="{ name: 'Login' }">로그인</router-link>
       </span>
+      <span v-if="searchBtn">
+        <input type="text" v-model.trim="searchInput" @keypress.enter="searchMovie(searchInput)">
+        <!-- <input type="text" :searchInput="searchInput" @keypress.enter="searchMovie(searchInput)"> -->
+        <button @click="clickSearchCancelBtn">x</button>
+      </span>
+      <span v-else>
+        <button @click="clickSearchBtn">Search</button>
+      </span>
     </div>
     <router-view/>
+    <div v-if="searchInput">
+      <carousel :nav="false" :items="5">
+        <div v-for="(searchedMovie, idx) in searchedMovies" :key="idx" class='card'>
+          <img :src="searchedMovie.poster_path" alt="movie-poster" class="card-img-top">
+        </div>
+      </carousel>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import carousel from 'vue-owl-carousel'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'App',
+  data: function () {
+    return {
+      searchInput: '',
+    }
+  },
+  components: {
+    carousel,
+  },
   methods: {
     ...mapActions([
       'logout',
-    ])
+    ]),
+    ...mapActions('movieStore', [
+      'searchMovie',
+      'clickSearchBtn',
+      'clickSearchCancelBtn',
+    ]),
   },
   computed: {
     ...mapGetters([
       'isLoggedIn',
       'jwtUsername',
+    ]),
+    ...mapGetters('movieStore', [
+      'searchBtn',
+      'searchInput',
+    ]),
+    ...mapState('movieStore', [
+      // searchInput: state => state.searchInput,
+      'searchBtn',
+      'searchedMovies',
     ])
-  }
+  },
 }
 </script>
 
