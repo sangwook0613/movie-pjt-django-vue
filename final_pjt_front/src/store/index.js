@@ -17,12 +17,21 @@ const movieStore = {
     mostGenreRecommendMovie: [],
     genreRecommendMovie: [],
     movieDetail: [],
+    searchedMovies: [],
+    searchInput: '',
+    searchBtn: false,
   },
   getters: {
     // 부모 store의 getters에 있는 config를 받아와서 사용
     config: function (state, getters, rootState, rootGetters) {
       return rootGetters.config
-    }
+    },
+    searchInput: function (state) {
+      return state.searchInput
+    },
+    searchBtn: function (state) {
+      return state.searchBtn
+    },
   },
   mutations: {
     GET_MOVIES: function (state, movies) {
@@ -33,6 +42,17 @@ const movieStore = {
     },
     GET_RANDOM_RECOMMEND_MOVIES: function (state, movies) {
       state.randomRecommendMovies = movies
+    },
+    SEARCH_MOVIES: function (state, searchData) {
+      state.searchedMovies = searchData
+    },
+    CLICK_SEARCH_BTN: function (state) {
+      state.searchBtn = true
+    },
+    CLICK_SEARCH_CANCEL_BTN: function (state) {
+      state.searchInput = ''
+      state.searchedMovies = []
+      state.searchBtn = false
     },
     GET_MOST_GENRE_RECOMMEND_MOVIES: function (state, movies) {
       state.mostGenreRecommendMovie = movies
@@ -117,6 +137,33 @@ const movieStore = {
         console.log(err)
       })
     },
+    searchMovie: function ({ commit, getters }, searchData) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.movieSearch + `${searchData}/`,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('SEARCH_MOVIES', res.data, searchData)
+        console.log(res)
+        if (res.status === 204) {
+          alert('검색 결과가 없습니다.')
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        if (!this.state.searchInput){
+          alert('검색어를 입력해주세요') 
+        }
+      })
+    },
+    clickSearchBtn: function ({ commit }) {
+      commit('CLICK_SEARCH_BTN')
+    },
+    clickSearchCancelBtn: function ({ commit }) {
+      commit('CLICK_SEARCH_CANCEL_BTN')
+    }
   },
 }
 
