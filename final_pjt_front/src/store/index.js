@@ -118,7 +118,7 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOST_GENRE_RECOMMEND_MOVIES', res.data)
-        // console.log(res)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -303,6 +303,23 @@ const communityStore = {
         console.log(err)
       })
     },
+    createReview: function ({ getters }, inputData) {
+      const headers = getters.config
+      if (inputData.title) {
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.review,
+          method: 'post',
+          data: inputData,
+          headers,
+        })
+        .then(() => {
+          router.push({ name: 'Community' })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      }
+    }
   },
 }
 

@@ -8,6 +8,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+from movies.models import Movie
 from .models import Review, Comment
 from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializer
 
@@ -22,6 +23,11 @@ def review_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        # movie = Movie.objects.get(title__exact=request.data['movie'])
+        # if not movie:
+        #     print('wrong')
+        #     return Response({'error': '잘못된 영화 제목입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        # request.data['movie'] = movie
         serializer = ReviewSerializer(data=request.data)
         # 유효성 검사를 진행한다. -> 만약 유효하지 않은 데이터가 들어온다면 400 Bad Request 에러를 발생
         if serializer.is_valid(raise_exception=True):

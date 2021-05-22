@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="card">
     <h1>MovieDetail</h1>
-    <div class="card mb-3">
+    <div class="mb-3">
       <div class="row g-0">
         <div class="col-md-6">
           <div class="card-body">
@@ -14,14 +14,20 @@
         </div>
       </div>
     </div>
+    <SimilarMovies/>
   </div>
 </template>
 
 <script>
+import SimilarMovies from '@/components/movies/SimilarMovies'
+
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'MovieDetail',
+  components: {
+    SimilarMovies,
+  },
   methods: {
     ...mapActions('movieStore', [
       'getMovieDetail',

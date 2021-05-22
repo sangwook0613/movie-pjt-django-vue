@@ -1,6 +1,7 @@
 <template>
   <div class="container-fuild overflow-hidden">
     <h1 class="mb-5">모든 리뷰!</h1>
+    <router-link :to="{ name: 'ReviewForm' }" :formNum="1">리뷰 작성하기</router-link>
     <div class="row g-5">
       <div class="col-12 col-lg-6" v-for="(review, idx) in reviews" :key="idx">
         <ReviewCard :review="review"/>
