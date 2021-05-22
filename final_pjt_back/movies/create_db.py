@@ -1,4 +1,5 @@
 import requests
+import datetime
 from bs4 import BeautifulSoup
 from pprint import pprint
 from decouple import config
@@ -17,12 +18,13 @@ MOVIE_POPULAR_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_
 MOVIE_TOP_RATED_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={MOVIE_API_KEY}&language=ko-KR&region=KR'
 GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 MOVIE_API_URL = [MOVIE_POPULAR_URL, MOVIE_TOP_RATED_URL]
+MOVIE_MAX_PAGE = [500, 130]
 
 
 def createDB(request):
     for i in range(2):
         page = 1    
-        while page <= 10: # 최대 500페이지이기에 500번 반복 진행
+        while page <= MOVIE_MAX_PAGE[i]: # 해당 API의 max_page만큼 진행
             MOVIE_URL = f'{MOVIE_API_URL[i]}&page={page}'
             # 전체 장르 테이블 만들때 사용
             request_movies = requests.get(MOVIE_URL).json()
@@ -48,8 +50,8 @@ def createDB(request):
                 vote_count = movie.get('vote_count')
 
                 # 예외 처리
-                ## 줄거리가 없는 경우 저장하지 않는다.
-                if movie_overview == '':
+                ## 영화 포스터가 없는 경우, 줄거리가 없는 경우, 아직 개봉하지 않은 영화인 경우 추가하지 않는다.
+                if movie_backdrop_path or movie_poster_path or movie_overview or (datetime.date.today() > datetime.datetime.strptime(movie_release_date, '%Y-%m-%d')):
                     break
 
                 # DEATIL API 에서 추가 정보 받아오기
@@ -192,3 +194,4 @@ def createDB(request):
     #     if keyword.keyword_count < cut_num:
     #         keyword.delete()
     
+    # 키워드 번역 작업진행

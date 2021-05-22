@@ -173,7 +173,7 @@ MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api
 
 3. 키워드 관련 전처리 필요
    - 키워드를 비율로 보고 정리할지? 혹은 일정 count 수가 안되면 바로 삭제할지?
-   - 만약 키워드가 하나도 없는 영화가 있다면 어떻게 보여줄지?
+   - 만약 키워드가 하나도 없는 영화가 있다면 어떻게 보여줄지? -> front에서 만약 length가 0이면 보여주지 않는다?
 
 #### front
 

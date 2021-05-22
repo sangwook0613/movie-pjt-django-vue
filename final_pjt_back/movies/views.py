@@ -278,6 +278,7 @@ def recommend_genre(request):
 
 
 import csv
+import datetime
 from django.http import HttpResponse
 
 
@@ -289,6 +290,13 @@ from django.http import HttpResponse
 # @permission_classes([IsAuthenticated])
 def recommend_likes(request):
     pass
+    # print(Movie.objects.get(id=50).release_date)
+    # print(type(Movie.objects.get(id=50).release_date))
+    # print(datetime.date.today())
+    # print(type(datetime.date.today()))
+    # print(datetime.date.today() > '2019-01-01')
+    # print(datetime.date.today() > Movie.objects.get(id=1).release_date)
+
     # cnt = 0
     # for keyword in Keyword.objects.all():
     #     if keyword.keyword_count == 1:
