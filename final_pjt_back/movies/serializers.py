@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movie, Person, Genre, Keyword
+from .models import Movie, Person
 
 
 
@@ -20,7 +20,7 @@ class ProfileMovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'original_title')
+        fields = ('id', 'title', 'original_title', 'poster_path',)
 
 
 class PeopleSerializer(serializers.ModelSerializer):

@@ -13,5 +13,9 @@ export default {
     getRandomRecommendMovie: '/api/m1/movie/recommend/random/',
     getMostGenreRecommendMovie: '/api/m1/movie/recommend/genre/most/',
     getGenreRecommendMovie: '/api/m1/movie/recommend/genre/',
+
+    // 리뷰 관련 API
+    reviews: '/api/c1/review/',
+    comments: '/api/c1/comment/',
   }
 }

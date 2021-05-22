@@ -14,6 +14,8 @@ const movieStore = {
   state: {
     movies: [],
     randomRecommendMovies: [],
+    mostGenreRecommendMovie: [],
+    genreRecommendMovie: [],
     movieDetail: [],
     searchedMovies: [],
     searchInput: '',
@@ -52,6 +54,12 @@ const movieStore = {
       state.searchedMovies = []
       state.searchBtn = false
     },
+    GET_MOST_GENRE_RECOMMEND_MOVIES: function (state, movies) {
+      state.mostGenreRecommendMovie = movies
+    },
+    GET_GENRE_RECOMMEND_MOVIES: function (state, movies) {
+      state.genreRecommendMovie = movies
+    },
   },
   actions: {
     getMovie: function ({ commit, getters }) {
@@ -63,7 +71,7 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIES', res.data)
-        console.log(res)
+        // console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -78,7 +86,7 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIE_DETAIL', res.data)
-        console.log(res)
+        // console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -93,6 +101,36 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_RANDOM_RECOMMEND_MOVIES', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getMostGenreRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getMostGenreRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_MOST_GENRE_RECOMMEND_MOVIES', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getGenreRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getGenreRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_GENRE_RECOMMEND_MOVIES', res.data)
         console.log(res)
       })
       .catch((err) => {
@@ -151,7 +189,7 @@ const accountStore = {
   mutations: {
     GET_PROFILE: function (state, profile) {
       state.profile = profile
-      let currentUsername = store.getters.jwtUsername
+      const currentUsername = store.getters.jwtUsername
 
       // 현재 사용자가 자기자신이면 isMyself = false
       // 본인 프로필에서 팔로우 버튼 숨기기용
@@ -187,7 +225,7 @@ const accountStore = {
       })
       .then((res) => {
         commit('GET_PROFILE', res.data)
-        // console.log(res)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)
