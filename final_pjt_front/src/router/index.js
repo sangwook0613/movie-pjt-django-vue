@@ -10,6 +10,9 @@ import Profile from '@/components/accounts/Profile'
 // Movies
 import Movie from '@/views/Movie'
 import MovieDetail from '@/components/movies/MovieDetail'
+// Community
+import Community from '@/views/Community'
+
 
 Vue.use(VueRouter)
 
@@ -28,6 +31,13 @@ const routes = [
     path: '/profile/:username',
     name: 'Profile',
     component: Profile,
+
+    children: [
+      { path: 'movies/:movieId', // 앞에 / 를 선언하면 부모 url 뒤에 붙지 않는다.
+        name: 'ProfileMovieDetail',
+        component: MovieDetail,
+      },
+    ],
   },
   {
     path: '/movie',
@@ -36,21 +46,21 @@ const routes = [
     
     // 중첩된 라우트는 children 속성으로 하위 라우트를 정의할 수 있다.
     children: [
-      { path: ":movieId",
+      { path: ':movieId',
         name: 'MovieDetail',
-        components: {
-          default: '',
-          a: MovieDetail,
-        }
+        component: MovieDetail,
+        // components: {
+        //   default: '',
+        //   a: MovieDetail,
+        // }
       },
-      // { path: "detail", component: { template: "<div>Post Detail</div>" } },
     ],
   },
-  // {
-  //   path: '/movie/',
-  //   name: 'MovieDetail',
-  //   component: MovieDetail,
-  // },
+  {
+    path: '/community/',
+    name: 'Community',
+    component: Community,
+  },
 ]
 
 const router = new VueRouter({

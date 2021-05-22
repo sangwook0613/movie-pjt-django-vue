@@ -38,9 +38,17 @@
       {{ idx+1 }}.{{ likeReview.content }}</p>
     <hr>
     <h3>좋아하는 영화</h3>
-    <p v-for="(likeMovie,idx) in profile.like_movies" :key="'E'+idx">
+    <carousel v-if="profile.like_movies.length > 0" :nav="false" :items="5">
+      <div v-for="(movie, idx) in profile.like_movies" :key="idx" class='card'>
+        <router-link :to="{ name: 'ProfileMovieDetail', params: { movieId: movie.id }}">
+          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+        </router-link>
+      </div>
+    </carousel>
+    <router-view></router-view>
+    <!-- <p v-for="(likeMovie,idx) in profile.like_movies" :key="'E'+idx">
       {{ idx+1 }}.{{ likeMovie.title }}</p>
-    <hr>
+    <hr> -->
     <h3>싫어하는 영화</h3>
     <p v-for="(hateMovie,idx) in profile.hate_movies" :key="'F'+idx">
       {{ idx+1 }}.{{ hateMovie.title }}</p>
@@ -49,15 +57,19 @@
 </template>
 
 <script>
+import carousel from 'vue-owl-carousel'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Profile',
+  components: {
+    carousel,
+  },
   methods: {
     ...mapActions('accountStore', [
       'getProfile',
       'followUser',
-    ])
+    ]),
   },
   computed: {
     ...mapState('accountStore', [
