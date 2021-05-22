@@ -249,12 +249,68 @@ const accountStore = {
 }
 
 
+const communityStore = {
+  namespaced: true,
+  state: {
+    reviews: [],
+    reviewDetail: [],
+  },
+  getters: {
+    // 부모 store의 getters에 있는 config를 받아와서 사용
+    config: function (state, getters, rootState, rootGetters) {
+      return rootGetters.config
+    },
+  },
+  mutations: {
+    GET_REVIEWS: function (state, reviews) {
+      state.reviews = reviews
+    },
+    GET_REVIEW_DETAIL: function (state, review) {
+      state.reviewDetail = review
+    },
+  },
+  actions: {
+    getReview: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.review,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_REVIEWS', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getReviewDetail: function ({ commit, getters }, reviewId) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.review + reviewId,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_REVIEW_DETAIL', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+  },
+}
+
+
 
 const store = new Vuex.Store({
   modules: {
     // 축약 상태 사용
     movieStore,
     accountStore,
+    communityStore,
   },
   // 공통으로 사용하는 state 와 mutation, action 들은 모두 token의 생성과 등록에 관련된 내용들
   state: {
