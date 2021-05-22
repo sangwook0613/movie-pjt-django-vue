@@ -15,7 +15,7 @@ import Community from '@/views/Community'
 import ReviewDetail from '@/components/community/ReviewDetail'
 // Search
 import Search from '@/views/Search'
-import SearchDetail from '@/components/search/SearchDetail'
+// import SearchDetail from '@/components/search/SearchDetail'
 
 
 Vue.use(VueRouter)
@@ -71,16 +71,12 @@ const routes = [
     ],
   },
   {
-    path: '/search',
+    path: '/search/',
     name: 'Search',
     component: Search,
-    
-    children: [
-      { path: 'hi',
-        name: 'SearchDetail',
-        component: SearchDetail,
-      },
-    ],
+    props: (route) => ({ 
+      query: route.query.q
+    }),
   },
 ]
 

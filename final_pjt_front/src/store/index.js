@@ -18,19 +18,19 @@ const movieStore = {
     genreRecommendMovie: [],
     movieDetail: [],
     searchedMovies: [],
-    searchInput: '',
     searchBtn: false,
+    searchInput: '',
   },
   getters: {
     // 부모 store의 getters에 있는 config를 받아와서 사용
     config: function (state, getters, rootState, rootGetters) {
       return rootGetters.config
     },
-    searchInput: function (state) {
-      return state.searchInput
-    },
     searchBtn: function (state) {
       return state.searchBtn
+    },
+    searchedMovies: function (state) {
+      return state.searchedMovies
     },
   },
   mutations: {
@@ -47,12 +47,14 @@ const movieStore = {
       state.searchedMovies = searchData
     },
     CLICK_SEARCH_BTN: function (state) {
-      state.searchBtn = true
+      state.searchBtn = !state.searchBtn
     },
     CLICK_SEARCH_CANCEL_BTN: function (state) {
-      state.searchInput = ''
       state.searchedMovies = []
       state.searchBtn = false
+    },
+    UPDATE_SEARCH_INPUT: function (state, inputText) {
+      state.searchInput = inputText
     },
     GET_MOST_GENRE_RECOMMEND_MOVIES: function (state, movies) {
       state.mostGenreRecommendMovie = movies
@@ -137,25 +139,22 @@ const movieStore = {
         console.log(err)
       })
     },
-    searchMovie: function ({ commit, getters }, searchData) {
+    searchMovie: function ({ commit, getters }) {
       const headers = getters.config
       axios({
-        url: SERVER.URL + SERVER.ROUTES.movieSearch + `${searchData}/`,
+        url: SERVER.URL + SERVER.ROUTES.movieSearch + `${movieStore.state.searchInput}/`,
         method: 'get',
         headers,
       })
       .then((res) => {
-        commit('SEARCH_MOVIES', res.data, searchData)
-        console.log(res)
-        if (res.status === 204) {
-          alert('검색 결과가 없습니다.')
-        }
+        commit('SEARCH_MOVIES', res.data)
+        console.log(res.data)
+        // if (res.status === 204) {
+        //   alert('검색 결과가 없습니다.')
+        // }
       })
       .catch((err) => {
         console.log(err)
-        if (!this.state.searchInput){
-          alert('검색어를 입력해주세요') 
-        }
       })
     },
     clickSearchBtn: function ({ commit }) {
@@ -163,6 +162,10 @@ const movieStore = {
     },
     clickSearchCancelBtn: function ({ commit }) {
       commit('CLICK_SEARCH_CANCEL_BTN')
+    },
+    updateSearchInput: function ({ commit }, inputText) {
+      commit('UPDATE_SEARCH_INPUT', inputText.target.value)
+      console.log(inputText)
     }
   },
 }

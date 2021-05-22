@@ -5,56 +5,31 @@
       <router-link :to="{ name: 'Community' }">Community</router-link> |
       <span v-if="isLoggedIn">
         <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
-        <router-link @click.native="logout" to="#">로그아웃</router-link>
+        <router-link @click.native="logout" to="#">로그아웃</router-link> |
       </span>
       <span v-else>
         <router-link :to="{ name: 'Signup' }">회원가입</router-link> |
-        <router-link :to="{ name: 'Login' }">로그인</router-link>
+        <router-link :to="{ name: 'Login' }">로그인</router-link> |
       </span>
-      <span v-if="searchBtn">
-        <input type="text" v-model.trim="searchInput" @keypress.enter="searchMovie(searchInput)">
-        <!-- <input type="text" :searchInput="searchInput" @keypress.enter="searchMovie(searchInput)"> -->
-        <button @click="clickSearchCancelBtn">
-          <router-link to="/search/hi">Search</router-link>
-        </button>
-      </span>
-      <span v-else>
-        <button @click="clickSearchBtn">Search</button>
-      </span>
+      <input @input="updateSearchInput" @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" type="text" placeholder="제목으로 검색">
+      <button @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
     </div>
     <router-view/>
-    <div v-if="searchInput">
-      <carousel :nav="false" :items="5">
-        <div v-for="(searchedMovie, idx) in searchedMovies" :key="idx" class='card'>
-          <img :src="searchedMovie.poster_path" alt="movie-poster" class="card-img-top">
-        </div>
-      </carousel>
-    </div>
   </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
 import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'App',
-  data: function () {
-    return {
-      searchInput: '',
-    }
-  },
-  components: {
-    carousel,
-  },
   methods: {
     ...mapActions([
       'logout',
     ]),
-    ...mapActions('movieStore', [
+    ...mapActions('movieStore',[
+      'updateSearchInput',
       'searchMovie',
-      'clickSearchBtn',
-      'clickSearchCancelBtn',
     ]),
   },
   computed: {
@@ -62,16 +37,15 @@ export default {
       'isLoggedIn',
       'jwtUsername',
     ]),
-    ...mapGetters('movieStore', [
-      'searchBtn',
-      'searchInput',
-    ]),
     ...mapState('movieStore', [
-      // searchInput: state => state.searchInput,
-      'searchBtn',
-      'searchedMovies',
-    ])
+      'searchInput'
+    ]),
   },
+  // watch: {
+  //   'searchInput': function() {
+  //     this.updateSearchInput(this.searchInput)
+  //   },
+  // }, 
 }
 </script>
 
