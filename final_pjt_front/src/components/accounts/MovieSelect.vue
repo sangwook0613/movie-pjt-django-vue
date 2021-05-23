@@ -14,11 +14,12 @@
         </span>
       </div>
     </div>
+
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <div v-for="(movie, idx) in choiceMovies" :key="idx" class="col">
           <div class="card">
             <img :src="movie.poster_path" alt="movie-poster" class="card-img-top"
-            :class="{ 'animate__animated animate__pulse animate__infinite' : selectLikeMovies.includes(movie.id) }"
+            :class="{ 'animate__animated animate__pulse animate__infinite' : (selectLikeMovies.includes(movie.id) || alreadyLikeMovies.includes(movie.id))  }"
             @click="updateLikeMovies(movie.id)">
           </div>
           <!-- animate__animated animate__pulse animate__infinite -->
@@ -37,6 +38,7 @@ export default {
   data: function () {
     return {
       selectLikeMovies: [],
+      alreadyLikeMovies: [],
     }
   },
   methods: {
@@ -51,6 +53,15 @@ export default {
         this.selectLikeMovies.push(data)
       }
     },
+    // 이미 좋아요 누른거 확인용
+    updateAlreadyLikeMovies: function () {
+      this.alreadyLikeMovies = this.profile.like_movies
+      console.log(this.alreadyLikeMovies)
+      for (let movie of this.alreadyLikeMovies) {
+        this.alreadyLikeMovies.push(movie.id)
+      }
+      // console.log(this.choiceMovies)
+    },
     ...mapActions('movieStore', [
       'getLikeChoiceMovie',
       'likeSelectMovie',
@@ -58,6 +69,9 @@ export default {
     ...mapActions('accountStore', [
       'getProfile',
     ]),
+    // ...mapActions([
+    //   'updateShowNav',
+    // ]),
   },
   computed: {
     ...mapState('movieStore', [
@@ -72,9 +86,14 @@ export default {
   },
   watch: {
     'profile': function() {
+      this.updateAlreadyLikeMovies(this.choiceMovies)
       if (this.profile.like_movies.length > 5) {
+        // this.updateShowNav(true)
         this.$router.push({name: 'Movie'})
-      }
+      } 
+      // else {
+      //   this.updateShowNav(false)
+      // }
     },
   },
   created: function () {
