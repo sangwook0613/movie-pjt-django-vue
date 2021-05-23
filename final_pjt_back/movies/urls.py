@@ -7,6 +7,7 @@ urlpatterns = [
 
     # 영화정보 불러오기
     path('movie/', views.movie_list),
+    path('movie/selectlike/',views.select_like_movie),
     path('movie/<int:movie_pk>/', views.movie_detail),
     path('movie/<int:movie_pk>/like/', views.movie_like),
     path('movie/<int:movie_pk>/hate/', views.movie_hate),

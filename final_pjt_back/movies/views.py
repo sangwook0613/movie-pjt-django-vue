@@ -80,13 +80,13 @@ def movie_like(request, movie_pk):
     if request.method == 'POST':
         movie = get_object_or_404(Movie, pk=movie_pk)
         # 좋아요 눌려있으면
-        if movie.like_movies.filter(pk=request.user.pk).exists():
+        if movie.likes.filter(pk=request.user.pk).exists():
             # 취소
-            movie.like_movies.remove(request.user)
+            movie.likes.remove(request.user)
         #아니면
         else:
             # 좋아요
-            movie.like_movies.add(request.user)
+            movie.likes.add(request.user)
 
         # 시리얼 라이징
         serializer = MovieSerializer(movie)
@@ -143,6 +143,14 @@ def search_person(request, name):
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def select_like_movie(request):
+    movies = Movie.objects.order_by('id')[:15]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

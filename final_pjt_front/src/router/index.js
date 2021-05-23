@@ -7,7 +7,7 @@ import VueRouter from 'vue-router'
 import Signup from '@/components/accounts/Signup'
 import Login from '@/components/accounts/Login'
 import Profile from '@/components/accounts/Profile'
-import LikeMovieSelect from '@/components/accounts/LikeMovieSelect'
+import MovieSelect from '@/components/accounts/MovieSelect'
 // Movies
 import Movie from '@/views/Movie'
 import MovieDetail from '@/components/movies/MovieDetail'
@@ -86,9 +86,9 @@ const routes = [
     }),
   },
   {
-    path: '/signup/likemovies/',
-    name: 'LikeMovieSelect',
-    component: LikeMovieSelect,
+    path: '/movieselect/',
+    name: 'MovieSelect',
+    component: MovieSelect,
   },
 ]
 

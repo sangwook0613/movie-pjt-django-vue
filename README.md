@@ -200,3 +200,19 @@ TypeError: Cannot read property 'length' of undefined
 ```
 
 => 데이터 없는 경우 undefined는 length 구할수 없음
+
+
+
+
+
+
+
+### 0522
+
+> JavaScript 배열에서 값 제거할 때 pop(data)로 안되고 indexOf로 값 찾은다음 splice 해야함
+
+
+
+처음에 선택할 때 15개 중에서 이미 좋아요 누른게 있을 수 있음
+
+- 처리 필요함
