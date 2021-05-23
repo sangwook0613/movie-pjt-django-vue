@@ -384,9 +384,12 @@ const communityStore = {
       const headers = getters.config
       const inputForm = {
         ...inputData,
-        movie: movieStore.state.movieDetail,
+        rating: parseInt(inputData.rating),
+        movie: movieStore.state.movieDetail.id,
+        user: store.getters.jwtUsername.user_id
       }
-      // console.log(movieStore.state.movieDetail)
+      // console.log(store.getters.jwtUsername)
+      // console.log(movieStore.state.movieDetail.id)
       console.log(inputForm)
       if (inputData.title !== '' && inputData.content !== '') {
         axios({

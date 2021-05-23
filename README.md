@@ -216,3 +216,17 @@ TypeError: Cannot read property 'length' of undefined
 처음에 선택할 때 15개 중에서 이미 좋아요 누른게 있을 수 있음
 
 - 처리 필요함
+
+
+
+
+
+```
+if serializer.is_valid(raise_exception=True):
+=> 통과 못해서
+Validation error => 400 bad request 발생
+```
+
+print(serializer.errors) 찍으면 무슨 에러인지 알 수 있음
+
+movie를 id값 넘겨줘야 되고, user정보를 넘기지 않아서 발생했었음.

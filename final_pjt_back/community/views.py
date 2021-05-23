@@ -3,7 +3,7 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
+from rest_framework import serializers, status
 
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -11,7 +11,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from movies.models import Movie
 from .models import Review, Comment
-from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializer
+from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializer, ReviewCreateSerializer
 
 # 전체 리뷰 조회, 리뷰 작성
 @api_view(['GET', 'POST'])
@@ -24,17 +24,18 @@ def review_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        print(1)
-        serializer = ReviewSerializer(data=request.data)
+        serializer = ReviewCreateSerializer(data=request.data)
+        movie = get_object_or_404(Movie, pk=request.data['movie'])
         # print(request.data['movie'])
         # print(request.data['movie']['id'])
-        movie = get_object_or_404(Movie, id=request.data['movie']['id'])
-        print(movie)
         # 유효성 검사를 진행한다. -> 만약 유효하지 않은 데이터가 들어온다면 400 Bad Request 에러를 발생
+        # serializer.is_valid()
+        # print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
             # 저장한다.
             serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 
 # 단일 리뷰 조회, 삭제, 수정

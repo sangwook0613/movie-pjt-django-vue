@@ -25,7 +25,7 @@ class Review(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.IntegerField(choices=RANK_CHOICES)
+    rating = models.IntegerField(choices=RANK_CHOICES, default=0)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews', blank=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_reviews')
     
