@@ -25,6 +25,7 @@ def createDB(request):
     for i in range(2):
         page = 1    
         while page <= MOVIE_MAX_PAGE[i]: # 해당 API의 max_page만큼 진행
+            print(page)
             MOVIE_URL = f'{MOVIE_API_URL[i]}&page={page}'
             # 전체 장르 테이블 만들때 사용
             request_movies = requests.get(MOVIE_URL).json()
@@ -48,11 +49,12 @@ def createDB(request):
                 movie_genres = movie.get('genre_ids')
                 vote_average = movie.get('vote_average')
                 vote_count = movie.get('vote_count')
-
                 # 예외 처리
-                ## 영화 포스터가 없는 경우, 줄거리가 없는 경우, 아직 개봉하지 않은 영화인 경우 추가하지 않는다.
-                if movie_backdrop_path or movie_poster_path or movie_overview or (datetime.date.today() > datetime.datetime.strptime(movie_release_date, '%Y-%m-%d')):
-                    break
+                # 영화 포스터가 없는 경우, 줄거리가 없는 경우, 아직 개봉하지 않은 영화인 경우 추가하지 않는다.
+                # if not movie_backdrop_path or not movie_poster_path or not movie_overview or (datetime.date.today() > datetime.datetime.strptime(movie_release_date, '%Y-%m-%d')):
+                if not movie_backdrop_path or not movie_poster_path or not movie_overview or not movie_release_date:
+                    print('break')
+                    continue
 
                 # DEATIL API 에서 추가 정보 받아오기
                 MOVIE_DETAIL_URL = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={MOVIE_API_KEY}&language=ko-KR'

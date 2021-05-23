@@ -37,7 +37,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Password</span>
               </div>
-            <input type="text" id="password" name="password" class="form-control"
+            <input type="password" id="password" name="password" class="form-control"
             placeholder="password를 입력해주세요."
             v-model="credentials.password">
           </div>
@@ -48,9 +48,9 @@
         <div class="input-field col s12">
             <div class="input-group mt-3 mb-1 justify-content-center">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Password</span>
+                <span class="input-group-text" id="basic-addon1">Password Confirm</span>
               </div>
-            <input type="text" id="passwordConfirmation" name="passwordConfirmation" class="form-control"
+            <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control"
             placeholder="password를 다시 입력해주세요."
             v-model="credentials.passwordConfirmation">
             </div>
