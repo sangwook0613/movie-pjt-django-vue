@@ -8,10 +8,6 @@
         <input type="text" v-model.trim="reviewFormData.title" required>
       </div>
       <div>
-        <label for="reviewMovie">영화 제목: </label>
-        <input type="text" v-model.trim="reviewFormData.movie" required>
-      </div>
-      <div>
         <label for="reviewContent">내용: </label>
         <input type="text" v-model.trim="reviewFormData.content" required>
       </div>
@@ -25,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'ReviewForm',
@@ -40,15 +36,25 @@ export default {
         title: '',
         content: '',
         rating: 0,
-        movie: '',
       }
     }
+  },
+  computed: {
+    ...mapState('movieStore', [
+      'movieDetail',
+    ])
   },
   methods: {
     ...mapActions('communityStore', [
       'createReview',
-    ])
-  }
+    ]),
+    ...mapActions('movieStore', [
+      'getMovieDetail',
+    ]),
+  },
+  created: function () {
+    this.getMovieDetail(this.$route.params.movieId)
+  },
 }
 </script>
 

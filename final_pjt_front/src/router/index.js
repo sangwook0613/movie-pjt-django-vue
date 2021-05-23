@@ -39,12 +39,12 @@ const routes = [
     component: Community,
   },
   {
-    path: '/review',
+    path: '/movie/:movieId/review',
     name: 'ReviewForm',
     component: ReviewForm,
   },
   {
-    path: '/review/:reviewId',
+    path: '/movie/:movieId/review/:reviewId',
     name: 'ReviewDetail',
     component: ReviewDetail,
   },

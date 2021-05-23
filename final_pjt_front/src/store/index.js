@@ -234,7 +234,7 @@ const accountStore = {
   mutations: {
     GET_PROFILE: function (state, profile) {
       state.profile = profile
-      const currentUsername = store.getters.jwtUsername
+      const currentUsername = store.getters.jwtUsername.username
 
       // 현재 사용자가 자기자신이면 isMyself = false
       // 본인 프로필에서 팔로우 버튼 숨기기용
@@ -347,11 +347,17 @@ const communityStore = {
     },
     createReview: function ({ getters }, inputData) {
       const headers = getters.config
-      if (inputData.title) {
+      const inputForm = {
+        ...inputData,
+        movie: movieStore.state.movieDetail,
+      }
+      // console.log(movieStore.state.movieDetail)
+      console.log(inputForm)
+      if (inputData.title !== '' && inputData.content !== '') {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review,
           method: 'post',
-          data: inputData,
+          data: inputForm,
           headers,
         })
         .then(() => {
@@ -360,7 +366,23 @@ const communityStore = {
         .catch((err) => {
           console.log(err)
         })
+      } else {
+        alert('모든 내용을 기입해주세요!')
       }
+    },
+    updateReviewLikes: function ({ getters }, reviewId) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.review + `${reviewId}/like/`,
+        method: 'post',
+        headers,
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   },
 }
@@ -389,7 +411,7 @@ const store = new Vuex.Store({
     },
     jwtUsername: function (state) {
       const decode = jwt_decode(state.authToken)
-      return decode.username
+      return decode
     }
   },
   mutations: {

@@ -24,16 +24,16 @@ def review_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        # movie = Movie.objects.get(title__exact=request.data['movie'])
-        # if not movie:
-        #     print('wrong')
-        #     return Response({'error': '잘못된 영화 제목입니다.'}, status=status.HTTP_400_BAD_REQUEST)
-        # request.data['movie'] = movie
+        print(1)
         serializer = ReviewSerializer(data=request.data)
+        # print(request.data['movie'])
+        # print(request.data['movie']['id'])
+        movie = get_object_or_404(Movie, id=request.data['movie']['id'])
+        print(movie)
         # 유효성 검사를 진행한다. -> 만약 유효하지 않은 데이터가 들어온다면 400 Bad Request 에러를 발생
         if serializer.is_valid(raise_exception=True):
             # 저장한다.
-            serializer.save()
+            serializer.save(movie=movie)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -79,13 +79,13 @@ def review_like(request, review_pk):
     if request.method == 'POST':
         review = get_object_or_404(Review, pk=review_pk)
         # 좋아요 눌려있으면
-        if review.like_reviews.filter(pk=request.user.pk).exists():
+        if review.likes.filter(pk=request.user.pk).exists():
             # 취소
-            review.like_reviews.remove(request.user)
+            review.likes.remove(request.user)
         #아니면
         else:
             # 좋아요
-            review.like_reviews.add(request.user)
+            review.likes.add(request.user)
 
         # 시리얼 라이징
         serializer = ReviewSerializer(review)
