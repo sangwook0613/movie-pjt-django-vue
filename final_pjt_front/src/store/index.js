@@ -8,6 +8,7 @@ import router from '@/router/index.js'
 
 Vue.use(Vuex)
 
+const YOUTUBE_API_KEY = process.env.VUE_APP_YOUTUBE_API_KEY
 
 const movieStore = {
   namespaced: true,
@@ -17,6 +18,10 @@ const movieStore = {
     mostGenreRecommendMovie: [],
     genreRecommendMovie: [],
     movieDetail: [],
+    // 영화 관련 영상 state
+    movieVideos: [],
+    selectedVideo: '',
+    // 검색 state
     searchedMovies: [],
     searchBtn: false,
     searchInput: '',
@@ -43,6 +48,23 @@ const movieStore = {
     GET_RANDOM_RECOMMEND_MOVIES: function (state, movies) {
       state.randomRecommendMovies = movies
     },
+    GET_MOST_GENRE_RECOMMEND_MOVIES: function (state, movies) {
+      state.mostGenreRecommendMovie = movies
+    },
+    GET_GENRE_RECOMMEND_MOVIES: function (state, movies) {
+      state.genreRecommendMovie = movies
+    },
+    // 영화 영상 관련 mutations
+    SET_MOVIE_VIDEOS: function (state, videos) {
+      state.movieVideos = videos
+    },
+    SET_SELECTED_VIDEO: function (state, selectedDetailVideo) {
+      state.selectedVideo = selectedDetailVideo
+    },
+    SET_THUMBNAIL_VIDEO: function (state, videos) {
+      state.selectedVideo = videos[0]
+    },
+    // 검색 관련 mutations
     SEARCH_MOVIES: function (state, searchData) {
       state.searchedMovies = searchData
     },
@@ -55,12 +77,6 @@ const movieStore = {
     },
     UPDATE_SEARCH_INPUT: function (state, inputText) {
       state.searchInput = inputText
-    },
-    GET_MOST_GENRE_RECOMMEND_MOVIES: function (state, movies) {
-      state.mostGenreRecommendMovie = movies
-    },
-    GET_GENRE_RECOMMEND_MOVIES: function (state, movies) {
-      state.genreRecommendMovie = movies
     },
   },
   actions: {
@@ -134,6 +150,32 @@ const movieStore = {
       .then((res) => {
         commit('GET_GENRE_RECOMMEND_MOVIES', res.data)
         console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getRelatedVideos: function ({ state, commit }, movieTitle) {
+      const params = {
+        key: YOUTUBE_API_KEY,
+        part: 'snippet',
+        type: 'video',
+        q: movieTitle,
+        maxResults: 3,
+      }
+      console.log(movieTitle)
+      axios({
+        url: SERVER.TUBE,
+        method: 'get',
+        params, 
+      })
+      .then((res) => {
+        console.log(res)
+        commit('SET_MOVIE_VIDEOS', res.data.items)
+        
+        if (!state.selectedVideo) {
+          commit('SET_THUMBNAIL_VIDEO', state.movieVideos[0])
+        }
       })
       .catch((err) => {
         console.log(err)
