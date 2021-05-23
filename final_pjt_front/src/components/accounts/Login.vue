@@ -1,7 +1,7 @@
 <template>
   <div>
     <br><br><br><br><br><br><br><br><br><br>
-    <h1 class="text-primary fw-bold">환상의 SSAFY에 오신걸 환영합니다.</h1>
+    <h1 class="text-primary fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
     <br>
     <!-- ID -->
     <div class="row">
@@ -55,8 +55,13 @@ export default {
 </script>
 
 <style>
+.animate__animated {
+    --animate-duration  : 1.5s;
+    --animate-delay     : 1.5s;
+}
+
 body{
-    display: table;
+    /* display: table; */
     background-color: #e0f2f1 !important;
 }
 

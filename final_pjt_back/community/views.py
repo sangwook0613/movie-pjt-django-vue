@@ -116,7 +116,7 @@ def comment_detail(request, comment_pk):
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
-        # 내가 작성한 댓글중에 해당하는 댓글이 없으면
+        # 내가 작성한 댓글중에 해당하는 댓글이 아니면
         if not request.user.comments.filter(pk=comment_pk).exists():
             # 403 error 반환
             return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)

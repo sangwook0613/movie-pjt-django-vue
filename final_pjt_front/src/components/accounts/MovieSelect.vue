@@ -31,7 +31,6 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import 'animate.css'
 
 export default {
   name: 'MovieSelect',
@@ -86,17 +85,8 @@ export default {
 </script>
 
 <style>
-/* 블러처리: 쓸지도 몰라서 놔둠 */
-.Blur {
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px); 
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
-}
-/* animate.css 주기, 딜레이 설정 */
 .animate__animated {
-    --animate-duration  : 1s;
-    --animate-delay     : 1s;
+    --animate-duration  : 0.8s;
+    --animate-delay     : 0.8s;
 }
 </style>

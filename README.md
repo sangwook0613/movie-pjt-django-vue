@@ -230,3 +230,9 @@ Validation error => 400 bad request 발생
 print(serializer.errors) 찍으면 무슨 에러인지 알 수 있음
 
 movie를 id값 넘겨줘야 되고, user정보를 넘기지 않아서 발생했었음.
+
+
+
+
+
+-> 리뷰 작성 시에 rating 1~10 아닌 값 입력으로 작성은 되서 막는 방법 필요
