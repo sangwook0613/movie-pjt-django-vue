@@ -25,6 +25,7 @@ const movieStore = {
     searchedMovies: [],
     searchBtn: false,
     searchInput: '',
+    choiceMovies: [],
   },
   getters: {
     // 부모 store의 getters에 있는 config를 받아와서 사용
@@ -44,6 +45,9 @@ const movieStore = {
     },
     GET_MOVIE_DETAIL: function (state, movie) {
       state.movieDetail = movie
+    },
+    GET_LIKE_CHOICE_MOVIES: function (state, movies) {
+      state.choiceMovies = movies
     },
     GET_RANDOM_RECOMMEND_MOVIES: function (state, movies) {
       state.randomRecommendMovies = movies
@@ -109,6 +113,38 @@ const movieStore = {
       .catch((err) => {
         console.log(err)
       })
+    },
+    getLikeChoiceMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getLikeChoiceMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_LIKE_CHOICE_MOVIES', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    likeSelectMovie: function ({ getters }, selectMovies) {
+      const headers = getters.config
+      for (let selectMovie of selectMovies) {
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.getMovie + `${selectMovie}/like/`,
+          method: 'post',
+          headers,
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      }
+      router.push({ name: 'Movie' })
     },
     getRandomRecommendMovie: function ({ commit, getters }) {
       const headers = getters.config
@@ -270,7 +306,6 @@ const accountStore = {
       })
       .then((res) => {
         commit('GET_PROFILE', res.data)
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -411,7 +446,7 @@ const store = new Vuex.Store({
       })
       .then((res) => {
         commit('SET_TOKEN', res.data.token)
-        router.push({ name: 'Movie' })
+        router.push({ name: 'MovieSelect' })
       })
       .catch((err) => {
         console.log(err)
@@ -424,7 +459,7 @@ const store = new Vuex.Store({
         data: credentials,
       })
       .then(() => {
-        router.push({ name: 'LikeMovieSelect' })
+        router.push({ name: 'Login' })
       })
       .catch((err) => {
         console.log(err)

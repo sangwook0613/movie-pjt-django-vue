@@ -63,7 +63,7 @@
           <button type="submit" class="btn waves-effect waves-light col s12 bg-dark text-white"
           @click="signup(credentials)">가입하기</button>
         </div>
-
+        
         <div class="input-field mx-4">
           <router-link :to="{ name: 'Login' }" class="btn btn-dark btn-block">로그인 페이지로</router-link>
         </div>

@@ -13,6 +13,7 @@ export default {
     // 영화 관련 API
     movieSearch:'/api/m1/search/',
     getMovie: '/api/m1/movie/',
+    getLikeChoiceMovie: '/api/m1/movie/selectlike/',
     getRandomRecommendMovie: '/api/m1/movie/recommend/random/',
     getMostGenreRecommendMovie: '/api/m1/movie/recommend/genre/most/',
     getGenreRecommendMovie: '/api/m1/movie/recommend/genre/',
