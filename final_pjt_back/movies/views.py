@@ -246,12 +246,29 @@ def recommend_genre(request):
             break
         
     # 제일 좋아하는 장르의 id
+    if most_genre:
+        most_genre_id1 = most_genre.pk
     if most_genre2:
         most_genre_id2 = most_genre2.pk
     if most_genre3:
         most_genre_id3 = most_genre3.pk
     if most_genre3:
         most_genre_id4 = most_genre4.pk
+
+    exclude_movies = Movie.objects.exclude(pk__in=[movie.pk for movie in movies]).order_by('-vote_count')
+    count = 0
+    recommend_movies1 = []
+    # 15개 추출할때까지 반복
+    for ex_movie in exclude_movies:
+        if count >= 15:
+            break
+        ex_movie_genres = ex_movie.genres.all()
+        for ex_movie_genre in ex_movie_genres:
+            # 같은 장르 id가 있으면 추가해준다
+            if ex_movie_genre.id == most_genre_id1:
+                recommend_movies1.append(ex_movie)
+                count += 1
+                break
 
     # 내가 이미 좋아요 누른 장르들 제외하고 전체 영화 쿼리셋 생성
     exclude_movies = Movie.objects.exclude(pk__in=[movie.pk for movie in movies]).order_by('-vote_count')
@@ -263,23 +280,24 @@ def recommend_genre(request):
             ex_movie_genres = ex_movie.genres.all()
             for ex_movie_genre in ex_movie_genres:
                 # 같은 장르 id가 있으면 추가해준다
-                if ex_movie_genre.id == most_genre_id2:
+                if ex_movie_genre.id == most_genre_id2 and (ex_movie not in recommend_movies1):
                     recommend_movies.add(ex_movie)
-                    
+
         elif len(recommend_movies) < 10:
             ex_movie_genres = ex_movie.genres.all()
             for ex_movie_genre in ex_movie_genres:
-                if ex_movie_genre.id == most_genre_id3:
+                if ex_movie_genre.id == most_genre_id3 and (ex_movie not in recommend_movies1):
                     recommend_movies.add(ex_movie)
-                    
+
         elif len(recommend_movies) < 15:
             ex_movie_genres = ex_movie.genres.all()
             for ex_movie_genre in ex_movie_genres:
-                if ex_movie_genre.id == most_genre_id4:
+                if ex_movie_genre.id == most_genre_id4 and (ex_movie not in recommend_movies1):
                     recommend_movies.add(ex_movie)
+
         else:
             break
-
+        
     # 시리얼라이징 후 반환
     serializer = MovieListSerializer(recommend_movies, many=True)
     return Response(serializer.data)
