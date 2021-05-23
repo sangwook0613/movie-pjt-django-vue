@@ -270,7 +270,7 @@ const accountStore = {
   mutations: {
     GET_PROFILE: function (state, profile) {
       state.profile = profile
-      const currentUsername = store.getters.jwtUsername.username
+      const currentUsername = store.getters.jwtUsername
 
       // 현재 사용자가 자기자신이면 isMyself = false
       // 본인 프로필에서 팔로우 버튼 숨기기용
@@ -449,8 +449,12 @@ const store = new Vuex.Store({
     },
     jwtUsername: function (state) {
       const decode = jwt_decode(state.authToken)
-      return decode
-    }
+      return decode.username
+    },
+    jwtUserId: function (state) {
+      const decode = jwt_decode(state.authToken)
+      return decode.user_id
+    },
   },
   mutations: {
     SET_TOKEN: function (state, token) {
