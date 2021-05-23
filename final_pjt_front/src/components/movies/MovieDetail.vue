@@ -16,20 +16,21 @@
     </div>
     <div>
       <button @click="showClickAdditionalDetail(0)">상세 정보</button>
-      <button @click="showClickAdditionalDetail(1)">리뷰 정보</button>
-      <button @click="showClickAdditionalDetail(2)">관련 영상</button>
-      <button @click="showClickAdditionalDetail(3)">비슷한 작품</button>
+      <button @click="showClickAdditionalDetail(1)">관련 영상</button>
+      <button @click="showClickAdditionalDetail(2)">비슷한 작품</button>
     </div>
-    <MovieReviews v-if="checkMovieDetailClicked[0]" :reviews="movieDetail.movie_reviews"/>
-    <MovieVideos v-if="[movieDetail.title, checkMovieDetailClicked[2]]" :movieTitle="movieDetail.title"/>
-    <SimilarMovies v-if="checkMovieDetailClicked[3]"/>
+    <MoreMovieDetail v-if="checkMovieDetailClicked[0]" :movieDetailInfo="movieDetail"/>
+    <MovieReviews v-if="checkCondition(movieDetail.movie_reviews, checkMovieDetailClicked[0])" :reviews="movieDetail.movie_reviews"/>
+    <MovieVideos v-if="checkCondition(movieDetail.title, checkMovieDetailClicked[1])" :movieTitle="movieDetail.title"/>
+    <SimilarMovies v-if="checkMovieDetailClicked[2]"/>
   </div>
 </template>
 
 <script>
 import SimilarMovies from '@/components/movies/SimilarMovies'
-import MovieReviews from '@/components/movies/MovieReviews'
+import MoreMovieDetail from '@/components/movies/MoreMovieDetail'
 import MovieVideos from '@/components/movies/MovieVideos'
+import MovieReviews from '@/components/movies/MovieReviews'
 
 import { mapActions, mapState } from 'vuex'
 
@@ -37,12 +38,13 @@ export default {
   name: 'MovieDetail',
   components: {
     SimilarMovies,
-    MovieReviews,
+    MoreMovieDetail,
     MovieVideos,
+    MovieReviews,
   },
   data: function () {
     return {
-      checkMovieDetailClicked: [true, false, false, false]
+      checkMovieDetailClicked: [true, false, false]
     }
   },
   methods: {
@@ -50,8 +52,16 @@ export default {
       'getMovieDetail',
     ]),
     showClickAdditionalDetail: function (idx) {
-      this.checkMovieDetailClicked = [false, false, false, false]
+      this.checkMovieDetailClicked = [false, false, false]
       this.checkMovieDetailClicked[idx] = true
+    },
+    checkCondition: function (item1, item2) {
+      if (item1.length !== 0) {
+        if (item2) {
+          return true
+        }
+      }
+      return false
     }
   },
   computed: {

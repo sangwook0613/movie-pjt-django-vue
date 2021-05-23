@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>{{ reviewDetail.content }}</div>
-    <div>{{ reviewDetail.rating }}</div>
+    <div>평점: {{ reviewDetail.rating }}</div>
     {{ reviewDetail }}
   </div>
 </template>
