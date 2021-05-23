@@ -86,7 +86,7 @@ def createDB(request):
                 for people in cast:
                     if people.get('profile_path') and people.get('known_for_department') == 'Acting':
                         # 10개만 추출
-                        if cnt_actor == 10:
+                        if cnt_actor == 5:
                             continue
                         actor_id = people.get('id')
                         actor_gender = people.get('gender')

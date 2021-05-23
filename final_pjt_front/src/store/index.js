@@ -411,6 +411,7 @@ const store = new Vuex.Store({
       })
       .then((res) => {
         commit('SET_TOKEN', res.data.token)
+        router.push({ name: 'Movie' })
       })
       .catch((err) => {
         console.log(err)
@@ -423,7 +424,7 @@ const store = new Vuex.Store({
         data: credentials,
       })
       .then(() => {
-        router.push({ name: 'Login' })
+        router.push({ name: 'LikeMovieSelect' })
       })
       .catch((err) => {
         console.log(err)
@@ -431,6 +432,7 @@ const store = new Vuex.Store({
     },
     logout: function ({ commit }) {
       commit('REMOVE_TOKEN')
+      console.log(movieStore.state)
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })
     },

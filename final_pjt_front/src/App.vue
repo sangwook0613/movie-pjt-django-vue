@@ -4,20 +4,13 @@
       <div id="nav">
         <router-link :to="{ name: 'Movie' }">Movie</router-link> |
         <router-link :to="{ name: 'Community' }">Community</router-link> |
-        <span v-if="isLoggedIn">
-          <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
-          <router-link @click.native="logout" to="#">로그아웃</router-link> |
-        </span>
-        <span v-else>
-          <router-link :to="{ name: 'Signup' }">회원가입</router-link> |
-          <router-link :to="{ name: 'Login' }">로그인</router-link> |
-        </span>
+        <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }">Profile</router-link> |
+        <router-link @click.native="logout" to="#">로그아웃</router-link> |
         <input @input="updateSearchInput" @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" type="text" placeholder="제목으로 검색">
         <button @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
       </div>
     </span>
 
-    <!-- v-else하면 안보임 -->
     <div class="container">
       <router-view/>
     </div>
@@ -26,10 +19,8 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex'
-// import Start from './views/Start.vue'
 
 export default {
-  // components: { Start },
   name: 'App',
   methods: {
     ...mapActions([

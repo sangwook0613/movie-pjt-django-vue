@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import Signup from '@/components/accounts/Signup'
 import Login from '@/components/accounts/Login'
 import Profile from '@/components/accounts/Profile'
+import LikeMovieSelect from '@/components/accounts/LikeMovieSelect'
 // Movies
 import Movie from '@/views/Movie'
 import MovieDetail from '@/components/movies/MovieDetail'
@@ -83,6 +84,11 @@ const routes = [
     props: (route) => ({ 
       query: route.query.q
     }),
+  },
+  {
+    path: '/signup/likemovies/',
+    name: 'LikeMovieSelect',
+    component: LikeMovieSelect,
   },
 ]
 

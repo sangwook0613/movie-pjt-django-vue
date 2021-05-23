@@ -52,7 +52,8 @@
               </div>
             <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control"
             placeholder="password를 다시 입력해주세요."
-            v-model="credentials.passwordConfirmation">
+            v-model="credentials.passwordConfirmation"
+            @keypress.enter="signup(credentials)">
             </div>
         </div>
       </div>
