@@ -1,7 +1,10 @@
+const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/search'
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   URL: SERVER_URL,
+  TUBE: YOUTUBE_API_URL,
   ROUTES: {
     signup: '/api/a1/signup/',
     login: '/api/a1/api-token-auth/',

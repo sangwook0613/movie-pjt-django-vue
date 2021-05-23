@@ -10,7 +10,7 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-show="checkClicked[1]"></router-view>
+    <router-view v-if="checkClicked[1]"></router-view>
     <!-- 제일 많이 좋아하는 장르 추천 영화 -->
     <h3>제일 많이 좋아하는 장르 추천 영화</h3>
     <carousel v-if="mostGenreRecommendMovie.length > 0" :nav="false" :items="5">
@@ -20,7 +20,7 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-show="checkClicked[2]"></router-view>
+    <router-view v-if="checkClicked[2]"></router-view>
     <!-- 장르 추천 영화 -->
     <h3>장르 추천 영화</h3>
     <carousel v-if="genreRecommendMovie.length > 0" :nav="false" :items="5">
@@ -30,7 +30,7 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-show="checkClicked[3]"></router-view>
+    <router-view v-if="checkClicked[3]"></router-view>
   </div>
 </template>
 
