@@ -2,6 +2,8 @@
   <div>
     <!-- <div v-if="formNum === 1"> -->
     <div class="review-form">
+      <!-- <h1>{{ typeof(reviewId) === 'undefined' }}</h1> -->
+      <h1>{{ reviewId }}</h1>
       <h1>리뷰 작성하기</h1>
       <div>
         <label for="reviewTitle">제목: </label>      
@@ -26,7 +28,7 @@ import { mapActions, mapState } from 'vuex'
 export default {
   name: 'ReviewForm',
   props: {
-    formNum: {
+    reviewId: {
       type: Number, 
     }
   },

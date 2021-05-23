@@ -11,7 +11,10 @@
         </div>
         <div class="d-flex justify-content-between">
           <span :class="[makeBadge(review.rating), 'text-center']" style="width: 80px">평점: {{ review.rating }}</span>
-          <router-link :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id } }" class="text-decoration-none text-dark text-end">
+          <router-link
+            :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
+            class="text-decoration-none text-dark text-end"
+          >
             리뷰 상세보기
           </router-link>
         </div>
@@ -20,7 +23,11 @@
     <!-- <router-link :to="{ name: 'MovieReviewMore', params: { reviewId: review.id } }" class="text-decoration-none text-dark btn btn-info">
       더 많은 리뷰보기
     </router-link> -->
-    <router-link :to="{ name: 'ReviewForm', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-primary">
+    <router-link
+      :to="{ name: 'ReviewForm', params: { movieId: reviews[0].movie }}"
+      :reviewId=null
+      class="text-decoration-none text-dark btn btn-primary"
+    >
       리뷰 작성하기
     </router-link>
   </div>
