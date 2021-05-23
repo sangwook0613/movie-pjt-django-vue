@@ -386,11 +386,8 @@ const communityStore = {
         ...inputData,
         rating: parseInt(inputData.rating),
         movie: movieStore.state.movieDetail.id,
-        user: store.getters.jwtUsername.user_id
+        user: store.getters.jwtUserId
       }
-      // console.log(store.getters.jwtUsername)
-      // console.log(movieStore.state.movieDetail.id)
-      console.log(inputForm)
       if (inputData.title !== '' && inputData.content !== '') {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review,
@@ -398,8 +395,8 @@ const communityStore = {
           data: inputForm,
           headers,
         })
-        .then(() => {
-          router.push({ name: 'Community' })
+        .then((res) => {
+          router.push({ name: 'ReviewDetail', params: { movieId: res.data.id.movie, reviewId: res.data.id }})
         })
         .catch((err) => {
           console.log(err)
@@ -421,7 +418,25 @@ const communityStore = {
       .catch((err) => {
         console.log(err)
       })
-    }
+    },
+    deleteReview: function ({ getters }, reviewId) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.review + `${reviewId}/`,
+        method: 'delete',
+        headers,
+      })
+      .then((res) => {
+        console.log(res)
+        router.push({ name: 'Movie' })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    // getComments: function ({ getters }, reviewId) {
+      
+    // }
   },
 }
 
