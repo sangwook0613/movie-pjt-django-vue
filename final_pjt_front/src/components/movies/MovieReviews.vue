@@ -4,8 +4,8 @@
       <div class="card p-2">
         <div class="d-flex justify-content-between">
           <span class="fw-bold fs-5 pe-2">{{ review.title }}</span>
-          <button id="likeCount" class="btn" @click="updateReviewLikes(review.id, review.user)">
-            <i class="fas fa-heart fa-lg me-1"></i>
+          <button :id="`likeCount-${review.id}`" class="btn" @click="updateReviewLikes(review, review.user)">
+            <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
             <span>{{ review.likes.length }}</span>
           </button>
         </div>
@@ -28,6 +28,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import axios from 'axios'
 import SERVER from '@/api/server.js'
 
@@ -38,22 +39,18 @@ export default {
       type: Array,
     }
   },
-  methods: {
-    // ...mapActions('communityStore', [
-    //   'updateReviewLikes',
-    // ]),
-    
-    updateReviewLikes: function (reviewId, user_id) {
+  methods: {    
+    updateReviewLikes: function (review, user_id) {
       const headers = this.config
-      if (user_id !== this.jwtUsername.user_id) {
+      if (user_id !== this.jwtUserId && !_.includes(review.likes, this.jwtUserId)) {
         axios({
-          url: SERVER.URL + SERVER.ROUTES.review + `${reviewId}/like/`,
+          url: SERVER.URL + SERVER.ROUTES.review + `${review.id}/like/`,
           method: 'post',
           headers,
         })
         .then(() => {
-          const likeCountImage = document.querySelector('#likeCount > i')
-          const likeCountNum = document.querySelector('#likeCount > span')
+          const likeCountImage = document.querySelector(`#likeCount-${review.id} > i`)
+          const likeCountNum = document.querySelector(`#likeCount-${review.id} > span`)
           if (likeCountImage.style.color === '' || likeCountImage.style.color === 'black' ) {
             likeCountImage.style.color = 'crimson'
             likeCountNum.innerText++
@@ -76,12 +73,18 @@ export default {
         return 'badge rounded-pill bg-danger'
       }
     },
+    checkUserIncludeInReviewLikes: function (review_likes) {
+      if (_.includes(review_likes, this.jwtUserId)) {
+        return 'crimson'
+      }
+      return 'black'
+    }
   },
   computed: {
     ...mapGetters([
       'config',
-      'jwtUsername',
-    ])
+      'jwtUserId',
+    ]),
   },
   watch: {
     review: function() {

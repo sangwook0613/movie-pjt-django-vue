@@ -2,7 +2,7 @@
   <div class="card">
     <h1>movieDetailInfo</h1>
     <!-- {{ movieDetailInfo }} -->
-    {{movieDetailInfo.movie_reviews}}
+    <!-- {{movieDetailInfo.movie_reviews}} -->
     <h5>{{ movieDetailInfo.title }} 관련 리뷰</h5>
     <div v-if="movieDetailInfo.movie_reviews.length === 0">
       <h5>해당 영화에 작성된 리뷰가 없습니다.</h5>
