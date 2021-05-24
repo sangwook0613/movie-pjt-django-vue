@@ -1,6 +1,6 @@
 <template>
-  <div class="container row">
-    <div class="card col-6">
+  <div class="container row text-white text-center review-detail">
+    <div class="card col-6 review-form text-white">
       <div class="card-body">
         <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
         <div class="card-text fs-5">{{ reviewDetail.content }}</div>
@@ -9,16 +9,16 @@
         <div>작성일: {{ reviewDetail.created_at|moment("from", "now") }}</div>
       </div>
       <div class="row" v-if="reviewDetail.user.id === jwtUserId">
-        <div class="col-1"></div>
+        <div class="col-2"></div>
         <input
           type="button"
-          class="text-decoration-none text-dark btn btn-primary col-4 text-white btn-xs"
+          class="text-decoration-none text-dark btn btn-primary col-3 text-white btn-xs"
           @click="openUpdateReviewModal"
           value="수정"
         >
         <div class="col-2"></div>
         <button
-          class="col-4 btn btn-danger"
+          class="col-3 btn btn-danger"
           @click="deleteReview(reviewDetail.id)">삭제</button>
         <div class="col-1"></div>
       </div>
@@ -28,9 +28,8 @@
     </div>
     <!-- {{reviewDetail}} -->
     <div class="comment-card col-12 mt-3">
-      <h3 class="fw-bold">댓글</h3>
       <div>
-        <input type="text" v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
+        <input type="text" placeholder="댓글 입력" v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
         <button class="btn btn-info" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
       </div>
       <div v-if="reviewDetail.comment_count !== 0">
@@ -94,11 +93,29 @@ export default {
   },
   created: function () {
     this.getReviewDetail(this.$route.params.reviewId)
+  },
+  beforeDestroy: function () {
+    document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
   }
 }
 </script>
 
 <style>
+.review-form {
+  border-color: white;
+  border-width: 2.5px;
+  border-style: solid;
+}
+.review-detail{
+  margin-left: 50px;
+  margin-top: 50px;
+  padding-left: 50px;
+  padding-top:50px;
+  border-width: 2.5px;
+  border-color: transparent;
+  border-style: solid;
+}
+
 .poster-card .comment-card {
   /* padding-top: 20px; */
   /* position: relative; */
