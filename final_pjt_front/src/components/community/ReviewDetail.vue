@@ -6,8 +6,7 @@
         <div class="card-text fs-5">{{ reviewDetail.content }}</div>
         <div>작성자: {{ reviewDetail.user.username }}</div>
         <div>평점: {{ reviewDetail.rating }}</div>
-        <div>작성일: {{ reviewDetail.created_at }}</div>
-        <div>작성자: {{ reviewDetail.user }}</div>
+        <div>작성일: {{ reviewDetail.created_at|moment("from", "now") }}</div>
       </div>
       <div class="row" v-if="reviewDetail.user === jwtUserId">
         <div class="col-1"></div>

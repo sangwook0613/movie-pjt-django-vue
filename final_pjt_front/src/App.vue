@@ -1,8 +1,10 @@
 <template>
   <div id="app">
+    
     <div v-if="showNav">
       <Nav />
     </div>
+
     <div class="container mt-4">
       <router-view/>
     </div>
@@ -10,9 +12,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import Nav from '@/views/Nav'
-// import { mapActions, mapGetters } from 'vuex'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -54,7 +54,6 @@ export default {
   updated: function () {
     this.getProfile(this.jwtUsername)
   },
-  
 }
 </script>
 
@@ -70,7 +69,7 @@ html, body {
     height: 100%;
 }
 
- #app {
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <Rating /> -->
     <div class="review-form">
       {{ this.createFormType }}
       <div v-if="$route.params.formNum === 1">
@@ -50,6 +51,7 @@ export default {
       type: Number, 
     }
   },
+
   data: function () {
     return {
       reviewFormData: {
@@ -89,4 +91,5 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 </style>

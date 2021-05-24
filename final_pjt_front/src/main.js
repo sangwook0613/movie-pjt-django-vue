@@ -5,6 +5,7 @@ import store from './store'
 import 'animate.css'
 
 Vue.config.productionTip = false
+Vue.use(require('vue-moment'));
 
 new Vue({
   router,
