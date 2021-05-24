@@ -15,7 +15,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('review')
+        read_only_fields = ('review',)
 
 class CommunityCommentSerializer(serializers.ModelSerializer):
 

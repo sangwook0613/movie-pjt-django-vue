@@ -20,6 +20,6 @@ export default {
 
     // 리뷰 관련 API
     review: '/api/c1/review/',
-    comment: '/api/c1/comment/',
+    comment: '/api/c1/comments/',
   }
 }

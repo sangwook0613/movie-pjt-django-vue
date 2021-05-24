@@ -26,20 +26,24 @@
     <div class="poster-card col-6">
       <img :src="reviewDetail.movie.poster_path" alt="poster-image" style="height: 400px;">
     </div>
-    {{reviewDetail.review_comments}}
+    <!-- {{reviewDetail}} -->
     <div class="comment-card col-12 mt-3">
       <h3 class="fw-bold">댓글</h3>
       <div>
-        <input type="text" v-model.trim="commentInput">
-        <button class="btn btn-info">작성</button>
+        <input type="text" v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
+        <button class="btn btn-info" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
       </div>
       <div v-if="reviewDetail.comment_count !== 0">
-        <CommentCard :comments="reviewDetail.review_comments"/>
+        <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx" >
+          <CommentCard :comment="comment" :movieId="reviewDetail.id"/>
+        </div>
       </div>
       <div v-else>
         <h3 class="text-center">댓글이 없습니다.</h3>
       </div>
     </div>
+    {{reviewDetail.id}}
+    {{$route.params.reviewId}}
   </div>
 </template>
 
@@ -49,13 +53,16 @@ import CommentCard from '@/components/community/CommentCard'
 
 export default {
   name: 'ReviewDetail',
-  data: function () {
-    return {
-      commentInput: '',
-    }
-  },
   components: {
     CommentCard,
+  },
+  data: function () {
+    return {
+      commentInput: {
+        reviewId: this.$route.params.reviewId,
+        inputText: '',
+      },
+    }
   },
   computed: {
     ...mapState('communityStore', [
@@ -66,7 +73,11 @@ export default {
     ...mapActions('communityStore', [
       'getReviewDetail',
       'deleteReview',
-    ])
+      'createComment',
+    ]),
+    resetCommentInput: function () {
+      this.commentInput.inputText = ''
+    }
   },
   created: function () {
     this.getReviewDetail(this.$route.params.reviewId)
