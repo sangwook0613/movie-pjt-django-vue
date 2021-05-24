@@ -432,6 +432,7 @@ const communityStore = {
         headers,
       })
       .then((res) => {
+        // 리뷰 모음 페이지로 넘길 수 있게 수정?
         console.log(res)
         router.push({ name: 'Movie' })
       })
@@ -489,6 +490,40 @@ const communityStore = {
     setFormType: function ({ commit }, num) {
       commit('SET_FORM_TYPE', num)
       console.log('hihi')
+    },
+    updateReview: function ({ getters, state, dispatch }, updateData) {
+      // console.log(updateData)
+      // console.log(state.reviewDetail.id)
+      // console.log(state.reviewDetail)
+      // console.log(movieStore.state.movieDetail.id)
+      const headers = getters.config
+      const inputForm = {
+        ...updateData,
+        rating: parseInt(updateData.rating),
+        movie: state.reviewDetail.movie.id,
+        user: store.getters.jwtUserId
+      }
+      console.log(inputForm)
+      if (updateData.title !== '' && updateData.content !== '') {
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.review + `${state.reviewDetail.id}/`,
+          method: 'put',
+          data: inputForm,
+          headers,
+        })
+        .then((res) => {
+          console.log(res)
+          console.log(res.data)
+          dispatch('getReviewDetail', state.reviewDetail.id)
+          router.push({ name: 'ReviewDetail', params: { movieId: res.data.movie, reviewId: res.data.id }})
+          // router.push({ name: 'MovieDetail', params: { movieId: res.data.movie }})
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      } else {
+        alert('모든 내용을 기입해주세요!')
+      }
     }
   },
 }
@@ -506,6 +541,11 @@ const store = new Vuex.Store({
   state: {
     authToken: localStorage.getItem('jwt'),
     showNav: true,
+    modalStatus: false,
+    modalData: {
+      reviewUpdateModalStatus: false,
+      movieDetailModalStatus: false,
+    },
   },
   getters: {
     isLoggedIn: function (state) {
@@ -541,6 +581,9 @@ const store = new Vuex.Store({
       state.showNav = data
       console.log(state.showNav)
     },
+    SET_MODAL_DATA: function (state) {
+      state.modalStatus = !state.modalStatus
+    }
   },
   actions: {
     login: function ({ commit }, credentials) {
@@ -579,7 +622,10 @@ const store = new Vuex.Store({
     updateShowNav: function ({ commit }, data) {
       commit('UPDATE_SHOW_NAV', data)
       console.log(data)
-    }
+    },
+    openModal: function ({ commit }) {
+      commit('SET_MODAL_DATA')
+    },
   },
 })
 

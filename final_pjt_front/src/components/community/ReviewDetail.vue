@@ -7,20 +7,20 @@
         <div>작성자: {{ reviewDetail.user.username }}</div>
         <div>평점: {{ reviewDetail.rating }}</div>
         <div>작성일: {{ reviewDetail.created_at }}</div>
-        <div>작성자: {{ reviewDetail.user }}</div>
+        <div>작성자: {{ reviewDetail.user.username }}</div>
       </div>
-      <div class="row" v-if="reviewDetail.user === jwtUserId">
+      <div class="row" v-if="reviewDetail.user.id === jwtUserId">
         <div class="col-1"></div>
-        <router-link
-          :to="{ name: 'ReviewForm', params: { movieId: reviewDetail.movie.id }}"
-          class="text-decoration-none text-dark btn btn-primary col-4 text-white"
+        <input
+          type="button"
+          class="text-decoration-none text-dark btn btn-primary col-4 text-white btn-xs"
+          @click="openUpdateReviewModal"
+          value="수정"
         >
-          리뷰 수정
-        </router-link>
         <div class="col-2"></div>
         <button
           class="col-4 btn btn-danger"
-          @click="deleteReview(reviewDetail.id)">리뷰 삭제</button>
+          @click="deleteReview(reviewDetail.id)">삭제</button>
         <div class="col-1"></div>
       </div>
     </div>
@@ -69,6 +69,9 @@ export default {
     ...mapState('communityStore', [
       'reviewDetail',
     ]),
+    ...mapState([
+      'modalData',
+    ]),
     ...mapGetters([
       'jwtUserId',
     ])
@@ -79,8 +82,15 @@ export default {
       'deleteReview',
       'createComment',
     ]),
+    ...mapActions([
+      'openModal',
+    ]),
     resetCommentInput: function () {
       this.commentInput.inputText = ''
+    },
+    openUpdateReviewModal: function () {
+      this.openModal()
+      this.modalData.reviewUpdateModalStatus = true
     }
   },
   created: function () {
@@ -92,7 +102,7 @@ export default {
 <style>
 .poster-card .comment-card {
   /* padding-top: 20px; */
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -101,5 +111,9 @@ export default {
   background-clip: border-box;
   /* border: 1px solid rgba(0,0,0,.125); */
   border-radius: .25rem;
+}
+
+.card {
+  position: inherit;
 }
 </style>

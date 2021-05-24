@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div v-if="modalStatus">
+      <BaseModal/>
+    </div>
     <div v-if="showNav">
       <Nav />
     </div>
@@ -12,6 +15,7 @@
 <script>
 // import { mapGetters } from 'vuex'
 import Nav from '@/views/Nav'
+import BaseModal from '@/views/BaseModal'
 // import { mapActions, mapGetters } from 'vuex'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
@@ -19,6 +23,7 @@ export default {
   name: 'App',
   components: {
     Nav,
+    BaseModal,
   },
   methods: {
     ...mapActions('accountStore', [
@@ -39,6 +44,7 @@ export default {
     ]),
     ...mapState([
       'showNav',
+      'modalStatus',
     ]),
     
   },

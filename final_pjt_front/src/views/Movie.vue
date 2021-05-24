@@ -10,7 +10,6 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-if="checkClicked[1]"></router-view>
     <!-- 제일 많이 좋아하는 장르 추천 영화 -->
     <h3>제일 많이 좋아하는 장르 추천 영화</h3>
     <carousel v-if="mostGenreRecommendMovie.length > 0" :nav="false" :items="5">
@@ -20,7 +19,6 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-if="checkClicked[2]"></router-view>
     <!-- 장르 추천 영화 -->
     <h3>장르 추천 영화</h3>
     <carousel v-if="genreRecommendMovie.length > 0" :nav="false" :items="5">
@@ -30,7 +28,6 @@
         </router-link>
       </div>
     </carousel>
-    <router-view v-if="checkClicked[3]"></router-view>
   </div>
 </template>
 
@@ -40,11 +37,6 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Movie',
-  data: function () {
-    return {
-      checkClicked: [false, false, false, false, false],
-    }
-  },
   components: {
     carousel,
   },
@@ -70,7 +62,7 @@ export default {
     showClickMovieDetail: function (idx) {
       this.checkClicked = [false, false, false, false, false]
       this.checkClicked[idx] = true
-    }
+    },
   },
   created: function () {
     this.getRandomRecommendMovie()
@@ -87,4 +79,5 @@ export default {
 </script>
 
 <style>
+
 </style>

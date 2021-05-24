@@ -3,7 +3,7 @@
     <h1>SEARCH PAGE</h1>
     <!-- {{ searchedMovies }} -->
     <div v-if="searchedMovies">
-      <VueSlickCarousel v-bind="settings">
+      <VueSlickCarousel v-if="searchedMovies.length > 0" v-bind="settings">
         <div v-for="(movie, idx) in searchedMovies" :key="idx" class="card">
             <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
         </div>
@@ -57,6 +57,9 @@ export default {
       this.searchMovie()
     },
   },
+  created: function () {
+      this.searchMovie()
+  }
 }
 </script>
 

@@ -1,41 +1,21 @@
 <template>
   <div>
     <div class="review-form">
-      {{ this.createFormType }}
-      <div v-if="$route.params.formNum === 1">
-        <h1>{{ $route.params.formNum }}</h1>
-        <h1>리뷰 수정하기</h1>
-        <div>
-          <label for="reviewTitle">제목: </label>      
-          <input type="text" v-model.trim="reviewFormData.title" required>
-        </div>
-        <div>
-          <label for="reviewContent">내용: </label>
-          <input type="text" v-model.trim="reviewFormData.content" required>
-        </div>
-        <div>
-          <label for="reviewRating">평점: </label>
-          <input type='number' v-model="reviewFormData.rating" min='1' max='10' step='1' required>
-        </div>
-        <button @click="createReview(reviewFormData)">작성 완료</button>
+      <h1>{{ $route.params.formNum }}</h1>
+      <h1>리뷰 작성하기</h1>
+      <div>
+        <label for="reviewTitle">제목: </label>      
+        <input type="text" v-model.trim="reviewFormData.title" required>
       </div>
-      <div v-else>
-        <h1>{{ $route.params.formNum }}</h1>
-        <h1>리뷰 작성하기</h1>
-        <div>
-          <label for="reviewTitle">제목: </label>      
-          <input type="text" v-model.trim="reviewFormData.title" required>
-        </div>
-        <div>
-          <label for="reviewContent">내용: </label>
-          <input type="text" v-model.trim="reviewFormData.content" required>
-        </div>
-        <div>
-          <label for="reviewRating">평점: </label>
-          <input type='number' v-model="reviewFormData.rating" min='1' max='10' step='1' required>
-        </div>
-        <button @click="createReview(reviewFormData)">작성 완료</button>
+      <div>
+        <label for="reviewContent">내용: </label>
+        <input type="text" v-model.trim="reviewFormData.content" required>
       </div>
+      <div>
+        <label for="reviewRating">평점: </label>
+        <input type='number' v-model="reviewFormData.rating" min='1' max='10' step='1' required>
+      </div>
+      <button @click="createReview(reviewFormData)">작성 완료</button>
     </div>
   </div>
 </template>
