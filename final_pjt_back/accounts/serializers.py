@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from community.serializers import ReviewListSerializer, CommentListSerializer
+from community.serializers import ReviewListSerializer, CommentListSerializer, ReviewSerializer
 from movies.serializers import ProfileMovieSerializer
 User = get_user_model()
 
@@ -34,12 +34,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers = FollowerSerializer(many=True, read_only=True)
     followings = FollowerSerializer(many=True, read_only=True)
     # 작성한 리뷰, 작성한 댓글, 좋아요 한 리뷰
-    reviews = ReviewListSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
     comments = CommentListSerializer(many=True, read_only=True)
     # 좋아요 한 영화, 싫어요 한 영화
     hate_movies = ProfileMovieSerializer(many=True, read_only=True)
     like_movies = ProfileMovieSerializer(many=True, read_only=True)
-    like_reviews = ReviewListSerializer(many=True, read_only=True)
+    like_reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = User
         fields = ('username', 'introduction', 'followers', 'followings','followers_count', 'followings_count', 'reviews',

@@ -1,38 +1,31 @@
 <template>
   <div>
-    <h1>SEARCH PAGE</h1>
-    <!-- {{ searchedMovies }} -->
+    <h2 class="fw-bold pt-1">'{{ this.$route.query.q }}' 검색 결과</h2><br>
     <div v-if="searchedMovies">
-      <VueSlickCarousel v-if="searchedMovies.length > 0" v-bind="settings">
-        <div v-for="(movie, idx) in searchedMovies" :key="idx" class="card">
-            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+      <div class="row row-cols-1 row-cols-md-5 g-3">
+        <div v-for="(movie, idx) in searchedMovies" :key="'xx'+idx" class="col">
+          <div class="card ">
+            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
+            <!-- <div class="card-footer bg-transparent border-dark">
+              <p class="card-text text-center fw-bold text-dark">{{ movie.title }}</p>
+            </div> -->
+          </div>
         </div>
-      </VueSlickCarousel>
+      </div>
+    </div>
+    <div v-else class="text-secondary fw-bold text-center text-danger">
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+      <h2 class="fs-1">검색하신 영화가 없습니다<br><br>
+      <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i></h2>
     </div>
   </div>
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Search',
-  components: {
-    VueSlickCarousel,
-  },
-  data: () => ({
-				settings: {
-          "centerMode": true,
-          // "centerPadding": "15px",
-          "focusOnSelect": true,
-          "infinite": true,
-          "slidesToShow": 5,
-          "speed": 500,
-				}
-			}),
   methods: {
     ...mapActions('movieStore', [
       'clickSearchBtn',
@@ -58,8 +51,8 @@ export default {
     },
   },
   created: function () {
-      this.searchMovie()
-  }
+    this.searchMovie()
+  },
 }
 </script>
 

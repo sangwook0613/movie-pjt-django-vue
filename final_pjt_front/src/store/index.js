@@ -242,7 +242,7 @@ const movieStore = {
       commit('CLICK_SEARCH_CANCEL_BTN')
     },
     updateSearchInput: function ({ commit }, inputText) {
-      commit('UPDATE_SEARCH_INPUT', inputText.target.value)
+      commit('UPDATE_SEARCH_INPUT', inputText.target.value.trim())
       console.log(inputText)
     }
   },
@@ -251,7 +251,7 @@ const movieStore = {
 const accountStore = {
   namespaced: true,
   state: {
-    profile: null,
+    profile: '',
     isFollow: false,
     isMyself: false,
   },

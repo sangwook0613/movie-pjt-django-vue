@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <Rating /> -->
     <div class="review-form">
       <h1>{{ $route.params.formNum }}</h1>
       <h1>리뷰 작성하기</h1>
@@ -30,6 +31,7 @@ export default {
       type: Number, 
     }
   },
+
   data: function () {
     return {
       reviewFormData: {
@@ -69,4 +71,5 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 </style>
