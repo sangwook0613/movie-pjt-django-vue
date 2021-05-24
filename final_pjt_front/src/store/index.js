@@ -434,9 +434,53 @@ const communityStore = {
         console.log(err)
       })
     },
-    // getComments: function ({ getters }, reviewId) {
-      
-    // }
+    createComment: function ({ getters, dispatch }, commentInput) {
+      const headers = getters.config
+      const inputForm = {
+        content: commentInput.inputText,
+        movie: movieStore.state.movieDetail.id,
+        user: store.getters.jwtUserId
+      }
+      console.log(commentInput)
+      console.log(inputForm)
+      if (inputForm.content !== '') {
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.review + `${commentInput.reviewId}/comments/`,
+          method: 'post',
+          data: inputForm,
+          headers,
+        })
+        .then((res) => {
+          dispatch('getReviewDetail', commentInput.reviewId)
+          // console.log(router)
+          // console.log(router.currentRoute)
+          // console.log(router.currentRoute.path)
+          // router.push(router.currentRoute.path)
+          router.push({ name: 'ReviewDetail', params: { movieId: res.data.id.movie, reviewId: res.data.id }})
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      } else {
+        alert('내용을 기입해주세요!')
+      }
+    },
+    deleteComment: function ({ getters, dispatch }, commentInfo) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.comment + `${commentInfo.commentId}/`,
+        method: 'delete',
+        headers,
+      })
+      .then(() => {
+        dispatch('getReviewDetail', commentInfo.reviewId)
+        // router.push(router.currentRoute.path)
+        router.push({ name: 'ReviewDetail', params: { movieId: commentInfo.movieId, reviewId: commentInfo.reviewId }})
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
   },
 }
 

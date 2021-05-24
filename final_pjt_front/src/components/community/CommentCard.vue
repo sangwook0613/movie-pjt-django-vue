@@ -1,29 +1,53 @@
 <template>
   <div>
-    <div class="card" v-for="(comment, idx) in comments" :key="idx">
+    <div class="card" >
       <div class="d-flex">
         <div class="p-3">{{ comment.user }}</div>
         <div class="p-3">{{ comment.content }}</div>
-        <button v-if="comment.user === jwtUserId" class="btn btn-danger">삭제</button>
+        <button
+          v-if="comment.user === jwtUserId"
+          class="btn btn-danger"
+          @click="deleteComment(commentInfo)"
+        >삭제</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'CommentCard',
   props: {
-    comments: {
-      type: Array,
+    comment: {
+      type: Object,
+    },
+    movieId: {
+      type: Number,
+    },
+  },
+  data: function () {
+    return {
+      commentInfo : {
+        commentId: this.comment.id,
+        reviewId: this.comment.review,
+        movieId: this.movieId,
+      }
     }
   },
   computed: {
     ...mapGetters([
       'jwtUserId',
     ])
+  },
+  methods: {
+    ...mapActions('communityStore', [
+      'deleteComment',
+    ]),
+    getReviewId: function (inputId) {
+      this.reviewId = inputId
+    }
   }
 }
 </script>

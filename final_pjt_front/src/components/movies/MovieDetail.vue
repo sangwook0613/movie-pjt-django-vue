@@ -56,7 +56,7 @@ export default {
       this.checkMovieDetailClicked[idx] = true
     },
     checkCondition: function (item1, item2) {
-      if (item1.length !== 0) {
+      if (Object.keys(item1).length !== 0) {
         if (item2) {
           return true
         }
