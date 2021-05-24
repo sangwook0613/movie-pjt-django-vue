@@ -1,6 +1,5 @@
 <template>
   <div class="container row">
-    {{reviewDetail}}
     <div class="card col-6">
       <div class="card-body">
         <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
@@ -27,9 +26,19 @@
     <div class="poster-card col-6">
       <img :src="reviewDetail.movie.poster_path" alt="poster-image" style="height: 400px;">
     </div>
-    <div class="comment-card mt-3">
+    {{reviewDetail.review_comments}}
+    <div class="comment-card col-12 mt-3">
       <h3 class="fw-bold">댓글</h3>
-      <CommentCard/>
+      <div>
+        <input type="text" v-model.trim="commentInput">
+        <button class="btn btn-info">작성</button>
+      </div>
+      <div v-if="reviewDetail.comment_count !== 0">
+        <CommentCard :comments="reviewDetail.review_comments"/>
+      </div>
+      <div v-else>
+        <h3 class="text-center">댓글이 없습니다.</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +49,11 @@ import CommentCard from '@/components/community/CommentCard'
 
 export default {
   name: 'ReviewDetail',
+  data: function () {
+    return {
+      commentInput: '',
+    }
+  },
   components: {
     CommentCard,
   },
