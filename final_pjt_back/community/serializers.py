@@ -56,4 +56,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         # fields = '__all__'
         fields = ('id', 'title', 'content', 'created_at', 'updated_at', 
-        'rating', 'likes', 'review_comments', 'comment_count', 'movie', 'user')
+        'rating', 'likes', 'review_comments', 'comment_count', 'movie', 'user',)

@@ -334,6 +334,7 @@ const communityStore = {
   state: {
     reviews: [],
     reviewDetail: [],
+    createFormType: '',
   },
   getters: {
     // 부모 store의 getters에 있는 config를 받아와서 사용
@@ -348,6 +349,10 @@ const communityStore = {
     GET_REVIEW_DETAIL: function (state, review) {
       state.reviewDetail = review
     },
+    SET_FORM_TYPE: function (state, num) {
+      state.createFormType = num
+      console.log(state.createFormType)
+    }
   },
   actions: {
     getReview: function ({ commit, getters }) {
@@ -481,6 +486,10 @@ const communityStore = {
         console.log(err)
       })
     },
+    setFormType: function ({ commit }, num) {
+      commit('SET_FORM_TYPE', num)
+      console.log('hihi')
+    }
   },
 }
 

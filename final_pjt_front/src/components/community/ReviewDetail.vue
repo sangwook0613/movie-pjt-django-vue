@@ -7,12 +7,12 @@
         <div>작성자: {{ reviewDetail.user.username }}</div>
         <div>평점: {{ reviewDetail.rating }}</div>
         <div>작성일: {{ reviewDetail.created_at }}</div>
+        <div>작성자: {{ reviewDetail.user }}</div>
       </div>
-      <div class="row">
+      <div class="row" v-if="reviewDetail.user === jwtUserId">
         <div class="col-1"></div>
         <router-link
           :to="{ name: 'ReviewForm', params: { movieId: reviewDetail.movie.id }}"
-          :reviewId=reviewDetail.id
           class="text-decoration-none text-dark btn btn-primary col-4 text-white"
         >
           리뷰 수정
@@ -43,13 +43,13 @@
         <h3 class="text-center">댓글이 없습니다.</h3>
       </div>
     </div>
-    {{reviewDetail.id}}
-    {{$route.params.reviewId}}
+    <!-- {{reviewDetail.id}}
+    {{$route.params.reviewId}} -->
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import CommentCard from '@/components/community/CommentCard'
 
 export default {
@@ -68,6 +68,9 @@ export default {
   computed: {
     ...mapState('communityStore', [
       'reviewDetail',
+    ]),
+    ...mapGetters([
+      'jwtUserId',
     ])
   },
   methods: {
