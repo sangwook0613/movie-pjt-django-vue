@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-expand-sm navbar-dark bg-dark">
+    <nav v-if="isLoggedIn" class="navbar navbar-expand-lg navbar-expand-sm navbar-dark transparent">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -8,22 +8,20 @@
               <i class="fas fa-dragon text-success fs-3"></i>
             </li>
 
-            <li class="nav-item ms-4">
+            <li class="nav-item ms-3">
                 <router-link :to="{ name: 'Movie' }" class="nav-link active">Home</router-link>
             </li>
           <div class="d-flex">
             <input class="form-control-sm mx-2" @input="updateSearchInput" 
             @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" 
             type="text" placeholder="찾을 영화를 입력해주세요."
-            style="width:220px;"
+            style="width:224px;"
             >
-            <button class="btn btn-outline-success" @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
+            <button class="btn btn-success" @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
           </div>
         </ul>
 
-
-
-          <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center dropdown">
+          <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
             <li class="nav-item">
               <router-link @click.native="logout" to="#" class="nav-link bg-danger rounded-pill text-light">로그아웃</router-link>
             </li>
@@ -33,6 +31,7 @@
               </router-link>
             </li>
           </ul>
+
         </div>
       </div>
     </nav>
@@ -68,5 +67,13 @@ export default {
 
 
 <style>
-
+.navbar.transparent.navbar-inverse .navbar-inner {
+    border-width: 0px;
+    -webkit-box-shadow: 0px 0px;
+    box-shadow: 0px 0px;
+    background-color: rgba(0,0,0,0.0);
+    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , rgba(0,0,0,0.00)),color-stop( 100% , rgba(0,0,0,0.00)));
+    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+}
 </style>

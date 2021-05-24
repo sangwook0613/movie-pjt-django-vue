@@ -15,9 +15,8 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-secondary fw-bold text-center text-danger">
-      <br><br><br><br><br><br><br><br><br><br><br><br>
-      <h2 class="fs-1">검색하신 영화가 없습니다<br><br>
+    <div v-else class="text-secondary fw-bold text-center text-white">
+      <h2 class="fs-1">검색하신 영화가 없습니다.<br><br>
       <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i></h2>
     </div>
   </div>

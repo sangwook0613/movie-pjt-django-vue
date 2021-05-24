@@ -87,23 +87,10 @@ html, body {
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-  text-align: center;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
 #app h1 {
   text-align: center;
 }
 
-.nav a.router-link-exact-active {
-  color: #42b983;
-}
 
 /* animate.css 주기, 딜레이 설정 */
 .animate__animated {

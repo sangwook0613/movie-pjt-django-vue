@@ -138,7 +138,9 @@ def search(request, search_word):
     if request.method == 'GET':
         search_title = movies.filter(title__contains=search_word)
         search_overview = movies.filter(overview__contains=search_word)
+        search_original_title = movies.filter(original_title__contains=search_word)
         result = search_title.union(search_overview, all=False)
+        result = result.union(search_original_title, all=False)
 
         if result:
             serializer = MovieListSerializer(result, many=True)

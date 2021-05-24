@@ -611,7 +611,8 @@ const store = new Vuex.Store({
         router.push({ name: 'MovieSelect' })
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.response.data)
+        alert("아이디와 비밀번호를 다시 확인해주세요.")
       })
     },
     signup: function (context, credentials) {
@@ -624,7 +625,7 @@ const store = new Vuex.Store({
         router.push({ name: 'Login' })
       })
       .catch((err) => {
-        console.log(err)
+        alert(err.response.data.error)
       })
     },
     logout: function ({ commit }) {
