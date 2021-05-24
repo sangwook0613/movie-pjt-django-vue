@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <br><br><br><br><br><br><br>
+  <div class="signup fs-2 text-dark">
+    <br><br>
     <div id="login-page" class="row">
       <div class="input-field col s12 center">
         <h1>회원 가입</h1>
@@ -96,6 +96,10 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.signup {
+  font-family: 'Lobster', cursive;
+}
 body{
     display: table;
     background-color: #e0f2f1 !important;

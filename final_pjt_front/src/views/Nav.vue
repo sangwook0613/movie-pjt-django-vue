@@ -19,20 +19,20 @@
             >
             <button class="btn btn-outline-success" @click="$router.push({name: 'Search', query: {q: searchInput}})">검색</button>
           </div>
-
-          </ul>
-
+        </ul>
 
 
-          <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
+
+          <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center dropdown">
             <li class="nav-item">
               <router-link @click.native="logout" to="#" class="nav-link bg-danger rounded-pill text-light">로그아웃</router-link>
             </li>
             <li class="nav-item mx-1">
-              <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="nav-link active"><i class="fs-2 fw-bold far fa-user-circle"></i></router-link>
+              <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="nav-link active">
+                <i class="fs-2 fw-bold far fa-user-circle"></i>
+              </router-link>
             </li>
           </ul>
-          
         </div>
       </div>
     </nav>

@@ -108,6 +108,8 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIE_DETAIL', res.data)
+        document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.backdrop_path})`;
+
         // console.log(res)
       })
       .catch((err) => {
@@ -379,7 +381,7 @@ const communityStore = {
       })
       .then((res) => {
         commit('GET_REVIEW_DETAIL', res.data)
-        console.log(res)
+        document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.movie.poster_path})`;
       })
       .catch((err) => {
         console.log(err)
@@ -564,9 +566,6 @@ const store = new Vuex.Store({
       const decode = jwt_decode(state.authToken)
       return decode.user_id
     },
-    // getShowNav: function (state) {
-    //   return state.showNav
-    // },
   },
   mutations: {
     SET_TOKEN: function (state, token) {
@@ -583,6 +582,21 @@ const store = new Vuex.Store({
     },
     SET_MODAL_DATA: function (state) {
       state.modalStatus = !state.modalStatus
+    },
+    RESET_ALL_STATE: function () {
+      movieStore.state.movies = [],
+      movieStore.state.randomRecommendMovies = [],
+      movieStore.state.mostGenreRecommendMovie = [],
+      movieStore.state.genreRecommendMovie = [],
+      movieStore.state.movieDetail = [],
+      movieStore.state.movieVideos = [],
+      movieStore.state.selectedVideo = '',
+      movieStore.state.searchedMovies = [],
+      movieStore.state.searchBtn = false,
+      movieStore.state.searchInput = '',
+      movieStore.state.choiceMovies = []
+      communityStore.state.reviews = [],
+      communityStore.state.reviewDetail = []
     }
   },
   actions: {
@@ -615,6 +629,7 @@ const store = new Vuex.Store({
     },
     logout: function ({ commit }) {
       commit('REMOVE_TOKEN')
+      commit('RESET_ALL_STATE')
       console.log(movieStore.state)
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })

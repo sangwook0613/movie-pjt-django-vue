@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <br><br><br><br><br><br><br><br><br><br>
-    <h1 class="text-primary fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
+  <div class="login">
+    <br><br><br><br><br><br><br><br>
+    <h1 class="text-dark fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
     <br>
     <!-- ID -->
-    <div class="row">
+    <div class="row py-5 px-5">
       <div class="input-group mt-3 mb-1 justify-content-center">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">아이디</span>
@@ -57,9 +57,13 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.login {
+  font-family: 'Lobster', cursive;
+}
 .animate__animated {
     --animate-duration  : 2.5s;
-    --animate-delay     : 0.5s;
+    --animate-delay     : 1s;
 }
 
 

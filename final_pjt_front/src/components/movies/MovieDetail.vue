@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card text-light">
     <div class="mb-3 my-4">
       <div class="row g-0">
         <div class="col-md-6">
@@ -8,9 +8,9 @@
             <p class="card-text">{{ movieDetail.overview }}</p>
           </div>
         </div>
-        <div class="col-md-6 card">
+        <!-- <div class="col-md-6 card">
           <img :src="movieDetail.backdrop_path" alt="backdrop-image">
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="my-3 d-flex justify-content-start">
@@ -61,7 +61,7 @@ export default {
         }
       }
       return false
-    }
+    },
   },
   computed: {
     ...mapState('movieStore', [
@@ -76,6 +76,10 @@ export default {
   created: function () {
     this.getMovieDetail(this.$route.params.movieId)
   },
+  beforeDestroy: function () {
+    document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
+  }
+
   // created: function () {
   //   if (this.$store.getters.isLoggedIn) {
   //     this.getTodos()
@@ -87,4 +91,7 @@ export default {
 </script>
 
 <style>
+.card{
+  background-color: transparent;
+}
 </style>

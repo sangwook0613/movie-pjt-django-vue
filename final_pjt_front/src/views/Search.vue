@@ -5,7 +5,9 @@
       <div class="row row-cols-1 row-cols-md-5 g-3">
         <div v-for="(movie, idx) in searchedMovies" :key="'xx'+idx" class="col">
           <div class="card ">
-            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+              <img :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
+            </router-link>
             <!-- <div class="card-footer bg-transparent border-dark">
               <p class="card-text text-center fw-bold text-dark">{{ movie.title }}</p>
             </div> -->
