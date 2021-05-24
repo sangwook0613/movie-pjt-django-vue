@@ -6,7 +6,11 @@
     <h5>{{ movieDetailInfo.title }} 관련 리뷰</h5>
     <div v-if="movieDetailInfo.movie_reviews.length === 0">
       <h5>해당 영화에 작성된 리뷰가 없습니다.</h5>
-      <router-link :to="{ name: 'ReviewForm', params: { movieId: movieDetailInfo.id } }" class="text-decoration-none text-dark btn btn-primary">
+      <router-link
+        :to="{ name: 'ReviewForm', params: { movieId: movieDetailInfo.id }}"
+        class="text-decoration-none text-dark btn btn-primary"
+        @click="setFormType(1)"
+      >
         리뷰 작성하기
       </router-link>
     </div>
@@ -16,6 +20,7 @@
 
 <script>
 // import MovieReviews from '@/components/movies/MovieReviews'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'MoreMovieDetail',
@@ -27,6 +32,11 @@ export default {
       type: [Object, Array],
     }
   },
+  methods: {
+    ...mapActions('communityStore', [
+      'setFormType',
+    ])
+  }
 }
 </script>
 
