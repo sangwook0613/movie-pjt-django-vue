@@ -70,16 +70,21 @@ const routes = [
     component: Movie,
     
     // 중첩된 라우트는 children 속성으로 하위 라우트를 정의할 수 있다.
-    children: [
-      { path: ':movieId',
-        name: 'MovieDetail',
-        component: MovieDetail,
-        // components: {
-        //   default: '',
-        //   a: MovieDetail,
-        // }
-      },
-    ],
+    // children: [
+    //   { path: ':movieId',
+    //     name: 'MovieDetail',
+    //     component: MovieDetail,
+    //     // components: {
+    //     //   default: '',
+    //     //   a: MovieDetail,
+    //     // }
+    //   },
+    // ],
+  },
+  { 
+    path: '/movie/:movieId',
+    name: 'MovieDetail',
+    component: MovieDetail,
   },
   {
     path: '/search/',

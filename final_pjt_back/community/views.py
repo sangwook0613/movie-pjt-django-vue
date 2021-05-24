@@ -67,9 +67,13 @@ def review_detail(request, review_pk):
             return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         
         # 있으면 수정
-        serializer = ReviewSerializer(review, data=request.data)
+        movie = get_object_or_404(Movie, pk=request.data['movie'])
+        print(movie.pk)
+        serializer = ReviewCreateSerializer(review, data=request.data)
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(movie=movie)
             return Response(serializer.data)
 
 # 리뷰 좋아요
