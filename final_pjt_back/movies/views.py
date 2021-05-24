@@ -94,6 +94,27 @@ def movie_like(request, movie_pk):
         return Response(serializer.data)
 
 
+
+@api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def movie_likes(request, movie_pk):
+    if request.method == 'POST':
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        # 좋아요 눌려있으면
+        if movie.likes.filter(pk=request.user.pk).exists():
+            pass
+        #아니면
+        else:
+            # 좋아요
+            movie.likes.add(request.user)
+
+        # 시리얼 라이징
+        serializer = MovieSerializer(movie)
+        # 반환
+        return Response(serializer.data)
+
+
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -148,7 +169,8 @@ def search_person(request, name):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def select_like_movie(request):
-    movies = Movie.objects.order_by('id')[:15]
+    # movies = Movie.objects.order_by('id')[:15]
+    movies = Movie.objects.order_by('?')[:15]
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
 
