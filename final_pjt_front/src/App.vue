@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div v-if="showNav"> -->
-    <div>
+    <div v-if="showNav">
       <Nav />
     </div>
     <div class="container mt-4">
@@ -13,8 +12,8 @@
 <script>
 // import { mapGetters } from 'vuex'
 import Nav from '@/views/Nav'
-import { mapActions, mapGetters } from 'vuex'
-// import { mapState, mapActions, mapGetters } from 'vuex'
+// import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -25,42 +24,52 @@ export default {
     ...mapActions('accountStore', [
       'getProfile',
     ]),
-    // ...mapActions([
-    //   'updateShowNav',
-    // ]),
+    ...mapActions([
+      'updateShowNav',
+    ]),
   },
   computed: {
     ...mapGetters([
       'isLoggedIn',
       'jwtUsername',
-      // 'getShowNav'
+      'getShowNav'
     ]),
-    // ...mapState('accountStore', [
-    //   'profile',
-    // ]),
-    // ...mapState([
-    //   'showNav',
-    // ]),
+    ...mapState('accountStore', [
+      'profile',
+    ]),
+    ...mapState([
+      'showNav',
+    ]),
     
   },
-  // watch: {
-  //   'this.profile.like_movies.length': function() {
-  //     if (this.profile.like_movies.length > 5) {
-  //       this.updateShowNav(true)
-  //     } else {
-  //       this.updateShowNav(false)
-  //     }
-  //   },
-  // },
-  // updated: function () {
-  //   this.getProfile(this.jwtUsername)
-  // },
+  watch: {
+    'this.profile.like_movies.length': function() {
+      if (this.profile.like_movies.length > 5) {
+        this.updateShowNav(true)
+      } else {
+        this.updateShowNav(false)
+      }
+    },
+  },
+  updated: function () {
+    this.getProfile(this.jwtUsername)
+  },
   
 }
 </script>
 
 
 <style>
+
+body{
+    /* display: table; */
+    background-color: #e0f2f1 !important;
+}
+
+html, body {
+    height: 100%;
+}
+
  #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

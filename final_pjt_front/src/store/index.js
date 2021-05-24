@@ -133,12 +133,12 @@ const movieStore = {
       const headers = getters.config
       for (let selectMovie of selectMovies) {
         axios({
-          url: SERVER.URL + SERVER.ROUTES.getMovie + `${selectMovie}/like/`,
+          url: SERVER.URL + SERVER.ROUTES.getMovie + `${selectMovie}/likes/`,
           method: 'post',
           headers,
         })
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          // console.log(res)
         })
         .catch((err) => {
           console.log(err)
@@ -452,7 +452,7 @@ const store = new Vuex.Store({
   // 공통으로 사용하는 state 와 mutation, action 들은 모두 token의 생성과 등록에 관련된 내용들
   state: {
     authToken: localStorage.getItem('jwt'),
-    // showNav: false,
+    showNav: false,
   },
   getters: {
     isLoggedIn: function (state) {
@@ -484,10 +484,10 @@ const store = new Vuex.Store({
       state.authToken = ''
       localStorage.removeItem('jwt')
     },
-    // UPDATE_SHOW_NAV: function (state, data) {
-    //   state.showNav = data
-    //   console.log(state.showNav)
-    // },
+    UPDATE_SHOW_NAV: function (state, data) {
+      state.showNav = data
+      console.log(state.showNav)
+    },
   },
   actions: {
     login: function ({ commit }, credentials) {
@@ -523,10 +523,10 @@ const store = new Vuex.Store({
       // 다음 이동할 주소는?
       router.push({ name: 'Login' })
     },
-    // updateShowNav: function ({ commit }, data) {
-    //   commit('UPDATE_SHOW_NAV', data)
-    //   console.log(data)
-    // }
+    updateShowNav: function ({ commit }, data) {
+      commit('UPDATE_SHOW_NAV', data)
+      console.log(data)
+    }
   },
 })
 

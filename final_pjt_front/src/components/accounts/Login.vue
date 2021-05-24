@@ -7,18 +7,20 @@
     <div class="row">
       <div class="input-group mt-3 mb-1 justify-content-center">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1">ID</span>
+          <span class="input-group-text" id="basic-addon1">아이디</span>
           </div>
           <input type="text" name="username" class="form-control"
             placeholder="ID를 입력해주세요."
+            style="width:30%;"
             v-model="credentials.username">
         </div>
       <!-- PASSWORD -->
       <div class="input-group mb-2 justify-content-center">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="basic-addon1">PW</span>
+          <span class="input-group-text" id="basic-addon1">비밀번호</span>
         </div>
-        <input type="password" name="password" class="form-control"
+        <input type="password" name="password" class="form-control input-lg"
+        style="width:30%;"
           placeholder="Password를 입력해주세요."
           v-model="credentials.password"
           @keypress.enter="login(credentials)">
@@ -54,20 +56,12 @@ export default {
 } 
 </script>
 
-<style>
+<style scoped>
 .animate__animated {
-    --animate-duration  : 1.5s;
-    --animate-delay     : 1.5s;
+    --animate-duration  : 2.5s;
+    --animate-delay     : 0.5s;
 }
 
-body{
-    /* display: table; */
-    background-color: #e0f2f1 !important;
-}
-
-html, body {
-    height: 100%;
-}
 
 .medium-small {
     font-size: 0.9rem;

@@ -3,27 +3,26 @@
     <h1>선호하는 영화를 선택해주세요.</h1>
     <!-- 5개 이상 선택 했을 경우에 제출 가능하게-->
     <div>
+      <hr>
       <div class="text-center" v-if="selectLikeMovies.length >= 5">
-        <hr><button @click="likeSelectMovie(selectLikeMovies)" class="btn btn-dark">선택완료</button><hr>
+        <button @click="likeSelectMovie(selectLikeMovies)" class="btn btn-dark">선택완료</button><hr>
       </div>
       <div v-else class="text-center">
-        <hr><h2 class="animate__headShake">최소 5개 이상 선택해주세요!</h2>
-        <i><b>{{ profile.username }}</b>님에게 맞는 영화 추천에 사용됩니다.</i><hr>
+        <h2 class="animate__animated animate__headShake animate__infinite">최소 5개 이상 선택해주세요!</h2>
+        <i><b>{{ profile.username }}</b>님께 맞는 영화 추천에 사용됩니다.</i><hr>
         <span v-if="profile.like_movies.length > 5">
           <button @click="$router.push({name: 'Movie'})">건너뛰기</button>
         </span>
       </div>
+      <h5 class="text-center">{{ selectLikeMovies.length }} 개를 선택하셨습니다.</h5><br>
     </div>
-
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <div v-for="(movie, idx) in choiceMovies" :key="idx" class="col">
           <div class="card">
             <img :src="movie.poster_path" alt="movie-poster" class="card-img-top"
-            :class="{ 'animate__animated animate__pulse animate__infinite' : (selectLikeMovies.includes(movie.id) || alreadyLikeMovies.includes(movie.id))  }"
+            :class="{ 'animate__animated animate__pulse animate__infinite' : selectLikeMovies.includes(movie.id) }"
             @click="updateLikeMovies(movie.id)">
           </div>
-          <!-- animate__animated animate__pulse animate__infinite -->
-          <!-- Blur -->
         </div>
     </div>
 
@@ -38,7 +37,6 @@ export default {
   data: function () {
     return {
       selectLikeMovies: [],
-      alreadyLikeMovies: [],
     }
   },
   methods: {
@@ -53,15 +51,6 @@ export default {
         this.selectLikeMovies.push(data)
       }
     },
-    // 이미 좋아요 누른거 확인용
-    updateAlreadyLikeMovies: function () {
-      this.alreadyLikeMovies = this.profile.like_movies
-      console.log(this.alreadyLikeMovies)
-      for (let movie of this.alreadyLikeMovies) {
-        this.alreadyLikeMovies.push(movie.id)
-      }
-      // console.log(this.choiceMovies)
-    },
     ...mapActions('movieStore', [
       'getLikeChoiceMovie',
       'likeSelectMovie',
@@ -69,9 +58,9 @@ export default {
     ...mapActions('accountStore', [
       'getProfile',
     ]),
-    // ...mapActions([
-    //   'updateShowNav',
-    // ]),
+    ...mapActions([
+      'updateShowNav',
+    ]),
   },
   computed: {
     ...mapState('movieStore', [
@@ -86,14 +75,12 @@ export default {
   },
   watch: {
     'profile': function() {
-      this.updateAlreadyLikeMovies(this.choiceMovies)
-      if (this.profile.like_movies.length > 5) {
-        // this.updateShowNav(true)
+      if (this.profile.like_movies.length >= 5) {
         this.$router.push({name: 'Movie'})
       } 
-      // else {
-      //   this.updateShowNav(false)
-      // }
+      else {
+        this.updateShowNav(false)
+      }
     },
   },
   created: function () {

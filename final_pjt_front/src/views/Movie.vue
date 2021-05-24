@@ -53,6 +53,9 @@ export default {
       'randomRecommendMovies',
       'mostGenreRecommendMovie',
       'genreRecommendMovie',
+    ]),
+    ...mapState([
+      'showNav',
     ])
   },
   methods: {
@@ -60,6 +63,9 @@ export default {
       'getRandomRecommendMovie',
       'getMostGenreRecommendMovie',
       'getGenreRecommendMovie',
+    ]),
+    ...mapActions([
+      'updateShowNav',
     ]),
     showClickMovieDetail: function (idx) {
       this.checkClicked = [false, false, false, false, false]
@@ -70,6 +76,7 @@ export default {
     this.getRandomRecommendMovie()
     this.getMostGenreRecommendMovie()
     this.getGenreRecommendMovie()
+    this.updateShowNav(true)
     // if (this.$store.getters.isLoggedIn) {
     //   this.getTodos()
     // } else {
