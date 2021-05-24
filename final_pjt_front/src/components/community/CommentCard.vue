@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="card" >
-      <div class="d-flex">
-        <div class="p-3">{{ comment.user }}</div>
-        <div class="p-3">{{ comment.content }}</div>
-        <button
-          v-if="comment.user === jwtUserId"
-          class="btn btn-danger"
-          @click="deleteComment(commentInfo)"
-        >삭제</button>
+      <div class="d-flex bd-highlight">
+        <div class="p-2 bd-highlight">{{ comment.user.username }}:</div>
+        <div class="p-2 bd-highlight">{{ comment.content }}</div>
+          <button
+            v-if="comment.user.id === jwtUserId"
+            class="btn btn-danger btn-sm ms-auto p-2 bd-highlight"
+            @click="deleteComment(commentInfo)"
+          >삭제</button>
       </div>
     </div>
   </div>

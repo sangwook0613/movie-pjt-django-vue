@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import Signup from '@/components/accounts/Signup'
 import Login from '@/components/accounts/Login'
 import Profile from '@/components/accounts/Profile'
+import ProfileUpdate from '@/components/accounts/ProfileUpdate'
 import MovieSelect from '@/components/accounts/MovieSelect'
 // Movies
 import Movie from '@/views/Movie'
@@ -56,6 +57,11 @@ const routes = [
         name: 'ProfileMovieDetail',
         component: MovieDetail,
       },
+      {
+        path: 'profile/:username', // 앞에 / 를 선언하면 부모 url 뒤에 붙지 않는다.
+        name: 'ProfileUpdate',
+        component: ProfileUpdate,
+      }
     ],
   },
   {

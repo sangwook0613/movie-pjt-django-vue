@@ -4,6 +4,7 @@
       <div class="card-body">
         <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
         <div class="card-text fs-5">{{ reviewDetail.content }}</div>
+        <div>작성자: {{ reviewDetail.user.username }}</div>
         <div>평점: {{ reviewDetail.rating }}</div>
         <div>작성일: {{ reviewDetail.created_at }}</div>
         <div>작성자: {{ reviewDetail.user }}</div>

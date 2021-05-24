@@ -44,7 +44,7 @@ export default {
   },
   watch: {
     'this.profile.like_movies.length': function() {
-      if (this.profile.like_movies.length > 5) {
+      if (this.profile.like_movies.length >= 5) {
         this.updateShowNav(true)
       } else {
         this.updateShowNav(false)

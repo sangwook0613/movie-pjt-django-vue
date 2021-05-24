@@ -505,7 +505,7 @@ const store = new Vuex.Store({
   // 공통으로 사용하는 state 와 mutation, action 들은 모두 token의 생성과 등록에 관련된 내용들
   state: {
     authToken: localStorage.getItem('jwt'),
-    showNav: false,
+    showNav: true,
   },
   getters: {
     isLoggedIn: function (state) {
