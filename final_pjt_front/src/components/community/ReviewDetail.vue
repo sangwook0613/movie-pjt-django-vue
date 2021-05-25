@@ -14,7 +14,7 @@
         <div class="col-2"></div>
         <input
           type="button"
-          class="text-decoration-none text-dark btn btn-primary col-3 text-white btn-xs"
+          class="text-decoration-none btn btn-primary col-3 btn-xs"
           @click="openUpdateReviewModal"
           value="수정"
         >

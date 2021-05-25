@@ -21,18 +21,18 @@
             <div class="fs-5 fw-bold pt-3 pb-2">줄거리</div>
             <p class="card-text">{{ movieDetail.overview }}</p>
 
-            <div><span class="fw-bold">감독: </span><span class="ms-2">{{ movieDetail.directors[0] }}</span></div>
+            <div><span class="fw-bold">감독: </span><span class="ms-2">{{ movieDetail.directors[0].name }}</span></div>
             <div>
               <span class="fw-bold me-1">출연진: </span>
-              <span class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor }}</span>
+              <span class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
             </div>
             <div>
               <span class="fw-bold me-1">장르: </span>
-              <span class="ms-1" v-for="(genre, idx) in movieDetail.genres" :key="idx">{{ genre }}</span>
+              <span class="ms-1" v-for="(genre, idx) in movieDetail.genres" :key="idx">{{ genre.name }} </span>
             </div>
             <div>
               <span class="fw-bold me-1">키워드: </span>
-              <span class="ms-1" v-for="(keyword, idx) in movieDetail.keywords" :key="idx">{{ keyword }}</span>
+              <span class="ms-1" v-for="(keyword, idx) in movieDetail.keywords" :key="idx">{{ keyword.keyword_eng_name }} </span>
             </div>
           </div>
         </div>

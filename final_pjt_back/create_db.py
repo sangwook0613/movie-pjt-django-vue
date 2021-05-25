@@ -1,7 +1,7 @@
 import os, django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'server.settings')
 django.setup()
-
+from json import JSONDecodeError
 import requests
 import datetime
 from bs4 import BeautifulSoup
@@ -22,13 +22,12 @@ MOVIE_POPULAR_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_
 MOVIE_TOP_RATED_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={MOVIE_API_KEY}&language=ko-KR&region=KR'
 GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 MOVIE_API_URL = [MOVIE_POPULAR_URL, MOVIE_TOP_RATED_URL]
-MOVIE_MAX_PAGE = [500, 100]
-
+MOVIE_MAX_PAGE = [500, 131]
 # for i in range(3):
 #     print(Movie.objects.get(pk=i))
 
 for i in range(2):
-    page = 1    
+    page = 1
     while page <= MOVIE_MAX_PAGE[i]: # 해당 API의 max_page만큼 진행
         print(page)
         MOVIE_URL = f'{MOVIE_API_URL[i]}&page={page}'
@@ -44,6 +43,9 @@ for i in range(2):
             genre_data.save()
         
         for movie in movies:
+            # 감독 정보 저장 가능한지 체크
+            director_null = False
+
             movie_id = movie.get('id')
             movie_title = movie.get('title')
             movie_original_title = movie.get('original_title')
@@ -58,7 +60,7 @@ for i in range(2):
             # 영화 포스터가 없는 경우, 줄거리가 없는 경우, 아직 개봉하지 않은 영화인 경우 추가하지 않는다.
             # if not movie_backdrop_path or not movie_poster_path or not movie_overview or (datetime.date.today() > datetime.datetime.strptime(movie_release_date, '%Y-%m-%d')):
             if not movie_backdrop_path or not movie_poster_path or not movie_overview or not movie_release_date:
-                print('break')
+                print('개봉 전 영화')
                 continue
 
             # DEATIL API 에서 추가 정보 받아오기
@@ -78,6 +80,7 @@ for i in range(2):
                 for g in movie_genres:
                     movie_data.genres.add(g)
             else:
+                print("이미 저장한 영화")
                 continue
 
             # CREDIT에서 people 정보 받아오기
@@ -104,25 +107,20 @@ for i in range(2):
                     names = actor_detail.get('also_known_as')
                     for name in names:
                         # PAPAGO 언어 감지 결과 한글이면
-                        NAVER_LANGEAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
+                        NAVER_LANGUAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
                         # 파파고 요청 : post + header 필요
-                        print(name, movie_id, actor_id)
-                        test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers)
+                        # print(name, movie_id, actor_id)
+                        # test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers)
                         # print(test_result_language)
-                        test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers).json()
-                        print(test_result_language)
-                        # print(test_result_language.text)
-                        # try:
-                        #     if test_result_language.get('langCode') == 'ko':
-                        #         # actor_name = 한글 이름으로 교체
-                        #         actor_name = name
-                        #         break
-                        # except test_result_language.decoder.JSONDecodeError as e:
-                        #     raise ValueError(f'{e}')
-                        if test_result_language.get('langCode') == 'ko':
-                            # actor_name = 한글 이름으로 교체
-                            actor_name = name
-                            break
+                        try:
+                            test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers).json()
+                            if test_result_language.get('langCode') == 'ko':
+                                # actor_name = 한글 이름으로 교체
+                                actor_name = name
+                                break
+                        except JSONDecodeError:
+                            print("actor JSONDecodeError")
+                            continue
 
                     # Actor 테이블에 중복검사
                     if not Person.objects.filter(id=actor_id).exists():
@@ -139,6 +137,8 @@ for i in range(2):
             # 감독
             for people in crew:
                 # 감독 = 1명
+                if director_null:
+                    break
                 if cnt_director == 1:
                         break
                 if people.get('job') == 'Director':
@@ -153,12 +153,18 @@ for i in range(2):
                     names = director_detail.get('also_known_as')
                     for name in names:
                         # PAPAGO 언어 감지 결과 한글이면
-                        NAVER_LANGEAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
+                        NAVER_LANGUAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
                         # 파파고 요청 : post + header 필요
-                        test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers).json()
-                        if test_result_language.get('langCode') == 'ko':
-                            # director_name = 한글 이름으로 교체
-                            director_name = name
+                        try:
+                            test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers).json()
+                            if test_result_language.get('langCode') == 'ko':
+                                # director_name = 한글 이름으로 교체
+                                director_name = name
+                                break
+                        except JSONDecodeError:
+                            print("director JSONDecodeError")
+                            movie_data.delete()
+                            director_null = True
                             break
 
                     # Director 테이블에 중복검사
@@ -172,6 +178,9 @@ for i in range(2):
                     # 해당 영화 배우들 M:N 테이블에 추가
                     movie_data.directors.add(director_id)
                     cnt_director += 1
+            
+            if director_null:
+                continue
             
             MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api_key={MOVIE_API_KEY}'
             movie_keywords = requests.get(MOVIE_KEYWORD_URL).json()
