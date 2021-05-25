@@ -1,10 +1,10 @@
 <template>
-  <div class="signup fs-2 text-dark">
+  <div class="signup fs-2">
     <br><br>
     <div id="login-page" class="row">
       <div class="input-field col s12 center">
         <h1>회원 가입</h1>
-        <p class="text-center">환상의 SSAFY에 오신걸 환영합니다!</p>
+        <p class="text-center text-light">환상의 SSAFY에 오신걸 환영합니다!</p>
       </div>
           
       <div class="row">
@@ -60,12 +60,12 @@
 
       <div class="d-flex justify-content-end">
         <div class="input-field">
-          <button type="submit" class="btn waves-effect waves-light col s12 bg-dark text-white"
+          <button type="submit" class="btn waves-effect waves-light col s12 bg-light"
           @click="signup(credentials)">가입하기</button>
         </div>
         
         <div class="input-field mx-4">
-          <router-link :to="{ name: 'Login' }" class="btn btn-dark btn-block">로그인 페이지로</router-link>
+          <router-link :to="{ name: 'Login' }" class="btn btn-light btn-block">로그인 페이지로</router-link>
         </div>
       </div>
       </div>
@@ -99,13 +99,14 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 .signup {
   font-family: 'Lobster', cursive;
-}
-body{
-    display: table;
-    background-color: #e0f2f1 !important;
+  color: white;
 }
 
-html, body {
+/* .login-form {
+    width: 200px;
+} */
+
+/* html, body {
     height: 100%;
 }
 
@@ -113,10 +114,6 @@ html, body {
     font-size: 0.9rem;
     margin: 0;
     padding: 0;
-}
-
-.login-form {
-    width: 280px;
 }
 
 .login-form-text {
@@ -152,5 +149,5 @@ html, body {
     -ms-transform: translateY(0%);
     -o-transform: translateY(0%);
     transform: translateY(0%);
-}
+} */
 </style>

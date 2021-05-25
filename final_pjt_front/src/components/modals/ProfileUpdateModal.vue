@@ -9,7 +9,7 @@
           </div>
           <div class="modal-body">
             <div class="form-group pt-2">
-              <!-- <label for="profileUpdateIntroduction">소개글 작성</label> -->
+              <label for="profileUpdateIntroduction">소개글을 입력해주세요.</label>
               <textarea cols="20" rows="5" v-model.trim="profileUpdateData.introduction" class="form-control"></textarea>
               <!-- <input type="text" class="form-control" v-model.trim="profileUpdateData.introduction" required> -->
             </div>
