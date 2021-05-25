@@ -21,11 +21,13 @@
         </ul>
 
           <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
-            <li class="nav-item">
-              <router-link @click.native="logout" to="#" class="nav-link text-dark">
+            <!-- <li class="nav-item">
+              <router-link @click.native="logout" to="#" class="nav-link text-light">
                 <i class="material-icons md-32">logout</i>
-                
                 </router-link>
+                </li> -->
+            <li class="nav-item">
+              <router-link @click.native="logout" to="#" class="nav-link bg-danger rounded-pill text-light">로그아웃</router-link>
             </li>
             <li class="nav-item mx-1">
               <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="nav-link active">
@@ -68,7 +70,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }

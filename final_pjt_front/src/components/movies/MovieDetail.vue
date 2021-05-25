@@ -162,6 +162,7 @@ export default {
   beforeDestroy: function () {
     document.body.style.backgroundImage = "";
     document.body.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+
   }
 
   // created: function () {
@@ -174,7 +175,8 @@ export default {
 }
 </script>
 
-<style>
+
+<style scoped>
 .basic-info-card {
   /* background-color: rgba(54, 61, 88, 0.8); */
   /* background-color: rgba(46, 51, 77, 0.9); */
@@ -185,6 +187,7 @@ export default {
 
 .card {
   background-color: inherit;
+  /* background-color: transparent; */
 }
 
 .like-btn {
