@@ -1,7 +1,7 @@
 <template>
-  <div class="container row">
+  <div class="container row d-flex justify-content-center">
     <div class="col-6 card-body h-50" v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
-      <div class="card p-2">
+      <div class="card p-2 review-short-card">
         <div class="d-flex justify-content-between">
           <span class="fw-bold fs-5 pe-2">{{ review.title }}</span>
           <button :id="`likeCount-${review.id}`" class="btn" @click="updateReviewLikes(review, review.user)">
@@ -21,17 +21,19 @@
       </div>
     </div>
     <!-- {{ reviews[0].movie}} -->
-    <div v-if="reviews.length > 4">
-      <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-info">
-        더 많은 리뷰보기
-      </router-link>  
+    <div class="d-flex justify-content-end">
+      <div v-if="reviews.length > 4">
+        <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-info">
+          더 많은 리뷰
+        </router-link>  
+      </div>
+      <input
+        type="button"
+        class="text-decoration-none text-dark btn btn-primary text-white btn-xs mx-3"
+        @click="openReviewCreateModal"
+        value="리뷰 작성"
+      >
     </div>
-    <input
-      type="button"
-      class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
-      @click="openReviewCreateModal"
-      value="리뷰 작성하기"
-    >
   </div>
 </template>
 
@@ -113,7 +115,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .review-card {
   position: relative;
   display: inline-block;
@@ -135,4 +137,8 @@ export default {
   -webkit-box-orient: vertical;
 }
 
+.review-short-card {
+  background-color: rgba(41, 146, 152, 1);
+  border: 3px solid rgba(34, 41, 66, 0.9);
+}
 </style>
