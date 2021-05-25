@@ -106,7 +106,11 @@ for i in range(2):
                         # PAPAGO 언어 감지 결과 한글이면
                         NAVER_LANGEAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
                         # 파파고 요청 : post + header 필요
+                        print(name, movie_id, actor_id)
+                        test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers)
+                        # print(test_result_language)
                         test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers).json()
+                        print(test_result_language)
                         if test_result_language.get('langCode') == 'ko':
                             # actor_name = 한글 이름으로 교체
                             actor_name = name
