@@ -23,7 +23,6 @@ MOVIE_TOP_RATED_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={MO
 GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 MOVIE_API_URL = [MOVIE_POPULAR_URL, MOVIE_TOP_RATED_URL]
 MOVIE_MAX_PAGE = [500, 131]
-
 # for i in range(3):
 #     print(Movie.objects.get(pk=i))
 

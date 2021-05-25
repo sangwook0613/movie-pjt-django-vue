@@ -3,7 +3,7 @@
     <!-- {{ movieDetailInfo }} -->
     <!-- {{movieDetailInfo.movie_reviews}} -->
     <div class="my-3 fs-4 fw-bold">{{ movieDetailInfo.title }} 리뷰</div>
-    <div v-if="movieDetailInfo.movie_reviews.length === 0">
+    <div v-if="movieDetailInfo.movie_reviews.length === 0" class="d-flex flex-column align-items-center">
       <p><b>첫 번째 리뷰를 남겨주세요!</b></p>
       <input
         type="button"
