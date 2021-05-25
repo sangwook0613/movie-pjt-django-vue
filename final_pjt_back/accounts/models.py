@@ -4,5 +4,5 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
-    introduction = models.CharField(max_length=500, blank=True)
+    introduction = models.CharField(max_length=500, blank=True, null=True)
     # image = models.ImageField()

@@ -1,16 +1,17 @@
 <template>
   <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-dialog modal-xl">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">프로필 수정</h4>
+            <h4 class="modal-title">소개글 수정</h4>
             <button type="button" class="close" @click="[openModal(), modalData.profileUpdateModalStatus = false]"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             <div class="form-group pt-2">
-              <label for="profileUpdateIntroduction">자기소개: </label>      
-              <input type="text" class="form-control" v-model.trim="profileUpdateData.introduction" required>
+              <!-- <label for="profileUpdateIntroduction">소개글 작성</label> -->
+              <textarea cols="20" rows="5" v-model.trim="profileUpdateData.introduction" class="form-control"></textarea>
+              <!-- <input type="text" class="form-control" v-model.trim="profileUpdateData.introduction" required> -->
             </div>
             <button
               @click="[updateProfile(profileUpdateData), openModal(), modalData.profileUpdateModalStatus = false]"
@@ -55,7 +56,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .modal-mask {
   width: 100%;

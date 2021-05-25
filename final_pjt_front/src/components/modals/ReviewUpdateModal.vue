@@ -14,11 +14,14 @@
             </div>
             <div class="form-group pt-2">
               <label for="reviewUpdateContent">내용: </label>
-              <input type="text" class="form-control" v-model.trim="reviewUpdateData.content" required>
+              <textarea cols="30" rows="10" class="form-control" v-model.trim="reviewUpdateData.content" required></textarea>
+              <!-- <input type="text" class="form-control" v-model.trim="reviewUpdateData.content" required> -->
             </div>
             <div class="form-group pt-3">
-              <label for="reviewUpdateRating">평점: </label>
-              <input type='number' v-model="reviewUpdateData.rating" min='1' max='10' step='1' required>
+              <label for="rating-10">평점</label>
+              <b-form-rating show-value show-value-max id="rating-10" v-model="reviewUpdateData.rating" stars="10"></b-form-rating>
+              <!-- <p class="mt-2">: {{ reviewUpdateData.rating }}</p> -->
+              <!-- <input type='number' v-model="reviewUpdateData.rating" min='1' max='10' step='1' required> -->
             </div>
             <br />
             <button
@@ -66,7 +69,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .modal-mask {
   width: 100%;

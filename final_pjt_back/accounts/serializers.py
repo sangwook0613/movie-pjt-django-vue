@@ -13,11 +13,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'introduction')
+        fields = ('id', 'username','introduction',)
+        # exclude = ('password',)
 
 class FollowerSerializer(serializers.ModelSerializer):
 
@@ -42,5 +42,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
     like_reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ('username', 'introduction', 'followers', 'followings','followers_count', 'followings_count', 'reviews',
+        fields = ('id', 'username', 'introduction', 'followers', 'followings','followers_count', 'followings_count', 'reviews',
          'comments', 'like_movies', 'hate_movies', 'like_reviews')
