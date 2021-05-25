@@ -21,6 +21,12 @@
       </div>
       <div v-else class="d-flex justify-content-end">
         <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">프로필 수정</button>
+        <input
+          type="button"
+          class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
+          @click="openReviewCreateModal"
+          value="리뷰 작성하기"
+        >
       </div>
     </div>
     <br><hr>
@@ -79,12 +85,22 @@ export default {
     carousel,
   },
   methods: {
+    ...mapActions([
+      'openModal',
+    ]),
     ...mapActions('accountStore', [
       'getProfile',
       'followUser',
     ]),
+    openReviewCreateModal: function () {
+      this.openModal()
+      this.modalData.profileUpdateModalStatus = true
+    }
   },
   computed: {
+    ...mapState([
+      'modalData',
+    ]),
     ...mapState('accountStore', [
       'profile',
       'isFollow',

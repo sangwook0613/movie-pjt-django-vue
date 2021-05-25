@@ -4,30 +4,27 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">리뷰 수정</h4>
-            <button type="button" class="close" @click="[openModal(), modalData.reviewUpdateModalStatus = false]"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">리뷰 작성</h4>
+            <button type="button" class="close" @click="[openModal(), modalData.reviewCreateModalStatus = false]"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             <div class="form-group pt-2">
-              <label for="reviewUpdateTitle">제목: </label>      
-              <input type="text" class="form-control" v-model.trim="reviewUpdateData.title" required>
+              <label for="reviewCreateTitle">제목: </label>      
+              <input type="text" class="form-control" v-model.trim="reviewCreateData.title" required>
             </div>
             <div class="form-group pt-2">
-              <label for="reviewUpdateContent">내용: </label>
-              <input type="text" class="form-control" v-model.trim="reviewUpdateData.content" required>
+              <label for="reviewCreateContent">내용: </label>
+              <input type="text" class="form-control" v-model.trim="reviewCreateData.content" required>
             </div>
             <div class="form-group pt-3">
-              <label for="reviewUpdateRating">평점: </label>
-              <input type='number' v-model="reviewUpdateData.rating" min='1' max='10' step='1' required>
+              <label for="reviewCreateRating">평점: </label>
+              <input type='number' v-model="reviewCreateData.rating" min='1' max='10' step='1' required>
             </div>
             <br />
             <button
-              @click="[updateReview(reviewUpdateData), openModal(), modalData.reviewUpdateModalStatus = false]"
+              @click="[createReview(reviewCreateData), openModal(), modalData.reviewCreateModalStatus = false]"
               class="btn btn-primary"
-            >수정 완료</button>
-            <!-- <div align="center">
-              <input type="button" class="btn btn-success btn-xs" v-model="actionButton" @click="submitData" />
-            </div> -->
+            >작성</button>
           </div>
         </div>
       </div>
@@ -39,10 +36,10 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
-  name: 'ReviewUpdateModal',
+  name: 'ReviewCreateModal',
   data: function () {
     return {
-      reviewUpdateData: {
+      reviewCreateData: {
         title: '',
         content: '',
         rating: '',
@@ -60,7 +57,7 @@ export default {
       'openModal',
     ]),
     ...mapActions('communityStore', [
-      'updateReview',
+      'createReview',
     ])
   }
 }

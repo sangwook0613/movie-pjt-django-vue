@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # DB 구축용
-    path('updateDB/',views.updateDB),
+    # path('updateDB/',views.updateDB),
 
     # 영화정보 불러오기
     path('movie/', views.movie_list),

@@ -20,21 +20,23 @@
         </div>
       </div>
     </div>
-    <!-- <router-link :to="{ name: 'MovieReviewMore', params: { reviewId: review.id } }" class="text-decoration-none text-dark btn btn-info">
-      더 많은 리뷰보기
-    </router-link> -->
-    <router-link
-      :to="{ name: 'ReviewForm', params: { movieId: reviews[0].movie }}"
-      :reviewId=null
-      class="text-decoration-none text-dark btn btn-primary"
+    <!-- {{ reviews[0].movie}} -->
+    <div v-if="reviews.length > 4">
+      <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-info">
+        더 많은 리뷰보기
+      </router-link>  
+    </div>
+    <input
+      type="button"
+      class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
+      @click="openReviewCreateModal"
+      value="리뷰 작성하기"
     >
-      리뷰 작성하기
-    </router-link>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import _ from 'lodash'
 import axios from 'axios'
 import SERVER from '@/api/server.js'
@@ -46,7 +48,10 @@ export default {
       type: Array,
     }
   },
-  methods: {    
+  methods: { 
+    ...mapActions([
+      'openModal',
+    ]),
     updateReviewLikes: function (review, user_id) {
       const headers = this.config
       if (user_id !== this.jwtUserId && !_.includes(review.likes, this.jwtUserId)) {
@@ -85,6 +90,10 @@ export default {
         return 'crimson'
       }
       return 'black'
+    },
+    openReviewCreateModal: function () {
+      this.openModal()
+      this.modalData.reviewCreateModalStatus = true
     }
   },
   computed: {
@@ -92,6 +101,9 @@ export default {
       'config',
       'jwtUserId',
     ]),
+    ...mapState([
+      'modalData',
+    ])
   },
   watch: {
     review: function() {

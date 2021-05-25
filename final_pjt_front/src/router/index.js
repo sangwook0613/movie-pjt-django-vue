@@ -13,7 +13,7 @@ import MovieDetail from '@/components/movies/MovieDetail'
 // Community
 import Community from '@/views/Community'
 import ReviewDetail from '@/components/community/ReviewDetail'
-import ReviewForm from '@/components/community/ReviewForm'
+import MovieReviews from '@/components/community/MovieReviews'
 // Search
 import Search from '@/views/Search'
 // import SearchDetail from '@/components/search/SearchDetail'
@@ -39,8 +39,8 @@ const routes = [
   },
   {
     path: '/movie/:movieId/review',
-    name: 'ReviewForm',
-    component: ReviewForm,
+    name: 'MovieReviews',
+    component: MovieReviews,
   },
   {
     path: '/movie/:movieId/review/:reviewId',
