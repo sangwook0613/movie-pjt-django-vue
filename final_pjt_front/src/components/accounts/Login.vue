@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <br><br><br><br><br><br><br><br>
-    <h1 class="text-dark fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
+    <h1 class="text-light fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
     <br>
     <!-- ID -->
     <div class="row py-5 px-5">
@@ -27,9 +27,9 @@
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-dark btn-block"
+      <button type="submit" class="btn btn-light btn-block"
       @click="login(credentials)">로그인</button>
-      <router-link :to="{ name: 'Signup' }" class="btn btn-dark btn-block mx-3">회원가입</router-link>
+      <router-link :to="{ name: 'Signup' }" class="btn btn-light btn-block mx-3">회원가입</router-link>
 
     </div>
   </div>
@@ -59,6 +59,7 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 .login {
+  color: white;
   font-family: 'Lobster', cursive;
 }
 .animate__animated {
@@ -66,7 +67,7 @@ export default {
     --animate-delay     : 1s;
 }
 
-
+/* 
 .medium-small {
     font-size: 0.9rem;
     margin: 0;
@@ -110,5 +111,5 @@ export default {
     -ms-transform: translateY(0%);
     -o-transform: translateY(0%);
     transform: translateY(0%);
-}
+} */
 </style>

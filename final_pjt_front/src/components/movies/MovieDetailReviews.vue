@@ -74,6 +74,8 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+      } else {
+        alert('본인이 작성한 리뷰는 좋아요를 누를 수 없습니다.')
       }
     },
     makeBadge: function (num) {
@@ -113,7 +115,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .review-card {
   position: relative;
   display: inline-block;
