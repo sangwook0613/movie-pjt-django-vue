@@ -82,8 +82,13 @@ def profile(request, username):
 
         serializer = UpdateUserSerializer(User, data=request.data)
         # 유효성 검사 통과 못하면 400
+        # user = get_object_or_404(User, pk=request.data['username'])
+        username = request.data['username']
+        # print(request.data['user'])
+        serializer.is_valid()
+        print(serializer.errors)
         if serializer.is_valid(raise_exception=True):
-            user = serializer.save()
+            user = serializer.save(username=username)
             # 비밀번호 해싱
             user.set_password(request.data.get('password'))
             user.save()

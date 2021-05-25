@@ -47,8 +47,8 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # review_comments = CommunityCommentSerializer(many=True, read_only=True)
-    # comment_count = serializers.IntegerField(source='review_comments.count', read_only=True)
+    review_comments = CommunityCommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='review_comments.count', read_only=True)
     # movie, comments
     user = ReviewUserSerializer()
     movie = MovieSerializer()
@@ -56,4 +56,4 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         # fields = '__all__'
         fields = ('id', 'title', 'content', 'created_at', 'updated_at', 
-        'rating', 'likes', 'movie', 'user',)
+        'review_comments', 'comment_count', 'rating', 'likes', 'movie', 'user',)

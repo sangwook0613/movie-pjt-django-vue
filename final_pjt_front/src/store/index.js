@@ -327,6 +327,29 @@ const accountStore = {
         console.log(err)
       })
     },
+    updateProfile: function ({  getters, state }, updateData) {
+      const headers = getters.config
+      const username = state.profile.username
+      const updateForm = {
+        ...updateData,
+        username,
+      }
+      console.log(state.profile)
+      console.log(updateForm)
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.profile + `${username}/`,
+        method: 'put',
+        data: updateForm,
+        headers,
+      })
+      .then((res) => {
+        console.log(res)
+        // commit('GET_PROFILE', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   }
 }
 
@@ -395,6 +418,7 @@ const communityStore = {
         movie: movieStore.state.movieDetail.id,
         user: store.getters.jwtUserId
       }
+      console.log(inputForm)
       if (inputData.title !== '' && inputData.content !== '') {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review,
@@ -403,7 +427,8 @@ const communityStore = {
           headers,
         })
         .then((res) => {
-          router.push({ name: 'ReviewDetail', params: { movieId: res.data.id.movie, reviewId: res.data.id }})
+          console.log(res)
+          router.push({ name: 'ReviewDetail', params: { movieId: inputForm.movie, reviewId: res.data.id }})
         })
         .catch((err) => {
           console.log(err)
@@ -449,8 +474,8 @@ const communityStore = {
         movie: movieStore.state.movieDetail.id,
         user: store.getters.jwtUserId
       }
-      console.log(commentInput)
-      console.log(inputForm)
+      // console.log(commentInput)
+      // console.log(inputForm)
       if (inputForm.content !== '') {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review + `${commentInput.reviewId}/comments/`,
@@ -458,13 +483,9 @@ const communityStore = {
           data: inputForm,
           headers,
         })
-        .then((res) => {
+        .then(() => {
           dispatch('getReviewDetail', commentInput.reviewId)
-          // console.log(router)
-          // console.log(router.currentRoute)
-          // console.log(router.currentRoute.path)
-          // router.push(router.currentRoute.path)
-          router.push({ name: 'ReviewDetail', params: { movieId: res.data.id.movie, reviewId: res.data.id }})
+          router.push({ name: 'ReviewDetail', params: { movieId: inputForm.movie, reviewId: commentInput.reviewId }})
         })
         .catch((err) => {
           console.log(err)
@@ -546,7 +567,8 @@ const store = new Vuex.Store({
     modalStatus: false,
     modalData: {
       reviewUpdateModalStatus: false,
-      movieDetailModalStatus: false,
+      reviewCreateModalStatus: false,
+      profileUpdateModalStatus: false,
     },
   },
   getters: {

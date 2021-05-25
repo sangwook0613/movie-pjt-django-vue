@@ -18,8 +18,8 @@
       <button @click="showClickAdditionalDetail(1)" class="btn btn-primary btn-sm bg-success mx-1">관련 영상</button>
       <button @click="showClickAdditionalDetail(2)" class="btn btn-primary btn-sm bg-success mx-1">비슷한 작품</button>
     </div>
-    <MoreMovieDetail v-if="checkMovieDetailClicked[0]" :movieDetailInfo="movieDetail"/>
-    <MovieReviews v-if="checkCondition(movieDetail.movie_reviews, checkMovieDetailClicked[0])" :reviews="movieDetail.movie_reviews"/>
+    <NoMovieReview v-if="checkMovieDetailClicked[0]" :movieDetailInfo="movieDetail"/>
+    <MovieDetailReviews v-if="checkCondition(movieDetail.movie_reviews, checkMovieDetailClicked[0])" :reviews="movieDetail.movie_reviews"/>
     <MovieVideos v-if="checkCondition(movieDetail.title, checkMovieDetailClicked[1])" :movieTitle="movieDetail.title"/>
     <SimilarMovies v-if="checkMovieDetailClicked[2]"/>
   </div>
@@ -27,9 +27,9 @@
 
 <script>
 import SimilarMovies from '@/components/movies/SimilarMovies'
-import MoreMovieDetail from '@/components/movies/MoreMovieDetail'
+import NoMovieReview from '@/components/movies/NoMovieReview'
 import MovieVideos from '@/components/movies/MovieVideos'
-import MovieReviews from '@/components/movies/MovieReviews'
+import MovieDetailReviews from '@/components/movies/MovieDetailReviews'
 
 import { mapActions, mapState } from 'vuex'
 
@@ -37,9 +37,9 @@ export default {
   name: 'MovieDetail',
   components: {
     SimilarMovies,
-    MoreMovieDetail,
+    NoMovieReview,
     MovieVideos,
-    MovieReviews,
+    MovieDetailReviews,
   },
   data: function () {
     return {

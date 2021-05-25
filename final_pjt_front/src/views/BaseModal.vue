@@ -3,9 +3,12 @@
     <div v-if="modalData.reviewUpdateModalStatus">
       <ReviewUpdateModal/>
     </div>
-    <!-- <div v-if="modalData.reviewUpdateModalStatus">
-      <ReviewUpdateModal/>
-    </div> -->
+    <div v-if="modalData.reviewCreateModalStatus">
+      <ReviewCreateModal/>
+    </div>
+    <div v-if="modalData.profileUpdateModalStatus">
+      <ProfileUpdateModal/>
+    </div>
 
   </div>
   <!-- <transition name="modal">
@@ -40,11 +43,15 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import ReviewUpdateModal from '@/components/modals/ReviewUpdateModal'
+import ReviewCreateModal from '@/components/modals/ReviewCreateModal'
+import ProfileUpdateModal from '@/components/modals/ProfileUpdateModal'
 
 export default {
   name: 'BaseModal',
   components: {
     ReviewUpdateModal,
+    ReviewCreateModal,
+    ProfileUpdateModal,
   },
   computed: {
     ...mapState([
@@ -63,10 +70,9 @@ export default {
 
 .modal-mask {
   width: 100%;
-  height: 100%;
+  height: 130%;
   background: rgba(0, 0, 0, 0.5);
-  position: fixed;
+  position: absolute;
   padding: 20px;
-  margin-top: 50px;
 }
 </style>
