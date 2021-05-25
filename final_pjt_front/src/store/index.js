@@ -108,6 +108,10 @@ const movieStore = {
       })
       .then((res) => {
         commit('GET_MOVIE_DETAIL', res.data)
+        // const basicCard = document.querySelector('.basic-info-card')
+        // console.log(res)
+        // basicCard.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.movie.poster_path})`;
+        // console.log(basicCard)
         document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.backdrop_path})`;
 
         // console.log(res)

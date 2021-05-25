@@ -1,8 +1,8 @@
 <template>
-  <div class="card my-1 text-center">
+  <div class="card d-flex flex-column align-items-center">
     <!-- {{ movieDetailInfo }} -->
     <!-- {{movieDetailInfo.movie_reviews}} -->
-    <h4 class="my-3">{{ movieDetailInfo.title }} 리뷰</h4>
+    <div class="my-3 fs-4 fw-bold">{{ movieDetailInfo.title }} 리뷰</div>
     <div v-if="movieDetailInfo.movie_reviews.length === 0">
       <p><b>첫 번째 리뷰를 남겨주세요!</b></p>
       <input

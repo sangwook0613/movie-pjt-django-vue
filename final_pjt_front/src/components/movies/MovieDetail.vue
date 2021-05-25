@@ -2,18 +2,43 @@
   <div class="card text-light">
     <div class="mb-3 my-4">
       <div class="row g-0">
-        <div class="col-md-6">
+        <div class="basic-info-card">
           <div class="card-body">
-            <h5 class="card-title my-3">{{ movieDetail.title }}</h5>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="card-title fw-bold fs-1">{{ movieDetail.title }}</div>
+              <div>
+                <button :id="`likeCount-${movieDetail.id}`" class="btn bg-light like-btn" @click="updateMovieLikes(movieDetail)">
+                  <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInMovieLikes(movieDetail.likes)}"></i>
+                  <span>{{ movieDetail.likes.length }}</span>
+                </button>
+              </div>
+            </div>
+            <div class="fw-bold mb-3">
+              <span class="fs-4">{{ movieDetail.original_title }}</span>
+              <span class="fs-6 ms-3">{{ movieDetail.release_date.slice(0, 4)}}년</span>
+              <span class="fs-6 ms-1">{{ movieDetail.runtime }}분</span>
+            </div>
+            <div class="fs-5 fw-bold pt-3 pb-2">줄거리</div>
             <p class="card-text">{{ movieDetail.overview }}</p>
-            {{ movieDetail.likes.length }}
-            {{ movieDetail.likes }}
-            {{ movieDetail.id }}
+
+            <div><span class="fw-bold">감독: </span><span class="ms-2">{{ movieDetail.directors[0] }}</span></div>
+            <div>
+              <span class="fw-bold me-1">출연진: </span>
+              <span class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor }}</span>
+            </div>
+            <div>
+              <span class="fw-bold me-1">장르: </span>
+              <span class="ms-1" v-for="(genre, idx) in movieDetail.genres" :key="idx">{{ genre }}</span>
+            </div>
+            <div>
+              <span class="fw-bold me-1">키워드: </span>
+              <span class="ms-1" v-for="(keyword, idx) in movieDetail.keywords" :key="idx">{{ keyword }}</span>
+            </div>
             <!-- {{ movieDetail }} -->
-            <button :id="`likeCount-${movieDetail.id}`" class="btn bg-light" @click="updateMovieLikes(movieDetail)">
-              <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInMovieLikes(movieDetail.likes)}"></i>
-              <span>{{ movieDetail.likes.length }}</span>
-            </button>
+            <!-- {{ movieDetail.likes.length }}
+            {{ movieDetail.likes }}
+            {{ movieDetail.id }} -->
+            <!-- {{ movieDetail }} -->
           </div>
         </div>
         <!-- <div class="col-md-6 card">
@@ -21,15 +46,23 @@
         </div> -->
       </div>
     </div>
-    <div class="my-3 d-flex justify-content-start">
-      <button @click="showClickAdditionalDetail(0)" class="btn btn-primary btn-sm bg-success mx-1">상세 정보</button>
-      <button @click="showClickAdditionalDetail(1)" class="btn btn-primary btn-sm bg-success mx-1">관련 영상</button>
-      <button @click="showClickAdditionalDetail(2)" class="btn btn-primary btn-sm bg-success mx-1">비슷한 작품</button>
+    <div class="my-3 d-flex justify-content-center">
+      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">상세 정보</button>
+      <button @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">관련 영상</button>
+      <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">비슷한 작품</button>
     </div>
-    <NoMovieReview v-if="checkMovieDetailClicked[0]" :movieDetailInfo="movieDetail"/>
-    <MovieDetailReviews v-if="checkCondition(movieDetail.movie_reviews, checkMovieDetailClicked[0])" :reviews="movieDetail.movie_reviews"/>
-    <MovieVideos v-if="checkCondition(movieDetail.title, checkMovieDetailClicked[1])" :movieTitle="movieDetail.title"/>
-    <SimilarMovies v-if="checkMovieDetailClicked[2]"/>
+    <div class="additional-info-card d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" v-if="checkMovieDetailClicked[0]">
+        <NoMovieReview :movieDetailInfo="movieDetail"/>
+        <MovieDetailReviews v-if="checkCondition(movieDetail.movie_reviews)" :reviews="movieDetail.movie_reviews"/>
+      </div>
+      <div v-if="checkMovieDetailClicked[1]">
+        <MovieVideos v-if="checkCondition(movieDetail.title)" :movieTitle="movieDetail.title"/>
+      </div>
+      <div v-if="checkMovieDetailClicked[2]">
+        <SimilarMovies/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -98,11 +131,9 @@ export default {
       this.checkMovieDetailClicked = [false, false, false]
       this.checkMovieDetailClicked[idx] = true
     },
-    checkCondition: function (item1, item2) {
+    checkCondition: function (item1) {
       if (Object.keys(item1).length !== 0) {
-        if (item2) {
-          return true
-        }
+        return true
       }
       return false
     },
@@ -126,11 +157,12 @@ export default {
   created: function () {
     this.getMovieDetail(this.$route.params.movieId)
     this.checkMovieDetailClicked = [true, false, false]
+    // this.movieDetail.
   },
   beforeDestroy: function () {
-    // document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
-    document.body.style.backgroundImage = ""
-    document.body.style.backgroundColor = "rgba(0,0,0,0.9)"
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+
   }
 
   // created: function () {
@@ -143,8 +175,34 @@ export default {
 }
 </script>
 
+
 <style scoped>
-.card{
-  background-color: transparent;
+.basic-info-card {
+  /* background-color: rgba(54, 61, 88, 0.8); */
+  /* background-color: rgba(46, 51, 77, 0.9); */
+  background-color: rgba(34, 41, 66, 0.7);
+  border: 3px solid rgba(41, 146, 152, 1);
+  border-radius: .3rem;
+}
+
+.card {
+  background-color: inherit;
+  /* background-color: transparent; */
+}
+
+.like-btn {
+  border: 1px solid white;
+  background-color: inherit;
+}
+/* .more-detail-btn {
+  color: rgba(41, 146, 152, 1);
+  text-decoration: underline;
+} */
+.additional-info-card {
+  background-color: rgba(34, 41, 66, 0.7);
+  border: 3px solid rgba(41, 146, 152, 1);
+  border-radius: .3rem;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
 }
 </style>

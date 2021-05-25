@@ -1,6 +1,6 @@
 <template>
   <div>
-    <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="5">
+    <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="6">
       <div v-for="(movie, idx) in randomRecommendMovies" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top similar-transparent"
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style>
-.similar-transparent{
+/* .similar-transparent{
     opacity: 0.4;
-}
+} */
 </style>
