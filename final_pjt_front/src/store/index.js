@@ -380,6 +380,7 @@ const communityStore = {
     }
   },
   actions: {
+    // 이 action이 필요한가??
     getReview: function ({ commit, getters }) {
       const headers = getters.config
       axios({
@@ -495,6 +496,9 @@ const communityStore = {
       }
     },
     deleteComment: function ({ getters, dispatch }, commentInfo) {
+      // console.log(commentInfo.commentId)
+      // console.log(commentInfo.reviewId)
+      // console.log(commentInfo.movieId)
       const headers = getters.config
       axios({
         url: SERVER.URL + SERVER.ROUTES.comment + `${commentInfo.commentId}/`,

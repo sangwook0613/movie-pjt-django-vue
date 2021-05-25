@@ -32,6 +32,7 @@
         <input type="text" placeholder="댓글 입력" v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
         <button class="btn btn-info" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
       </div>
+      {{ reviewDetail.review_comments.length }}
       <div v-if="reviewDetail.comment_count !== 0">
         <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx" >
           <CommentCard :comment="comment" :movieId="reviewDetail.id"/>

@@ -4,10 +4,11 @@
       <div class="d-flex bd-highlight">
         <div class="p-2 bd-highlight">{{ comment.user.username }}:</div>
         <div class="p-2 bd-highlight">{{ comment.content }}</div>
+        <div class="p-2 bd-highlight">{{ comment.id }}</div>
           <button
             v-if="comment.user.id === jwtUserId"
             class="btn btn-danger btn-sm ms-auto p-2 bd-highlight"
-            @click="deleteComment(commentInfo)"
+            @click="[deleteComment(commentInfo), commentInfo.commentId = comment.id+1]"
           >삭제</button>
       </div>
     </div>
