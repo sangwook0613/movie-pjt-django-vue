@@ -1,5 +1,5 @@
 <template>
-  <!-- 잘못된 경로로 접근했을 시 나타나는 페이지 -->
+  <!-- 잘못된 경로로 접근했을 시 나타나는 페이지! -->
   <div class="center">
     <div class="center-inner">
       <div class="center-content">

@@ -262,3 +262,8 @@ movieselect 에서 skip 가능하게 => 추천영화 없으면 movie select로 �
 초기 페이지 login페이지로
 
 없는 url 입력시 이동하는 페이지 설정
+
+a태그로 django admin 페이지 하드코딩해서 보냄 (127.0.0.1:8000/admin/)
+
+초기 페이지 장르별로 1개씩 뽑아서 보여주기  완료
+

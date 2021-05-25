@@ -20,12 +20,26 @@
           </div>
         </ul>
 
-          <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
-            <!-- <li class="nav-item">
-              <router-link @click.native="logout" to="#" class="nav-link text-light">
-                <i class="material-icons md-32">logout</i>
-                </router-link>
-                </li> -->
+
+        <div class="dropdown mr-auto me-3 ms-5 d-flex align-items-center">
+          <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
+            <i class="fs-2 fw-bold far fa-user-circle"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+            <li><a href="http://127.0.0.1:8000/admin" class="dropdown-item fw-bold text-primary" v-if="profile.is_superuser">관리자 페이지</a></li>
+            <li><router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="dropdown-item fw-bold">
+              프로필 수정</router-link></li>
+            <li><router-link @click.native="logout" to="#" class="dropdown-item text-danger fw-bold">로그아웃</router-link></li>
+          </ul>
+        </div>
+
+
+
+          <!-- <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
+            <li class="nav-item" v-if="profile.is_superuser">
+              <a href="http://127.0.0.1:8000/admin" class="nav-link bg-primary rounded-pill text-light">관리자 페이지</a>
+            </li>
+
             <li class="nav-item">
               <router-link @click.native="logout" to="#" class="nav-link bg-danger rounded-pill text-light">로그아웃</router-link>
             </li>
@@ -34,7 +48,7 @@
                 <i class="fs-2 fw-bold far fa-user-circle"></i>
               </router-link>
             </li>
-          </ul>
+          </ul> -->
 
         </div>
       </div>
@@ -63,6 +77,9 @@ export default {
     ]),
     ...mapState('movieStore', [
       'searchInput'
+    ]),
+    ...mapState('accountStore', [
+      'profile'
     ]),
   },
 

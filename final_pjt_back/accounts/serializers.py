@@ -28,8 +28,8 @@ class FollowerSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     # 팔로워 수, 팔로잉 수
-    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
-    followings_count = serializers.IntegerField(source='followings.count', read_only=True)
+    # followers_count = serializers.IntegerField(source='followers.count', read_only=True)
+    # followings_count = serializers.IntegerField(source='followings.count', read_only=True)
     # 팔로워, 팔로잉
     followers = FollowerSerializer(many=True, read_only=True)
     followings = FollowerSerializer(many=True, read_only=True)
@@ -42,5 +42,5 @@ class UserProfileSerializer(serializers.ModelSerializer):
     like_reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ('id', 'username', 'introduction', 'followers', 'followings','followers_count', 'followings_count', 'reviews',
-         'comments', 'like_movies', 'hate_movies', 'like_reviews')
+        fields = ('id', 'username', 'introduction', 'followers', 'followings', 'reviews',
+         'comments', 'like_movies', 'hate_movies', 'like_reviews', 'is_superuser')

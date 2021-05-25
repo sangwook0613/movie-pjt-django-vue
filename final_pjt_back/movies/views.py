@@ -1,12 +1,7 @@
-from random import choice
-
 from django.http.response import HttpResponse
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.db.models import Max, query
-from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404, get_list_or_404
 
-
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -16,7 +11,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
-from .create_db import createDB
+# from .create_db import createDB
 
 
 # 전체 영화 리스트
@@ -98,7 +93,7 @@ def movie_like(request, movie_pk):
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def movie_likes(request, movie_pk):
+def movie_only_like(request, movie_pk):
     if request.method == 'POST':
         movie = get_object_or_404(Movie, pk=movie_pk)
         # 좋아요 눌려있으면
@@ -172,8 +167,26 @@ def search_person(request, name):
 @permission_classes([IsAuthenticated])
 def select_like_movie(request):
     # movies = Movie.objects.order_by('id')[:15]
-    movies = Movie.objects.order_by('?')[:15]
-    serializer = MovieListSerializer(movies, many=True)
+    movies = Movie.objects.order_by('?')
+    genres = Genre.objects.all()
+    # 20개 보여주기 위해 1개 넣고 시작 (장르 총 19개)
+    different_genre_movies = [movies[0]]
+    # for movie in movies:
+    #     print(movie.genres.all())
+    cnt = 0
+    for genre in genres:
+        for movie in movies:
+            chk = False
+            for movie_gen in movie.genres.all():
+                if genre == movie_gen and movie not in different_genre_movies:
+                    different_genre_movies.append(movie)
+                    # print(genre)
+                    chk = True
+                    break
+            if chk:
+                break
+
+    serializer = MovieListSerializer(different_genre_movies, many=True)
     return Response(serializer.data)
 
 
@@ -391,5 +404,5 @@ def create_csv(request):
 
 
 ## DB 생성하기
-def updateDB(request):
-    createDB(request)
+# def updateDB(request):
+#     createDB(request)

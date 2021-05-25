@@ -52,7 +52,7 @@ export default {
     ...mapActions([
       'login',
     ])
-  }
+  },
 } 
 </script>
 
