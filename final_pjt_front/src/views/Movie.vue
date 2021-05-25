@@ -3,42 +3,85 @@
     <!-- <h1 class="text-white">홈페이지!</h1> -->
     <!-- 랜덤 추천 영화 -->
     <h3>랜덤 추천 영화</h3>
-    <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="6">
+    <VueSlickCarousel v-if="randomRecommendMovies.length > 0" :arrows="true" v-bind="settings">
       <div v-for="(movie, idx) in randomRecommendMovies" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(1)">
         </router-link>
       </div>
-    </carousel>
+    </VueSlickCarousel>
+    <!-- <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="6">
+      <template slot="prev"><span class="prev nav-btn prev-slide"><i class='fa fa-chevron-left'></i></span></template>
+      <div v-for="(movie, idx) in randomRecommendMovies" :key="idx" class='card'>
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(1)">
+        </router-link>
+      </div>
+      <template slot="next"><span class="next nav-btn next-slide"><i class='fa fa-chevron-right'></i></span></template>
+    </carousel> -->
     <!-- 제일 많이 좋아하는 장르 추천 영화 -->
     <h3>제일 많이 좋아하는 장르 추천 영화</h3>
-    <carousel v-if="mostGenreRecommendMovie.length > 0" :nav="false" :items="6">
+    <VueSlickCarousel v-if="mostGenreRecommendMovie.length > 0" :arrows="true" v-bind="settings">
       <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(2)">
         </router-link>
       </div>
-    </carousel>
+    </VueSlickCarousel>
+    <!-- <carousel v-if="mostGenreRecommendMovie.length > 0" :nav="false" :items="6">
+      <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" class='card'>
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(2)">
+        </router-link>
+      </div>
+    </carousel> -->
     <!-- 장르 추천 영화 -->
     <h3>장르 추천 영화</h3>
-    <carousel v-if="genreRecommendMovie.length > 0" :nav="false" :items="6">
+    <VueSlickCarousel v-if="genreRecommendMovie.length > 0" :arrows="true" v-bind="settings">
       <div v-for="(movie, idx) in genreRecommendMovie" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
         </router-link>
       </div>
-    </carousel>
+    </VueSlickCarousel>
+    <!-- <carousel v-if="genreRecommendMovie.length > 0" :nav="false" :items="6">
+      <div v-for="(movie, idx) in genreRecommendMovie" :key="idx" class='card'>
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
+        </router-link>
+      </div>
+    </carousel> -->
   </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
+// import carousel from 'vue-owl-carousel'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+// optional style for arrows & dots
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Movie',
   components: {
-    carousel,
+    // carousel,
+    VueSlickCarousel,
+  },
+  data: function () {
+    return {
+      settings: {
+        // "dots": true,
+        // "infinite": true,
+        "initialSlide": 2,
+        "speed": 500,
+        "slidesToShow": 6,
+        "slidesToScroll": 1,
+        "swipeToSlide": true,
+        // "adaptiveHeight": true,
+        // "variableWidth": true,
+      },
+    }
   },
   computed: {
     ...mapState('movieStore', [
@@ -84,4 +127,34 @@ export default {
 h3 {
   color: white;
 }
+
+.nav-btn{
+  height: 47px;
+  position: absolute;
+  width: 26px;
+  cursor: pointer;
+  top: 100px !important;
+}
+
+/* .owl-prev.disabled,
+.owl-next.disabled{
+pointer-events: none;
+opacity: 0.2;
+} */
+
+/* .prev-slide{
+  background: no-repeat scroll 0 0;
+  left: -33px;
+}
+.next-slide{
+  background: no-repeat scroll -24px 0px;
+  right: -33px;
+} */
+.prev-slide:hover{
+  background-position: 0px -53px;
+}
+.next-slide:hover{
+  background-position: -24px -53px;
+}   
+
 </style>

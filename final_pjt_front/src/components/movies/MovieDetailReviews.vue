@@ -3,7 +3,14 @@
     <div class="col-6 card-body h-50" v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
       <div class="card p-2 review-short-card">
         <div class="d-flex justify-content-between">
-          <span class="fw-bold fs-5 pe-2">{{ review.title }}</span>
+          <span class="fw-bold fs-5 pe-2">
+            <router-link
+              :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
+              class="text-decoration-none text-dark text-end"
+            >
+              {{ review.title }}
+            </router-link>
+          </span>
           <button :id="`likeCount-${review.id}`" class="btn" @click="updateReviewLikes(review, review.user)">
             <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
             <span>{{ review.likes.length }}</span>
@@ -11,12 +18,12 @@
         </div>
         <div class="d-flex justify-content-between">
           <span :class="[makeBadge(review.rating), 'text-center']" style="width: 80px">평점: {{ review.rating }}</span>
-          <router-link
+          <!-- <router-link
             :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
             class="text-decoration-none text-dark text-end"
           >
             리뷰 상세보기
-          </router-link>
+          </router-link> -->
         </div>
       </div>
     </div>

@@ -1,13 +1,14 @@
 <template>
-  <div class="container row text-white text-center review-detail">
-    <div class="card col-6 review-form text-white">
+  <div class="container row text-white review-detail">
+    <div class="card col-6 review-card">
       <div class="card-body">
         <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
         <div class="card-text fs-5">{{ reviewDetail.content }}</div>
         <div>작성자: {{ reviewDetail.user.username }}</div>
+        <!-- 별로 바꾸기 -->
         <div>평점: {{ reviewDetail.rating }}</div>
-        <div>작성일: {{ reviewDetail.created_at|moment("from", "now") }}</div>
-        <div>수정일: {{ reviewDetail.updated_at|moment("from", "now") }}</div>
+        <span>작성일: {{ reviewDetail.created_at|moment("from", "now") }} | </span>
+        <span>수정일: {{ reviewDetail.updated_at|moment("from", "now") }}</span>
       </div>
       <div class="row" v-if="reviewDetail.user.id === jwtUserId">
         <div class="col-2"></div>
@@ -24,9 +25,9 @@
         <div class="col-1"></div>
       </div>
     </div>
-    <div class="poster-card col-6">
+    <!-- <div class="poster-card col-6">
       <img :src="reviewDetail.movie.poster_path" alt="poster-image" style="height: 400px;">
-    </div>
+    </div> -->
     <!-- {{reviewDetail}} -->
     <div class="comment-card col-12 mt-3">
       <div>
@@ -106,11 +107,13 @@ export default {
 </script>
 
 <style>
-.review-form {
+.review-card {
+  background-color: inherit;
   border-color: white;
   border-width: 2.5px;
   border-style: solid;
 }
+
 .review-detail{
   margin-left: 50px;
   margin-top: 50px;
@@ -128,7 +131,7 @@ export default {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  /* background-color: #fff; */
+  /* background-color: inherit; */
   background-clip: border-box;
   /* border: 1px solid rgba(0,0,0,.125); */
   border-radius: .25rem;
@@ -137,4 +140,6 @@ export default {
 .card {
   position: inherit;
 }
+
+
 </style>
