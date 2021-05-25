@@ -19,20 +19,14 @@
               <!-- <input type="text" class="form-control" v-model.trim="reviewCreateData.content" required> -->
             </div>
             <div class="form-group pt-3">
-              <!-- <label for="reviewCreateRating">평점: </label>
-              <input type='number' v-model="reviewCreateData.rating" min='1' max='10' step='1' required> -->
+              <label for="reviewCreateRating">평점: </label>
+              <input type='number' v-model="reviewCreateData.rating" min='1' max='10' step='1' required>
             </div>
-            <!-- <br /> -->
-            <label for="rating-10">평점</label>
-            <b-form-rating show-value show-value-max id="rating-10" v-model="reviewCreateData.rating" stars="10"></b-form-rating>
-            <!-- <p class="mt-2">Value: {{ reviewCreateData.rating }}</p> -->
             <br />
             <button
               @click="[createReview(reviewCreateData), openModal(), modalData.reviewCreateModalStatus = false]"
               class="btn btn-primary"
             >작성</button>
-
-
           </div>
         </div>
       </div>
@@ -47,7 +41,6 @@ export default {
   name: 'ReviewCreateModal',
   data: function () {
     return {
-      value10: null,
       reviewCreateData: {
         title: '',
         content: '',
@@ -73,6 +66,7 @@ export default {
 </script>
 
 <style scoped>
+
 .modal-mask {
   width: 100%;
   height: 100%;

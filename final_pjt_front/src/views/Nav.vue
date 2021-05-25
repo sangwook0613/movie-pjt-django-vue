@@ -4,12 +4,11 @@
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item mt-1 ms-2">
-              <i class="fas fa-dragon text-success fs-3"></i>
-            </li>
 
-            <li class="nav-item ms-3">
-                <router-link :to="{ name: 'Movie' }" class="nav-link active">Home</router-link>
+            <li class="nav-item">
+                <router-link :to="{ name: 'Movie' }" class="nav-link active">
+                  <span class="material-icons md-24">home</span>
+                </router-link>
             </li>
           <div class="d-flex">
             <input class="form-control-sm mx-2" @input="updateSearchInput" 
@@ -23,7 +22,10 @@
 
           <ul class="navbar-nav mr-auto me-3 ms-5 d-flex align-items-center">
             <li class="nav-item">
-              <router-link @click.native="logout" to="#" class="nav-link bg-danger rounded-pill text-light">로그아웃</router-link>
+              <router-link @click.native="logout" to="#" class="nav-link text-dark">
+                <i class="material-icons md-32">logout</i>
+                
+                </router-link>
             </li>
             <li class="nav-item mx-1">
               <router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="nav-link active">
@@ -67,6 +69,11 @@ export default {
 
 
 <style>
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-32 { font-size: 32px; }
+
 .navbar.transparent.navbar-inverse .navbar-inner {
     border-width: 0px;
     -webkit-box-shadow: 0px 0px;

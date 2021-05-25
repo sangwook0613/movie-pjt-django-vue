@@ -21,18 +21,18 @@
           <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">팔로우</button>
         </span>
       </div>
-      <div v-else>
-        <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">프로필 수정</button>
+      <div v-else class="pt-3">
+        <!-- <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">프로필 수정</button> -->
         <input
           type="button"
           class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
           @click="openReviewCreateModal"
-          value="리뷰 작성하기"
+          value="소개글 변경"
         >
       </div>
     </div>
     <h3 class="my-4 mt-5 fw-bold">Post Reviews</h3>
-    <p>제목을 누르면 리뷰 정보로 이동합니다.</p>
+    <p>제목을 클릭하면 리뷰 정보로 이동합니다.</p>
     <div class="row d-flex justify-content-evenly profile-detail mx-3">
       <div v-for="(review,idx) in profile.reviews" :key="'B'+idx" class="mt-3 card bg-white col-3 ms-3 me-3">
         <p class="mt-3"><b>{{ idx+1 }}. 
@@ -48,7 +48,7 @@
     </div>
     
     <h3 class="my-4 fw-bold">Like Reviews</h3>
-    <p>제목을 누르면 리뷰 정보로 이동합니다.</p>
+    <p>제목을 클릭하면 리뷰 정보로 이동합니다.</p>
     <div class="profile-detail">
       <div v-for="(likeReview,idx) in profile.like_reviews" :key="'D'+idx" class="my-2 card bg-white col-3 mx-5 ">
         <h5 class="mt-2">{{ idx+1 }}. 
@@ -68,7 +68,7 @@
     </div>
 
     <h3 class="my-4 fw-bold">Like Movies</h3>
-    <p>이미지를 누르면 상세정보로 이동합니다.</p>
+    <p>이미지를 클릭하면 상세정보로 이동합니다.</p>
     <carousel v-if="profile.like_movies.length > 0" :nav="false" :items="5" class="mx-3 profile-detail">
       <div v-for="(movie, idx) in profile.like_movies" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">

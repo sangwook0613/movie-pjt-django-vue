@@ -244,6 +244,7 @@ const movieStore = {
       commit('CLICK_SEARCH_CANCEL_BTN')
     },
     updateSearchInput: function ({ commit }, inputText) {
+      console.log(inputText)
       commit('UPDATE_SEARCH_INPUT', inputText.target.value.trim())
       console.log(inputText)
     }
@@ -330,8 +331,10 @@ const accountStore = {
     updateProfile: function ({  getters, state }, updateData) {
       const headers = getters.config
       const username = state.profile.username
+      console.log(state.profile)
       const updateForm = {
         ...updateData,
+        id: state.profile.id,
         username,
       }
       console.log(state.profile)

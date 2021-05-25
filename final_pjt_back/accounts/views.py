@@ -79,21 +79,17 @@ def profile(request, username):
         if request.user.username != username:
             # 403 error 반환
             return Response({'detail': '수정/삭제 권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-
-        serializer = UpdateUserSerializer(User, data=request.data)
-        # 유효성 검사 통과 못하면 400
-        # user = get_object_or_404(User, pk=request.data['username'])
-        username = request.data['username']
-        # print(request.data['user'])
+        my_user = get_object_or_404(User, id=request.data['id'])
+        serializer = UpdateUserSerializer(my_user, data=request.data)
         serializer.is_valid()
         print(serializer.errors)
+        # 유효성 검사 통과 못하면 400
         if serializer.is_valid(raise_exception=True):
-            user = serializer.save(username=username)
+            my_user = serializer.save()
             # 비밀번호 해싱
-            user.set_password(request.data.get('password'))
-            user.save()
+            # user.set_password(request.data.get('password'))
+            my_user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
