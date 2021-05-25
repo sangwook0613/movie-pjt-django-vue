@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="text-white">
     <h1>선호하는 영화를 선택해주세요.</h1>
     <!-- 5개 이상 선택 했을 경우에 제출 가능하게-->
     <div>
       <hr>
       <div class="text-center" v-if="selectLikeMovies.length >= 5">
-        <button @click="likeSelectMovie(selectLikeMovies)" class="btn btn-dark">선택완료</button><hr>
+        <button @click="likeSelectMovie(selectLikeMovies)" class="btn btn-light">선택완료</button><hr>
       </div>
       <div v-else class="text-center">
         <h2 class="animate__animated animate__headShake animate__infinite">최소 5개 이상 선택해주세요!</h2>
         <i><b>{{ profile.username }}</b>님께 맞는 영화 추천에 사용됩니다.</i><hr>
-        <span v-if="profile.like_movies.length > 5">
-          <button @click="$router.push({name: 'Movie'})">건너뛰기</button>
-        </span>
+        <!-- <span v-if="profile.like_movies.length > 5"> -->
+          <button @click="$router.push({name: 'Movie'})" class="btn btn-light">다음에 고를래요!</button>
+        <!-- </span> -->
       </div>
       <h5 class="text-center">{{ selectLikeMovies.length }} 개를 선택하셨습니다.</h5><br>
     </div>
@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .animate__animated {
     --animate-duration  : 0.8s;
     --animate-delay     : 0.8s;

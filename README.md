@@ -252,3 +252,13 @@ movie를 id값 넘겨줘야 되고, user정보를 넘기지 않아서 발생했�
 profile/admin -> profile/jihwn 으로 넘어가는데 라우터링크로 하면  jihwan으로 바뀌었다가 다시 돌아옴.
 
 a태그로 하니까 새로고침되면서 해결되는데 정확한 이유는 모르겠음.
+
+
+
+### 0525
+
+movieselect 에서 skip 가능하게 => 추천영화 없으면 movie select로 이동 버튼 생성
+
+초기 페이지 login페이지로
+
+없는 url 입력시 이동하는 페이지 설정
