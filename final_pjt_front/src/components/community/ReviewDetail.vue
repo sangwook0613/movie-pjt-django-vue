@@ -1,6 +1,6 @@
 <template>
-  <div class="container row text-white text-center review-detail">
-    <div class="card col-6 review-form text-white">
+  <div class="container row text-center review-detail">
+    <div class="card col-6 review-form">
       <div class="card-body">
         <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
         <div class="card-text fs-5">{{ reviewDetail.content }}</div>
@@ -13,7 +13,7 @@
         <div class="col-2"></div>
         <input
           type="button"
-          class="text-decoration-none text-dark btn btn-primary col-3 text-white btn-xs"
+          class="text-decoration-none btn btn-primary col-3 btn-xs"
           @click="openUpdateReviewModal"
           value="수정"
         >
