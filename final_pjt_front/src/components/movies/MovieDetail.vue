@@ -1,7 +1,7 @@
 <template>
   <div class="text-light">
     <div class="mb-3 my-4">
-      <div class="row g-0" :style="{ 
+      <div class="row g-0 rounded" :style="{ 
         backgroundImage: `linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 50%), url(${movieDetail.backdrop_path})`, backgroundSize: '800px 100%', backgroundPosition: 'right center', backgroundRepeat: 'no-repeat',
         }">
         <div class="col-5">
@@ -17,24 +17,34 @@
             </div>
             <div class="fw-bold mb-3">
               <span class="fs-4">{{ movieDetail.original_title }}</span>
-              <span class="fs-6 ms-3">{{ movieDetail.release_date.slice(0, 4)}}년</span>
-              <span class="fs-6 ms-1">{{ movieDetail.runtime }}분</span>
+              <span class="fs-7 ms-3">{{ movieDetail.release_date.slice(0, 4)}}년</span>
+              <span class="fs-7 ms-2">{{ movieDetail.runtime }}분</span>
             </div>
             <div class="fs-5 fw-bold pt-3 pb-2">줄거리</div>
             <p class="card-text">{{ movieDetail.overview }}</p>
-
-            <div><span class="fw-bold">감독: </span><span class="ms-2">{{ movieDetail.directors[0].name }}</span></div>
-            <div>
-              <span class="fw-bold me-1">출연진: </span>
-              <span class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
+            <div class="feature-box row">
+              <div class="fw-bold col-2">감독: </div>
+              <div class="col">
+                <span>{{ movieDetail.directors[0].name }}</span>
+              </div>
             </div>
-            <div>
-              <span class="fw-bold me-1">장르: </span>
-              <span class="ms-1" v-for="(genre, idx) in movieDetail.genres" :key="idx">{{ genre.name }} </span>
+            <div class="feature-box row">
+              <span class="fw-bold col-2">출연진: </span>
+              <div class="col">
+                <span class="me-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
+              </div>
             </div>
-            <div>
-              <span class="fw-bold me-1">키워드: </span>
-              <span class="ms-1" v-for="(keyword, idx) in movieDetail.keywords" :key="idx">{{ keyword.keyword_eng_name }} </span>
+            <div class="feature-box row">
+              <span class="fw-bold col-2">장르: </span>
+              <div class="col">
+                <span class="me-1" v-for="(genre, idx) in movieDetail.genres" :key="idx">{{ genre.name }} </span>
+              </div>
+            </div>
+            <div class="feature-box row">
+              <span class="fw-bold col-2">키워드: </span>
+              <div class="col">
+                <span class="me-1" v-for="(keyword, idx) in movieDetail.keywords" :key="idx">{{ keyword.keyword_eng_name }} </span>
+              </div>
             </div>
           </div>
         </div>
@@ -43,8 +53,8 @@
         </div>
       </div>
     </div>
-    <div class="my-3 d-flex justify-content-center">
-      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">상세 정보</button>
+    <div class="my-3 d-flex justify-content-center moreinfo-tag py-2 rounded">
+      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">리뷰 정보</button>
       <button @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">관련 영상</button>
       <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">비슷한 작품</button>
     </div>
@@ -197,10 +207,16 @@ export default {
   text-decoration: underline;
 } */
 .additional-info-card {
-  background-color: rgba(34, 41, 66, 0.7);
-  border: 3px solid rgba(41, 146, 152, 1);
   border-radius: .3rem;
   padding-bottom: 30px;
   margin-bottom: 50px;
+}
+
+.feature-box {
+  display: flex;
+}
+
+.moreinfo-tag {
+  background-color: #292828;
 }
 </style>

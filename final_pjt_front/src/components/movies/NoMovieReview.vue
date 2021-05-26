@@ -7,7 +7,7 @@
       <p><b>첫 번째 리뷰를 남겨주세요!</b></p>
       <input
         type="button"
-        class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
+        class="text-decoration-none text-dark btn text-white btn-xs custom-btn"
         @click="openReviewCreateModal"
         value="리뷰 작성하기"
       >
@@ -45,5 +45,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.custom-btn {
+  background-color: #00cecb;
+}
 </style>

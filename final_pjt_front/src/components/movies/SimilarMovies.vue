@@ -1,21 +1,22 @@
 <template>
   <div>
-    <carousel v-if="randomRecommendMovies.length > 0" :nav="false" :items="6">
-      <div v-for="(movie, idx) in randomRecommendMovies" :key="idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+    <div v-if="randomRecommendMovies.length > 0" class="d-flex">
+      <div v-for="(movie, idx) in randomRecommendMovies.slice(0, 4)" :key="idx" class="mx-3">
+        <div class="create-box rounded" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
+        </div>
+        <!-- <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top similar-transparent"
-          @click="[showClickMovieDetail(),getRandomRecommendMovie()]">
+          @click="[showClickMovieDetail(),getRandomRecommendMovie()]"> -->
                     <!-- @mouseover="moveDetail(movie.id)" -->
 
-        </router-link>
+        <!-- </router-link> -->
       </div>
 
-    </carousel>
+    </div>
   </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -24,9 +25,6 @@ export default {
     return {
       checkClick: false,
     }
-  },
-  components: {
-    carousel,
   },
   computed: {
     ...mapState('movieStore', [
@@ -57,4 +55,9 @@ export default {
 /* .similar-transparent{
     opacity: 0.4;
 } */
+
+.create-box {
+  width: 210px;
+  height: 350px;
+}
 </style>
