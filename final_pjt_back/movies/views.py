@@ -388,8 +388,3 @@ def create_csv(request):
     return response
     
 
-
-
-## DB 생성하기
-def updateDB(request):
-    createDB(request)
