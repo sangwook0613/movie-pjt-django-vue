@@ -20,14 +20,22 @@
       <template slot="next"><span class="next nav-btn next-slide"><i class='fa fa-chevron-right'></i></span></template>
     </carousel> -->
     <!-- 제일 많이 좋아하는 장르 추천 영화 -->
-    <h3>제일 많이 좋아하는 장르 추천 영화</h3>
-    <VueSlickCarousel v-if="mostGenreRecommendMovie.length > 0" :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(2)">
+    <div v-if="mostGenreRecommendMovie.length > 0">
+      <h3>제일 많이 좋아하는 장르 추천 영화</h3>
+      <VueSlickCarousel :arrows="true" v-bind="settings">
+        <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" class='card'>
+          <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(2)">
+          </router-link>
+        </div>
+      </VueSlickCarousel>
+    </div>
+    <h1 v-else class="text-light">
+      <hr>좋아하는 영화를 선택하시면 추천 영화를 볼 수 있습니다. <hr>
+        <router-link :to="{ name: 'MovieSelect'}">
+          <button class="btn btn-light">선택하러 가기</button>
         </router-link>
-      </div>
-    </VueSlickCarousel>
+    </h1>
     <!-- <carousel v-if="mostGenreRecommendMovie.length > 0" :nav="false" :items="6">
       <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
@@ -36,14 +44,16 @@
       </div>
     </carousel> -->
     <!-- 장르 추천 영화 -->
-    <h3>장르 추천 영화</h3>
-    <VueSlickCarousel v-if="genreRecommendMovie.length > 0" :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in genreRecommendMovie" :key="idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
-        </router-link>
-      </div>
-    </VueSlickCarousel>
+    <div v-if="genreRecommendMovie.length > 0">
+      <h3>장르 추천 영화</h3>
+      <VueSlickCarousel :arrows="true" v-bind="settings">
+        <div v-for="(movie, idx) in genreRecommendMovie" :key="idx" class='card'>
+          <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
+          </router-link>
+        </div>
+      </VueSlickCarousel>
+    </div>
     <!-- <carousel v-if="genreRecommendMovie.length > 0" :nav="false" :items="6">
       <div v-for="(movie, idx) in genreRecommendMovie" :key="idx" class='card'>
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">

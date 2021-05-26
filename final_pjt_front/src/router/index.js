@@ -23,6 +23,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login',
+  },
+  {
     path: '/signup',
     name: 'Signup',
     component: Signup,
@@ -99,6 +103,10 @@ const routes = [
     name: 'MovieSelect',
     component: MovieSelect,
   },
+  {
+    path: '*',
+    component: () => import('@/views/NotFoundPage.vue'),
+  }
 ]
 
 const router = new VueRouter({

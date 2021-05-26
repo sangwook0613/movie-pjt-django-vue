@@ -67,7 +67,10 @@ for i in range(2):
             MOVIE_DETAIL_URL = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={MOVIE_API_KEY}&language=ko-KR'
             movie_detail = requests.get(MOVIE_DETAIL_URL).json()
             movie_runtime = movie_detail.get('runtime')
-
+            movie_imdb_id = movie_detail.get('imdb_id')
+            if not movie_imdb_id:
+                print('imdb값 없음', movie_title)
+                continue
             movie_data = Movie(title=movie_title, original_title=movie_original_title, overview=movie_overview,
                 poster_path=f'https://image.tmdb.org/t/p/original{movie_poster_path}', runtime=movie_runtime,
                 backdrop_path=f'https://image.tmdb.org/t/p/original{movie_backdrop_path}', release_date=movie_release_date,
@@ -140,7 +143,7 @@ for i in range(2):
                 if director_null:
                     break
                 if cnt_director == 1:
-                        break
+                    break
                 if people.get('job') == 'Director':
                     director_id = people.get('id')
                     director_gender = people.get('gender')
@@ -168,7 +171,7 @@ for i in range(2):
                             break
 
                     if director_null:
-                        continue
+                        break
 
                     # Director 테이블에 중복검사
                     if not Person.objects.filter(id=director_id).exists():
@@ -190,7 +193,7 @@ for i in range(2):
             keywords = movie_keywords.get('keywords')
             for keyword in keywords:
                 keyword_id = keyword.get('id')
-                keyword_eng_name = keyword.get('name')
+                keyword_eng_name = keyword.get('name').title()
                 # 키워드 없으면 추가
                 if not Keyword.objects.filter(id=keyword_id).exists():
                     keyword_data = Keyword(id=keyword_id, keyword_eng_name=keyword_eng_name,)

@@ -6,8 +6,10 @@ urlpatterns = [
     path('movie/', views.movie_list),
     path('movie/selectlike/',views.select_like_movie),
     path('movie/<int:movie_pk>/', views.movie_detail),
+    # 좋아요 눌러져 있으면 취소
     path('movie/<int:movie_pk>/like/', views.movie_like),
-    path('movie/<int:movie_pk>/likes/', views.movie_likes),
+    # 좋아요만 가능
+    path('movie/<int:movie_pk>/likes/', views.movie_only_like),
     path('movie/<int:movie_pk>/hate/', views.movie_hate),
     path('search/<search_word>/', views.search),
     path('person/<name>/', views.search_person),
