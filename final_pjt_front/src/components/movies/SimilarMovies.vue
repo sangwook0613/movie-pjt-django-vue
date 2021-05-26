@@ -1,9 +1,14 @@
 <template>
   <div>
-    <div v-if="randomRecommendMovies.length > 0" class="d-flex">
-      <div v-for="(movie, idx) in randomRecommendMovies.slice(0, 4)" :key="idx" class="mx-3">
-        <div class="create-box rounded" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
-        </div>
+    <div v-if="similarRecommendMovie.length > 0" class="d-flex">
+      <div v-for="(movie, idx) in similarRecommendMovie.slice(0, 4)" :key="idx" class="mx-3">
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+          <div class="create-box rounded" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
+          </div>
+        </router-link>
+          <!-- <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top"> -->
+
+
         <!-- <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <img :src="movie.poster_path" alt="movie-poster" class="card-img-top similar-transparent"
           @click="[showClickMovieDetail(),getRandomRecommendMovie()]"> -->
@@ -28,24 +33,25 @@ export default {
   },
   computed: {
     ...mapState('movieStore', [
-      'randomRecommendMovies',
+      'similarRecommendMovie',
     ])
   },
   methods: {
     ...mapActions('movieStore', [
-      'getRandomRecommendMovie',
+      'getSimilarRecommendMovie',
     ]),
     showClickMovieDetail: function () {
       this.checkClick = !this.checkClick
     },
-    // moveDetail(movieId) {
-    //     setTimeout(() => {
-    //       this.$router.push({ name: 'MovieDetail', params: { movieId: movieId }})
-    //       }, 2000)
-    // },
+  },
+  watch: {
+    '$route.params.movieId': function() {
+    this.getSimilarRecommendMovie(this.$route.params.movieId)
+    },
   },
   created: function () {
-    this.getRandomRecommendMovie()
+    // console.log(this.$route.params.movieId)
+    this.getSimilarRecommendMovie(this.$route.params.movieId)
   },
   
 }

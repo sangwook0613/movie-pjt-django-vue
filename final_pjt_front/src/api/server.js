@@ -21,7 +21,7 @@ export default {
     getNewRecommendMovie: '/api/m1/movie/recommend/new/',
     getRatingRecommendMovie: '/api/m1/movie/recommend/rating/',
     getRuntimeRecommendMovie: '/api/m1/movie/recommend/runtime/',
-
+    getSimilarRecommendMovie: '/api/m1/movie/recommend/similargenre/',
     // 리뷰 관련 API
     review: '/api/c1/review/',
     comment: '/api/c1/comments/',

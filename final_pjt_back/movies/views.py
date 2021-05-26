@@ -14,7 +14,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
 from django.db.models import Q
+
 from .create_db import createDB
+
+from drf_yasg.utils import swagger_auto_schema
 
 # 전체 영화 리스트
 # @api_view(['GET', 'POST'])
@@ -70,6 +73,7 @@ def movie_detail(request, movie_pk):
             return Response(serializer.data)
     '''
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -92,6 +96,7 @@ def movie_like(request, movie_pk):
 
 
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -112,6 +117,7 @@ def movie_only_like(request, movie_pk):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -125,6 +131,7 @@ def movie_hate(request, movie_pk):
 
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
+
 
 
 @api_view(['GET'])
@@ -360,10 +367,6 @@ def recommend_genre(request):
 
 
 
-
-
-
-
 # 선호 keyword 관련 추천
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -421,14 +424,38 @@ def recommend_keyword_most(request):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def recommend_similar_genre(request, movie_pk):
-    pass
+    # 중복제거용 set
+    result = set()
+    # 현재 영화
+    my_movie = Movie.objects.get(pk=movie_pk)
+    # 현재 영화를 제외한 영화들
+    movies = Movie.objects.exclude(pk=movie_pk)
+    # 현재 영화가 가진 장르들
+    genres = my_movie.genres.all()
+    genre_length = len(genres)
+    # 전체 영화 돌면서
+    for movie in movies:
+        cnt = 0
+        # 영화의 장르들을 전체 돌면서
+        movie_genres = movie.genres.all()
+        # 장르가 몇번 나왔는지카운트
+        for movie_genre in movie_genres:
+            if movie_genre in genres:
+                cnt += 1
+            # 현재 영화와 장르가 모두 일치하거나 3개 이상 일치하면 추가
+            if cnt >= 3 or cnt >= genre_length:
+                result.add(movie)
 
-
-
-
-
-
-
+        # 5개의 데이터만 리턴
+        if len(result) >= 5:
+            serializer = MovieListSerializer(result, many=True)
+            return Response(serializer.data)
+    # 5개 미만이면 그대로 리턴
+    if result:
+        serializer = MovieListSerializer(result, many=True)
+        return Response(serializer.data)
+    # 없으면 204
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # 개봉순
@@ -460,68 +487,7 @@ def movie_runtime(request):
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
 
-import csv
-import datetime
-from django.http import HttpResponse
 
-
-
-#### 추후 작업 필요 ####
-
-# 클러스터링을 활용하여 유저 맞춤 추천
-@api_view(['GET'])
-# @authentication_classes([JSONWebTokenAuthentication])
-# @permission_classes([IsAuthenticated])
-def recommend_likes(request):
-    pass
-    # print(Movie.objects.get(id=50).release_date)
-    # print(type(Movie.objects.get(id=50).release_date))
-    # print(datetime.date.today())
-    # print(type(datetime.date.today()))
-    # print(datetime.date.today() > '2019-01-01')
-    # print(datetime.date.today() > Movie.objects.get(id=1).release_date)
-
-    # cnt = 0
-    # for keyword in Keyword.objects.all():
-    #     if keyword.keyword_count == 1:
-    #         cnt += 1
-    # print(cnt, len(Keyword.objects.all()))
-    
-    # cut_num = 1
-    # for keyword in Keyword.objects.all():
-    #     if keyword.keyword_count == cut_num:
-    #         keyword.delete()
-    
-    # print(len(Keyword.objects.all()))
-
-
-
-def create_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    writer = csv.writer(response)
-
-    # 컬럼명 생성
-    column_names = ['id']
-    for genre in Genre.objects.all():
-        column_names.append(f'g_{genre.id}')
-
-    for keyword in Keyword.objects.all():
-        column_names.append(f'k_{keyword.id}')
-    print(len(column_names))
-    writer.writerow(column_names)
-
-    # row데이터 추가
-    for i in range(5):
-        temp_row = []
-        for j in range(len(column_names)):
-            temp_row.append(j)
-        writer.writerow(temp_row)
-    
-
-    response['Content-Disposition'] = 'attachment; filename="movie_data.csv"'
-    return response
-
-
-
+# DB 업데이트용
 def update_DB(request):
     createDB(request)

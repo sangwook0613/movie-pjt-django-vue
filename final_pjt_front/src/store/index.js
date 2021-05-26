@@ -21,6 +21,7 @@ const movieStore = {
     newRecommendMovie: [],
     ratingRecommendMovie: [],
     runtimeRecommendMovie: [],
+    similarRecommendMovie: [],
     movieDetail: [],
     // 영화 관련 영상 state
     movieVideos: [],
@@ -78,6 +79,9 @@ const movieStore = {
     },
     GET_RUNTIME_RECOMMEND_MOVIES: function (state, movies) {
       state.runtimeRecommendMovie = movies
+    },
+    GET_SIMILAR_RECOMMEND_MOVIES: function (state, movies) {
+      state.similarRecommendMovie = movies
     },
 
     // 영화 영상 관련 mutations
@@ -274,6 +278,21 @@ const movieStore = {
       .then((res) => {
         commit('GET_RUNTIME_RECOMMEND_MOVIES', res.data)
         // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getSimilarRecommendMovie: function ({ commit, getters }, movieId) {
+      const headers = getters.config
+      console.log(SERVER.URL + SERVER.ROUTES.getSimilarRecommendMovie + `${movieId}/`)
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getSimilarRecommendMovie + `${movieId}/`,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_SIMILAR_RECOMMEND_MOVIES', res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -719,6 +738,7 @@ const store = new Vuex.Store({
       movieStore.state.newRecommendMovie = [],
       movieStore.state.ratingRecommendMovie = [],
       movieStore.state.runtimeRecommendMovie = [],
+      movieStore.state.similarRecommendMovie = [],
       movieStore.state.movieDetail = [],
       movieStore.state.movieVideos = [],
       movieStore.state.selectedVideo = '',
