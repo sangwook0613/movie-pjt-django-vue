@@ -2,9 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # DB 구축용
-    # path('updateDB/',views.updateDB),
-
     # 영화정보 불러오기
     path('movie/', views.movie_list),
     path('movie/selectlike/',views.select_like_movie),

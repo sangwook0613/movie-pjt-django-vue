@@ -406,10 +406,4 @@ def create_csv(request):
 
     response['Content-Disposition'] = 'attachment; filename="movie_data.csv"'
     return response
-    
 
-
-
-## DB 생성하기
-# def updateDB(request):
-#     createDB(request)
