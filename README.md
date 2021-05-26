@@ -268,3 +268,14 @@ a태그로 django admin 페이지 하드코딩해서 보냄 (127.0.0.1:8000/admi
 초기 페이지 장르별로 1개씩 뽑아서 보여주기  완료
 
 imdb_id 값이 없는 영화 필터링 => 이상한 영화들이 많이 저장되서 거름
+
+
+
+### 0526
+
+```
+# error
+django.db.utils.OperationalError: parser stack overflow
+```
+
+person 너무 많아서 recurssion 에러발생

@@ -1,3 +1,5 @@
+import re
+from django.db.models.query import QuerySet
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -11,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
-# from .create_db import createDB
+from django.db.models import Q
 
 
 # 전체 영화 리스트
@@ -129,26 +131,36 @@ def movie_hate(request, movie_pk):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def search(request, search_word):
+    # 영화 전체, 배우 + 감독 전체
     movies = Movie.objects.all()
     persons = Person.objects.all()
-    # for person in persons:
-    #     if search_word in person.name or search_word in person.eng_name:
-    #         print(person.id)
-            # print(search_person)
 
-    print(persons)
     if request.method == 'GET':
-        search_title = movies.filter(title__contains=search_word)
-        search_overview = movies.filter(overview__contains=search_word)
-        search_original_title = movies.filter(original_title__contains=search_word)
-        result = search_title.union(search_overview, all=False)
-        result = result.union(search_original_title, all=False)
+        # 결과값 담을 빈 쿼리셋 생성
+        result = Movie.objects.none()
+        search_movie = movies.filter(Q(title__contains=search_word) | Q(overview__contains=search_word) | Q(original_title__contains=search_word))
+        result = result.union(search_movie, all=False)
 
-        if result:
+        if result.count() >= 50:
+            result = result.order_by('-vote_count')[:50]
+            print(result)
             serializer = MovieListSerializer(result, many=True)
             return Response(serializer.data)
+
+
+        # 전체 person에서 검색어 포함하는 이름 가지고 있는 사람들 필터링 (여기선 배우 + 감독)
+        search_person = persons.filter(Q(name__contains=search_word) | Q(eng_name__contains=search_word))
+
+        # 뽑은 사람들 전체 돌면서 같은 이름 포함하면 더하기
+        for person in search_person:
+            search_person = movies.filter(Q(actors__name__contains=person.name) | Q(directors__name__contains=person.name)).distinct()
+            result = result.union(search_person, all=False)
+        
+        if result:
+            serializer = MovieListSerializer(result[:50], many=True)
+            return Response(serializer.data)
         else:
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)        
 
 
 
