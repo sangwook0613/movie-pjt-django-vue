@@ -416,9 +416,49 @@ def recommend_keyword_most(request):
 
 
 
+# 선택한 영화와 비슷한 장르의 영화 추천
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def recommend_similar_genre(request, movie_pk):
+    pass
 
 
 
+
+
+
+
+
+
+# 개봉순
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def movie_new(request):
+    movies = Movie.objects.exclude(runtime=0).order_by('-release_date')[:20]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+# 평점순
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def movie_rating(request):
+    movies = Movie.objects.order_by('likes__count')[:20]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
+
+
+# 시간순
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def movie_runtime(request):
+    movies = Movie.objects.exclude(runtime=0).order_by('runtime')[:20]
+    serializer = MovieListSerializer(movies, many=True)
+    return Response(serializer.data)
 
 import csv
 import datetime

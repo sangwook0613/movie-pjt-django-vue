@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, } from 'vuex'
 
 export default {
   name: 'ReviewUpdateModal',
@@ -56,7 +56,11 @@ export default {
     ...mapState([
       'modalStatus',
       'modalData',
-    ])
+    ]),
+    ...mapState('communityStore', [
+      'reviewDetail'
+    ]),
+
   },
   methods: {
     ...mapActions([
@@ -65,6 +69,12 @@ export default {
     ...mapActions('communityStore', [
       'updateReview',
     ])
+  },
+  // 생성될 때 data값 가져온다.
+  created: function () {
+    this.reviewUpdateData.title = this.reviewDetail.title
+    this.reviewUpdateData.content = this.reviewDetail.content
+    this.reviewUpdateData.rating = this.reviewDetail.rating
   }
 }
 </script>

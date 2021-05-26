@@ -18,8 +18,13 @@ export default {
     getMostGenreRecommendMovie: '/api/m1/movie/recommend/genre/most/',
     getGenreRecommendMovie: '/api/m1/movie/recommend/genre/',
     getKeywordRecommendMovie: '/api/m1/movie/recommend/keyword/',
+    getNewRecommendMovie: '/api/m1/movie/recommend/new/',
+    getRatingRecommendMovie: '/api/m1/movie/recommend/rating/',
+    getRuntimeRecommendMovie: '/api/m1/movie/recommend/runtime/',
+
     // 리뷰 관련 API
     review: '/api/c1/review/',
     comment: '/api/c1/comments/',
+
   }
 }

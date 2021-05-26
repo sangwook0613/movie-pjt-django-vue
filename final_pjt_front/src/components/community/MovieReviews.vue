@@ -1,11 +1,53 @@
 <template>
   <div>
     <h1 class="text-light">{{ movieDetail.title }} 리뷰</h1>
-    <div>
-      <!-- {{ movieDetail.movie_reviews }} -->
-      <div v-for="(review, idx) in movieDetail.movie_reviews" :key="idx">
-        <!-- {{ review }} -->
-        <div class="card p-2 mb-3">
+    <div class="col-6 offset-3">
+      <!-- <div class="text-white">{{ movieDetail }}</div> -->
+      <div class="card-body h-50 component-1 mb-2" v-for="(review, idx) in reverseReviews" :key="idx">
+        <router-link
+          :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
+          class="text-decoration-none text-dark"
+        >
+          <div class="d-flex flex-column align-items-start">
+            <div class=" d-flex justify-content-start">
+              <img
+                alt="profile-image"
+                class="ellipse-2"
+                src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
+              />
+              <div>
+                <p class="username">{{ review.user.username }}</p>
+                <p class="rating">평점 {{ review.rating }}</p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="title fw-bold">
+                {{ review.title }}
+              </div>
+              <!-- 내용이 없음 -->
+              <div class="content">
+                {{ review.content }}
+              </div>
+              <div class="rating">&#43; 더보기</div>
+            </div>
+          </div>
+        </router-link>
+          <div class="d-flex align-items-center">
+            <div :id="`likeCount-${review.id}`" class="" @click="updateReviewLikes(review, review.user.id)">
+              <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
+              <span class="ps-2 rating">{{ review.likes.length }}</span>
+            </div>
+            <div class="comment-count">
+                <img
+                  alt=""
+                  class="vector"
+                  src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
+                />
+              <span class="ps-2 rating">{{ review.comment_count }}</span>
+            </div>
+          </div>
+      </div>
+        <!-- <div class="card p-2 mb-3">
           <div class="d-flex justify-content-between pb-2">
             <div class="d-flex align-items-center">
               <span class="fw-bold fs-5 pe-2">{{ review.title }}</span>
@@ -25,11 +67,11 @@
               리뷰 상세보기
             </router-link>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
-    <button @click="goBack" class="btn btn-info">이전 페이지로</button>
-  </div>
+    <!-- <button @click="goBack" class="btn btn-info">이전 페이지로</button>
+  </div> -->
 </template>
 
 <script>
@@ -104,10 +146,20 @@ export default {
     ]),
     ...mapState('movieStore', [
       'movieDetail',
-    ])
+    ]),
+    reverseReviews: function () {
+      return _.reverse(this.movieDetail.movie_reviews)
+    }
   },
   created: function () {
     this.getMovieDetail(this.$route.params.movieId)
+  },
+  updated: function () {
+      document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${this.movieDetail.backdrop_path})`;
+  },
+  beforeDestroy: function () {
+    document.body.style.backgroundImage = ""
+    document.body.style.backgroundColor = "#141414"
   }
 }
 </script>
