@@ -1,9 +1,9 @@
+from json import JSONDecodeError
 import requests
 import datetime
 from bs4 import BeautifulSoup
 from pprint import pprint
 from decouple import config
-
 from .models import Genre, Movie, Keyword, Person
 
 ### 사용할 API 정리
@@ -18,12 +18,13 @@ MOVIE_POPULAR_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={MOVIE_
 MOVIE_TOP_RATED_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={MOVIE_API_KEY}&language=ko-KR&region=KR'
 GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={MOVIE_API_KEY}&language=ko-KR'
 MOVIE_API_URL = [MOVIE_POPULAR_URL, MOVIE_TOP_RATED_URL]
-MOVIE_MAX_PAGE = [100, 100]
-
+MOVIE_MAX_PAGE = [500, 131]
+# for i in range(3):
+#     print(Movie.objects.get(pk=i))
 
 def createDB(request):
     for i in range(2):
-        page = 1    
+        page = 1
         while page <= MOVIE_MAX_PAGE[i]: # 해당 API의 max_page만큼 진행
             print(page)
             MOVIE_URL = f'{MOVIE_API_URL[i]}&page={page}'
@@ -39,6 +40,9 @@ def createDB(request):
                 genre_data.save()
             
             for movie in movies:
+                # 감독 정보 저장 가능한지 체크
+                director_null = False
+
                 movie_id = movie.get('id')
                 movie_title = movie.get('title')
                 movie_original_title = movie.get('original_title')
@@ -53,14 +57,17 @@ def createDB(request):
                 # 영화 포스터가 없는 경우, 줄거리가 없는 경우, 아직 개봉하지 않은 영화인 경우 추가하지 않는다.
                 # if not movie_backdrop_path or not movie_poster_path or not movie_overview or (datetime.date.today() > datetime.datetime.strptime(movie_release_date, '%Y-%m-%d')):
                 if not movie_backdrop_path or not movie_poster_path or not movie_overview or not movie_release_date:
-                    print('break')
+                    print('개봉 전 영화')
                     continue
 
                 # DEATIL API 에서 추가 정보 받아오기
                 MOVIE_DETAIL_URL = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={MOVIE_API_KEY}&language=ko-KR'
                 movie_detail = requests.get(MOVIE_DETAIL_URL).json()
                 movie_runtime = movie_detail.get('runtime')
-
+                movie_imdb_id = movie_detail.get('imdb_id')
+                if not movie_imdb_id:
+                    print('imdb값 없음', movie_title)
+                    continue
                 movie_data = Movie(title=movie_title, original_title=movie_original_title, overview=movie_overview,
                     poster_path=f'https://image.tmdb.org/t/p/original{movie_poster_path}', runtime=movie_runtime,
                     backdrop_path=f'https://image.tmdb.org/t/p/original{movie_backdrop_path}', release_date=movie_release_date,
@@ -73,6 +80,7 @@ def createDB(request):
                     for g in movie_genres:
                         movie_data.genres.add(g)
                 else:
+                    print("이미 저장한 영화")
                     continue
 
                 # CREDIT에서 people 정보 받아오기
@@ -99,13 +107,20 @@ def createDB(request):
                         names = actor_detail.get('also_known_as')
                         for name in names:
                             # PAPAGO 언어 감지 결과 한글이면
-                            NAVER_LANGEAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
+                            NAVER_LANGUAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
                             # 파파고 요청 : post + header 필요
-                            test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers).json()
-                            if test_result_language.get('langCode') == 'ko':
-                                # actor_name = 한글 이름으로 교체
-                                actor_name = name
-                                break
+                            # print(name, movie_id, actor_id)
+                            # test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers)
+                            # print(test_result_language)
+                            try:
+                                test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers).json()
+                                if test_result_language.get('langCode') == 'ko':
+                                    # actor_name = 한글 이름으로 교체
+                                    actor_name = name
+                                    break
+                            except JSONDecodeError:
+                                print("actor JSONDecodeError")
+                                continue
 
                         # Actor 테이블에 중복검사
                         if not Person.objects.filter(id=actor_id).exists():
@@ -122,8 +137,10 @@ def createDB(request):
                 # 감독
                 for people in crew:
                     # 감독 = 1명
+                    if director_null:
+                        break
                     if cnt_director == 1:
-                            break
+                        break
                     if people.get('job') == 'Director':
                         director_id = people.get('id')
                         director_gender = people.get('gender')
@@ -136,13 +153,22 @@ def createDB(request):
                         names = director_detail.get('also_known_as')
                         for name in names:
                             # PAPAGO 언어 감지 결과 한글이면
-                            NAVER_LANGEAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
+                            NAVER_LANGUAGE_URL = f'{NAVER_PAPAGO_DETECT_URL}?query={name}'
                             # 파파고 요청 : post + header 필요
-                            test_result_language = requests.post(NAVER_LANGEAGE_URL,headers=headers).json()
-                            if test_result_language.get('langCode') == 'ko':
-                                # director_name = 한글 이름으로 교체
-                                director_name = name
+                            try:
+                                test_result_language = requests.post(NAVER_LANGUAGE_URL,headers=headers).json()
+                                if test_result_language.get('langCode') == 'ko':
+                                    # director_name = 한글 이름으로 교체
+                                    director_name = name
+                                    break
+                            except JSONDecodeError:
+                                print("director JSONDecodeError")
+                                movie_data.delete()
+                                director_null = True
                                 break
+
+                        if director_null:
+                            break
 
                         # Director 테이블에 중복검사
                         if not Person.objects.filter(id=director_id).exists():
@@ -156,12 +182,15 @@ def createDB(request):
                         movie_data.directors.add(director_id)
                         cnt_director += 1
                 
+                if director_null:
+                    continue
+                
                 MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api_key={MOVIE_API_KEY}'
                 movie_keywords = requests.get(MOVIE_KEYWORD_URL).json()
                 keywords = movie_keywords.get('keywords')
                 for keyword in keywords:
                     keyword_id = keyword.get('id')
-                    keyword_eng_name = keyword.get('name')
+                    keyword_eng_name = keyword.get('name').title()
                     # 키워드 없으면 추가
                     if not Keyword.objects.filter(id=keyword_id).exists():
                         keyword_data = Keyword(id=keyword_id, keyword_eng_name=keyword_eng_name,)
@@ -190,10 +219,16 @@ def createDB(request):
             page += 1
 
 
-    ### 키워드 전처리 작업 진행
-    # cut_num = 10
-    # for keyword in Keyword.objects.all():
-    #     if keyword.keyword_count < cut_num:
-    #         keyword.delete()
-    
+    # 키워드 전처리 작업 진행
+    cut_num = 10
+    cnt = 0
+    for keyword in Keyword.objects.all():
+        if keyword.keyword_count < cut_num:
+            cnt += 1
+            keyword.delete()
+        if cnt % 100 == 0:
+            print(cnt)
+
+    # print(cnt)
+
     # 키워드 번역 작업진행

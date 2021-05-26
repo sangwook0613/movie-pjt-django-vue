@@ -14,7 +14,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
 from django.db.models import Q
-
+from .create_db import createDB
 
 # 전체 영화 리스트
 # @api_view(['GET', 'POST'])
@@ -219,7 +219,6 @@ def recommend_random(request):
     return Response(serializer.data)
 
 
-
 # most 장르 추천
 @api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
@@ -359,9 +358,72 @@ def recommend_genre(request):
     return Response(serializer.data)
 
 
+
+
+
+
+
+
+# 선호 keyword 관련 추천
+@api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def recommend_keyword_most(request):
+    # 내가 좋아요 한 영화들 가져온다.
+    movies = request.user.like_movies.all()
+    # 장르 카운팅할 dict
+    keyword_cnt = {}
+    # 영화들 반복하면서
+    for movie in movies:
+        # 장르들을 가져온다.
+        keywords = movie.keywords.all()
+        # 장르를 돌면서 카운팅
+        for keyword in keywords:
+            if keyword_cnt.get(keyword):
+                keyword_cnt[keyword] += 1
+            else:
+                keyword_cnt[keyword] = 1
+    
+    # 최댓값 가진 장르 찾기
+    most_keyword = 0
+    for key, value in sorted(keyword_cnt.items(), key=lambda item: item[1], reverse=True):
+        most_keyword = key
+        break
+
+    # 제일 좋아하는 장르의 id
+    most_keyword_id = most_keyword.pk
+
+    # 내가 이미 좋아요 누른 영화들 제외하고 전체 영화 쿼리셋 생성
+    exclude_movies = Movie.objects.exclude(pk__in=[movie.pk for movie in movies]).order_by('vote_count')
+    count = 0
+    recommend_movies = []
+    # 15개 추출할때까지 반복
+    for ex_movie in exclude_movies:
+        if count >= 15:
+            break
+        ex_movie_keywords = ex_movie.keywords.all()
+        for ex_movie_keyword in ex_movie_keywords:
+            # 같은 장르 id가 있으면 추가해준다
+            if ex_movie_keyword.id == most_keyword_id:
+                recommend_movies.append(ex_movie)
+                count += 1
+                break
+
+    # 시리얼라이징 후 반환
+    serializer = MovieListSerializer(recommend_movies, many=True)
+    return Response(serializer.data)
+
+
+
+
+
+
+
+
 import csv
 import datetime
 from django.http import HttpResponse
+
 
 
 #### 추후 작업 필요 ####
@@ -419,3 +481,7 @@ def create_csv(request):
     response['Content-Disposition'] = 'attachment; filename="movie_data.csv"'
     return response
 
+
+
+def update_DB(request):
+    createDB(request)

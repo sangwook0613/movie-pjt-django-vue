@@ -23,10 +23,16 @@
             <div class="fs-5 fw-bold pt-3 pb-2">줄거리</div>
             <p class="card-text">{{ movieDetail.overview }}</p>
 
-            <div><span class="fw-bold">감독: </span><span class="ms-2">{{ movieDetail.directors[0].name }}</span></div>
+            <div>
+              <span class="fw-bold">감독: </span>
+              <span class="ms-2" @click="[updateSearchQuery(movieDetail.directors[0].name) ,
+              $router.push({name: 'Search', query: {q: movieDetail.directors[0].name }})]" 
+              >{{ movieDetail.directors[0].name }}</span>
+            </div>
             <div>
               <span class="fw-bold me-1">출연진: </span>
-              <span class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
+              <span @click="[updateSearchQuery(actor.name) ,$router.push({name: 'Search', query: {q: actor.name }})]" 
+              class="ms-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
             </div>
             <div>
               <span class="fw-bold me-1">장르: </span>
@@ -91,6 +97,7 @@ export default {
   methods: {
     ...mapActions('movieStore', [
       'getMovieDetail',
+      'updateSearchQuery',
     ]),
     updateMovieLikes: function (movieDetail) {
       const headers = this.config

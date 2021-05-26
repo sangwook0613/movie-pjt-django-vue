@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('updateDB/', views.update_DB),
     # 영화정보 불러오기
     path('movie/', views.movie_list),
     path('movie/selectlike/',views.select_like_movie),
@@ -15,6 +16,7 @@ urlpatterns = [
     path('person/<name>/', views.search_person),
     path('movie/recommend/random/', views.recommend_random),
     path('movie/recommend/genre/most/', views.recommend_genre_most),
+    path('movie/recommend/keyword/', views.recommend_keyword_most),
     path('movie/recommend/genre/', views.recommend_genre),
     path('movie/recommend/likes/', views.recommend_likes),
 ]
