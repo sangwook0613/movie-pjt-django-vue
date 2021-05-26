@@ -112,7 +112,7 @@ const movieStore = {
         // console.log(res)
         // basicCard.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.movie.poster_path})`;
         // console.log(basicCard)
-        document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.backdrop_path})`;
+        // document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${res.data.backdrop_path})`;
 
         // console.log(res)
       })

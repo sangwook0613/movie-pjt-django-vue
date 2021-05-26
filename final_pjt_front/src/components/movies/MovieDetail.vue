@@ -1,8 +1,10 @@
 <template>
-  <div class="card text-light">
+  <div class="text-light">
     <div class="mb-3 my-4">
-      <div class="row g-0">
-        <div class="basic-info-card">
+      <div class="row g-0" :style="{ 
+        backgroundImage: `linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 50%), url(${movieDetail.backdrop_path})`, backgroundSize: '800px 100%', backgroundPosition: 'right center', backgroundRepeat: 'no-repeat',
+        }">
+        <div class="col-5">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div class="card-title fw-bold fs-1">{{ movieDetail.title }}</div>
@@ -36,9 +38,9 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-6 card">
-          <img :src="movieDetail.backdrop_path" alt="backdrop-image">
-        </div> -->
+        <div class="col-6">
+          <!-- <img :src="movieDetail.backdrop_path" alt="backdrop-image"> -->
+        </div>
       </div>
     </div>
     <div class="my-3 d-flex justify-content-center">
