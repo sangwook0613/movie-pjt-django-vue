@@ -62,7 +62,7 @@ export default {
     ...mapActions([
       'openModal',
     ])
-  }
+  },
 }
 </script>
 

@@ -448,8 +448,15 @@ const communityStore = {
         movie: movieStore.state.movieDetail.id,
         user: store.getters.jwtUserId
       }
-      console.log(inputForm)
-      if (inputData.title !== '' && inputData.content !== '') {
+      if (inputData.title === '') {
+        alert('제목을 입력해주세요.')        
+      } else if (inputData.content === '') {
+        alert('내용을 입력해주세요.')
+      } else if (inputData.rating === '') {
+        alert('평점을 입력해주세요.')
+      }
+      // if (inputData.title !== '' && inputData.content !== '' && inputData.rating !== '') 
+      else {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review,
           method: 'post',
@@ -463,9 +470,10 @@ const communityStore = {
         .catch((err) => {
           console.log(err)
         })
-      } else {
-        alert('모든 내용을 기입해주세요!')
-      }
+      } 
+      // else {
+      //   alert('모든 내용을 기입해주세요!')
+      // }
     },
     updateReviewLikes: function ({ getters }, reviewId) {
       const headers = getters.config
