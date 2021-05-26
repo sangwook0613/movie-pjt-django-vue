@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-4">
+  <div class="px-4">
     <div class="row d-flex justify-content-center g-2">
       <div class="col-xl-3 card-body h-50 component-1" v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
         <div class="d-flex flex-column align-items-start">
@@ -66,7 +66,6 @@
         </div> -->
       </div>
     </div>
-    <!-- {{ reviews[0].movie}} -->
     <div class="d-flex justify-content-end">
       <div v-if="reviews.length > 4">
         <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-info">
@@ -75,7 +74,7 @@
       </div>
       <input
         type="button"
-        class="text-decoration-none text-dark btn btn-primary text-white btn-xs mx-3"
+        class="text-decoration-none text-dark btn custom-btn text-white btn-xs m-3"
         @click="openReviewCreateModal"
         value="리뷰 작성"
       >
@@ -247,5 +246,9 @@ export default {
 .comment-count {
   margin-left: 10px;
   /* padding: 2px; */
+}
+
+.custom-btn {
+  background-color: #00cecb;
 }
 </style>

@@ -1,14 +1,46 @@
 <template>
-  <div class="container row text-white review-detail">
-    <div class="card col-6 review-card">
-      <div class="card-body">
-        <h3 class="card-title fw-bold">{{ reviewDetail.title }}</h3>
-        <div class="card-text fs-5">{{ reviewDetail.content }}</div>
-        <div>작성자: {{ reviewDetail.user.username }}</div>
-        <!-- 별로 바꾸기 -->
-        <div>평점: {{ reviewDetail.rating }}</div>
-        <span>작성일: {{ reviewDetail.created_at|moment("from", "now") }} | </span>
-        <span>수정일: {{ reviewDetail.updated_at|moment("from", "now") }}</span>
+  <div class="row text-white review-detail">
+    <div class="card col-6 offset-3 review-card">
+      <div class="d-flex flex-column align-items-start">
+        <!-- {{reviewDetail}} -->
+        <div class="d-flex justify-content-start mt-3">
+          <img
+            alt="profile-image"
+            class="ellipse-2"
+            src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
+          />
+          <div>
+            <p class="username fw-bold fs-6">{{ reviewDetail.user.username }}</p>
+            <p class="rating">평점 {{ reviewDetail.rating }}</p>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="review-date mb-3">
+            <span><span class="fw-bold pe-2">작성일</span>{{ reviewDetail.created_at|moment("from", "now") }}</span>
+            <span class="ps-3"><span class="fw-bold pe-2">수정일</span>{{ reviewDetail.updated_at|moment("from", "now") }}</span>
+          </div>
+          <div class="title fw-bold fs-5">
+            {{ reviewDetail.title }}
+          </div>
+          <div class="content fs-6">
+            {{ reviewDetail.content }}
+            얼씨구절씨구얼씨구절씨구얼씨구절씨얼씨구절씨구얼씨구절씨구얼씨구절씨구얼씨구...
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <div :id="`likeCount-${reviewDetail.id}`" class="" @click="updateReviewLikes(reviewDetail, reviewDetail.user.id)">
+            <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(reviewDetail.likes)}"></i>
+            <span class="ps-2 rating">{{ reviewDetail.likes.length }}</span>
+          </div>
+          <div class="comment-count">
+              <img
+                alt=""
+                class="vector"
+                src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
+              />
+          <span class="ps-2 rating">{{ reviewDetail.comment_count }}</span>
+          </div>
+        </div>
       </div>
       <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }" class="text-decoration-none text-dark btn btn-info">
         {{ reviewDetail.movie.title }} 정보 보기
@@ -28,16 +60,15 @@
         <div class="col-1"></div>
       </div>
     </div>
-    <!-- <div class="poster-card col-6">
-      <img :src="reviewDetail.movie.poster_path" alt="poster-image" style="height: 400px;">
-    </div> -->
-    <!-- {{reviewDetail}} -->
-    <div class="comment-card col-12 mt-3">
+    <div class="comment-create-card col-6 offset-3 mt-3 py-3">
+      <div class="fw-bold pb-4">댓글 남기기</div>
       <div>
-        <input type="text" placeholder="댓글 입력" v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
-        <button class="btn btn-info" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
+        <textarea v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
+        </textarea>
+        <button class="fw-bold btn bg-white rounded-pill mt-3" @click="[createComment(commentInput), resetCommentInput()]" style="width: 90px;">작성</button>
       </div>
-      {{ reviewDetail.review_comments.length }}
+    </div>
+    <div class="comment-card col-6 offset-3 mt-3">
       <div v-if="reviewDetail.comment_count !== 0">
         <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx" >
           <CommentCard :comment="comment" :movieId="reviewDetail.id"/>
@@ -47,14 +78,15 @@
         <h3 class="text-center">댓글이 없습니다.</h3>
       </div>
     </div>
-    <!-- {{reviewDetail.id}}
-    {{$route.params.reviewId}} -->
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import CommentCard from '@/components/community/CommentCard'
+import _ from 'lodash'
+import axios from 'axios'
+import SERVER from '@/api/server.js'
 
 export default {
   name: 'ReviewDetail',
@@ -77,6 +109,7 @@ export default {
       'modalData',
     ]),
     ...mapGetters([
+      'config',
       'jwtUserId',
     ])
   },
@@ -89,13 +122,45 @@ export default {
     ...mapActions([
       'openModal',
     ]),
-    resetCommentInput: function () {
-      this.commentInput.inputText = ''
+    updateReviewLikes: function (review, user_id) {
+      const headers = this.config
+      if (user_id !== this.jwtUserId) {
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.review + `${review.id}/like/`,
+          method: 'post',
+          headers,
+        })
+        .then(() => {
+          const likeCountImage = document.querySelector(`#likeCount-${review.id} > i`)
+          const likeCountNum = document.querySelector(`#likeCount-${review.id} > span`)
+          if (likeCountImage.style.color === '' || likeCountImage.style.color === 'black' ) {
+            likeCountImage.style.color = 'crimson'
+            likeCountNum.innerText++
+          } else {
+            likeCountImage.style.color = 'black'
+            likeCountNum.innerText--
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      } else {
+        alert('본인이 작성한 리뷰는 좋아요를 누를 수 없습니다.')
+      }
+    },
+    checkUserIncludeInReviewLikes: function (review_likes) {
+      if (_.includes(review_likes, this.jwtUserId)) {
+        return 'crimson'
+      }
+      return 'black'
     },
     openUpdateReviewModal: function () {
       this.openModal()
       this.modalData.reviewUpdateModalStatus = true
-    }
+    },
+    resetCommentInput: function () {
+      this.commentInput.inputText = ''
+    },
   },
   created: function () {
     this.getReviewDetail(this.$route.params.reviewId)
@@ -103,7 +168,7 @@ export default {
   beforeDestroy: function () {
     // document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
     document.body.style.backgroundImage = ""
-    document.body.style.backgroundColor = "rgba(0,0,0,0.9)"
+    document.body.style.backgroundColor = "#141414"
 
   }
 }
@@ -111,13 +176,12 @@ export default {
 
 <style>
 .review-card {
-  background-color: inherit;
-  border-color: white;
-  border-width: 2.5px;
-  border-style: solid;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
 }
 
-.review-detail{
+/* .review-detail{
   margin-left: 50px;
   margin-top: 50px;
   padding-left: 50px;
@@ -125,19 +189,39 @@ export default {
   border-width: 2.5px;
   border-color: transparent;
   border-style: solid;
-}
+} */
 
-.poster-card .comment-card {
+.comment-card {
   /* padding-top: 20px; */
   /* position: relative; */
-  display: flex;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
+  /* display: flex;
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  /* background-color: inherit; */
+  background-color: inherit;
   background-clip: border-box;
-  /* border: 1px solid rgba(0,0,0,.125); */
-  border-radius: .25rem;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem; */
+}
+
+.comment-create-card {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border-color: #434242;
+  background-color: #434242;
+  resize: none;
 }
 
 .card {
@@ -145,4 +229,70 @@ export default {
 }
 
 
+.component-1 {
+  background-color: #292828;
+  border-radius: 8px;
+}
+/* .frame-11 {
+  width: calc(100% - 48px);
+  height: calc(100.73% - 48px);
+  padding: 24px;
+  position: absolute;
+  left: 0;
+  top: -1px;
+} */
+.frame-10 {
+  margin-bottom: 24px;
+}
+.ellipse-2 {
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+.frame-7 {
+  padding: 0 44px 0 0;
+}
+.username {
+  color: #FFFFFF;
+  margin-bottom: 4px;
+  @include noto-sans-kr-14-bold;
+}
+.rating {
+  color: #FFFFFF;
+  @include noto-sans-kr-14-regular;
+}
+.title {
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  @include noto-sans-kr-14-bold;
+}
+.content {
+  color: #FFFFFF;
+  margin-bottom: 14px;
+  @include noto-sans-kr-14-regular;
+}
+.frame-12 {
+  margin-right: 14px;
+}
+.favorite-border-black-24dp-1 {
+  margin-right: 8px;
+  padding: 3px 2px 2.65px;
+}
+.vector {
+  width: 50%;
+  height: 50%;
+}
+.comment-count {
+  margin-left: 10px;
+  /* padding: 2px; */
+}
+
+.custom-btn {
+  background-color: #00cecb;
+}
+
+.review-date {
+  font-size: 12px;
+}
 </style>
