@@ -14,7 +14,10 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .serializers import MovieSerializer, MovieListSerializer, PeopleSerializer
 from .models import Genre, Movie, Keyword, Person
 from django.db.models import Q
+
 from .create_db import createDB
+
+from drf_yasg.utils import swagger_auto_schema
 
 # 전체 영화 리스트
 # @api_view(['GET', 'POST'])
@@ -70,6 +73,7 @@ def movie_detail(request, movie_pk):
             return Response(serializer.data)
     '''
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -92,6 +96,7 @@ def movie_like(request, movie_pk):
 
 
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -112,6 +117,7 @@ def movie_only_like(request, movie_pk):
         return Response(serializer.data)
 
 
+@swagger_auto_schema(methods=['post'], request_body=MovieSerializer)
 @api_view(['POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -125,6 +131,7 @@ def movie_hate(request, movie_pk):
 
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
+
 
 
 @api_view(['GET'])
@@ -356,10 +363,6 @@ def recommend_genre(request):
     # 시리얼라이징 후 반환
     serializer = MovieListSerializer(recommend_movies, many=True)
     return Response(serializer.data)
-
-
-
-
 
 
 
