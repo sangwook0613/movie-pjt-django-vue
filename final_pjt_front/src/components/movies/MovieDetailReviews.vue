@@ -14,22 +14,22 @@
                 src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
               />
               <div>
-                <p class="username">usernamegoeshere</p>
+                <p class="username">{{ review.user.username }}</p>
                 <p class="rating">평점 {{ review.rating }}</p>
               </div>
             </div>
             <div class="mb-3">
               <div class="title fw-bold">
-                러빙 빈센트는 진짜 그림이 다했다 {{ review.title }}
+                {{ review.title }}
               </div>
               <div class="content">
-                얼씨구절씨구얼씨구절씨구얼씨구절씨얼씨구절씨구얼씨구절씨구얼씨구절씨구얼씨구...
+                {{ review.content }}
               </div>
               <div class="rating">&#43; 더보기</div>
             </div>
           </router-link>
           <div class="d-flex align-items-center">
-            <div :id="`likeCount-${review.id}`" class="" @click="updateReviewLikes(review, review.user)">
+            <div :id="`likeCount-${review.id}`" class="" @click="updateReviewLikes(review, review.user.id)">
               <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
               <span class="ps-2 rating">{{ review.likes.length }}</span>
             </div>
@@ -40,7 +40,7 @@
                   src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
                 />
               <!-- comment 수 필요 -->
-              <span class="ps-2 rating">5</span>
+              <span class="ps-2 rating">{{ review.comment_count }}</span>
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default {
     ]),
     updateReviewLikes: function (review, user_id) {
       const headers = this.config
-      if (user_id !== this.jwtUserId && !_.includes(review.likes, this.jwtUserId)) {
+      if (user_id !== this.jwtUserId) {
         axios({
           url: SERVER.URL + SERVER.ROUTES.review + `${review.id}/like/`,
           method: 'post',

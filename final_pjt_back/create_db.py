@@ -222,7 +222,7 @@ for i in range(2):
         page += 1
 
 
-### 키워드 전처리 작업 진행
+## 키워드 전처리 작업 진행
 # cut_num = 10
 # cnt = 0
 # for keyword in Keyword.objects.all():

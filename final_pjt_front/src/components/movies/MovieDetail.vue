@@ -25,13 +25,17 @@
             <div class="feature-box row">
               <div class="fw-bold col-2">감독: </div>
               <div class="col">
-                <span>{{ movieDetail.directors[0].name }}</span>
+                <span @click="[updateSearchQuery(movieDetail.directors[0].name) ,
+              $router.push({name: 'Search', query: {q: movieDetail.directors[0].name }})]">
+              {{ movieDetail.directors[0].name }}
+              </span>
               </div>
             </div>
             <div class="feature-box row">
               <span class="fw-bold col-2">출연진: </span>
               <div class="col">
-                <span class="me-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
+                <span @click="[updateSearchQuery(actor.name) ,$router.push({name: 'Search', query: {q: actor.name }})]" 
+                class="me-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
               </div>
             </div>
             <div class="feature-box row">
@@ -101,6 +105,7 @@ export default {
   methods: {
     ...mapActions('movieStore', [
       'getMovieDetail',
+      'updateSearchQuery',
     ]),
     updateMovieLikes: function (movieDetail) {
       const headers = this.config

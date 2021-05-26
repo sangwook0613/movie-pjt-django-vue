@@ -17,6 +17,7 @@ const movieStore = {
     randomRecommendMovies: [],
     mostGenreRecommendMovie: [],
     genreRecommendMovie: [],
+    keywordRecommendMovie: [],
     movieDetail: [],
     // 영화 관련 영상 state
     movieVideos: [],
@@ -57,6 +58,9 @@ const movieStore = {
     },
     GET_GENRE_RECOMMEND_MOVIES: function (state, movies) {
       state.genreRecommendMovie = movies
+    },
+    GET_KEYWORD_RECOMMEND_MOVIES: function (state, movies) {
+      state.keywordRecommendMovie = movies
     },
     // 영화 영상 관련 mutations
     SET_MOVIE_VIDEOS: function (state, videos) {
@@ -197,6 +201,21 @@ const movieStore = {
         console.log(err)
       })
     },
+    getKeywordRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getKeywordRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_KEYWORD_RECOMMEND_MOVIES', res.data)
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
     getRelatedVideos: function ({ state, commit }, movieTitle) {
       const params = {
         key: YOUTUBE_API_KEY,
@@ -240,6 +259,9 @@ const movieStore = {
       .catch((err) => {
         console.log(err)
       })
+    },
+    updateSearchQuery: function ({ commit }, searchInputData) {
+      commit('UPDATE_SEARCH_INPUT', searchInputData)
     },
     clickSearchBtn: function ({ commit }) {
       commit('CLICK_SEARCH_BTN')
@@ -621,6 +643,7 @@ const store = new Vuex.Store({
       movieStore.state.randomRecommendMovies = [],
       movieStore.state.mostGenreRecommendMovie = [],
       movieStore.state.genreRecommendMovie = [],
+      movieStore.state.keywordRecommendMovie = [],
       movieStore.state.movieDetail = [],
       movieStore.state.movieVideos = [],
       movieStore.state.selectedVideo = '',
