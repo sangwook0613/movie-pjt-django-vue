@@ -39,6 +39,11 @@ const movieStore = {
     searchedMovies: function (state) {
       return state.searchedMovies
     },
+    videoURL: function (state) {
+      if (state.selectedVideo) {
+        return `https://www.youtube.com/embed/${state.selectedVideo.id.videoId}`
+      }
+    },
   },
   mutations: {
     GET_MOVIES: function (state, movies) {
@@ -222,7 +227,7 @@ const movieStore = {
         part: 'snippet',
         type: 'video',
         q: movieTitle,
-        maxResults: 3,
+        maxResults: 4,
       }
       console.log(movieTitle)
       axios({
@@ -602,6 +607,7 @@ const store = new Vuex.Store({
       reviewUpdateModalStatus: false,
       reviewCreateModalStatus: false,
       profileUpdateModalStatus: false,
+      movieVideoModalStatus: false,
     },
   },
   getters: {
