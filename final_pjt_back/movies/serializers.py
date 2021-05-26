@@ -13,7 +13,8 @@ class MovieListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = ('id','poster_path',)
+        # fields = '__all__'
 
 class PeopleSerializer(serializers.ModelSerializer):
     
@@ -43,7 +44,8 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = ('id','title','runtime', 'release_date', 'likes', 'overview', 'original_title',
+        'genres', 'keywords', 'directors', 'actors', 'movie_reviews','backdrop_path',)
 
 class ProfileMovieSerializer(serializers.ModelSerializer):
 
