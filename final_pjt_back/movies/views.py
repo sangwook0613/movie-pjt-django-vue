@@ -174,10 +174,10 @@ def search_person(request, name):
 @permission_classes([IsAuthenticated])
 def select_like_movie(request):
     # movies = Movie.objects.order_by('id')[:15]
-    movies = Movie.objects.order_by('?')
-    genres = Genre.objects.all()
+    movies = Movie.objects.order_by('-vote_count')
+    genres = Genre.objects.all().order_by('?')
     # 20개 보여주기 위해 1개 넣고 시작 (장르 총 19개)
-    different_genre_movies = [movies[0]]
+    different_genre_movies = [movies[2]]
     # for movie in movies:
     #     print(movie.genres.all())
     cnt = 0
