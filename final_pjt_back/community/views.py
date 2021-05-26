@@ -18,6 +18,8 @@ from .serializers import ReviewListSerializer, ReviewSerializer, CommentSerializ
 @authentication_classes([JSONWebTokenAuthentication]) # JWT가 유효한지 여부를 판단
 @permission_classes([IsAuthenticated]) # 인증 여부를 확인
 def review_list(request):
+    #  movie_pk에 해당하는 전체 review 목록의 정보를 전달
+    # id, username,content, title, rating,
     if request.method == 'GET':
         reviews = get_list_or_404(Review)
         serializer = ReviewListSerializer(reviews, many=True)
