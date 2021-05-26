@@ -2,10 +2,8 @@
   <div>
     <h1 class="text-light">{{ movieDetail.title }} 리뷰</h1>
     <div class="col-6 offset-3">
-      <div class="
-      text-white">{{ movieDetail }}</div>
-      <div class="card-body h-50 component-1 mb-2" v-for="(review, idx) in movieDetail.movie_reviews" :key="idx">
-        {{ review }}
+      <!-- <div class="text-white">{{ movieDetail }}</div> -->
+      <div class="card-body h-50 component-1 mb-2" v-for="(review, idx) in reverseReviews" :key="idx">
         <router-link
           :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
           class="text-decoration-none text-dark"
@@ -148,10 +146,16 @@ export default {
     ]),
     ...mapState('movieStore', [
       'movieDetail',
-    ])
+    ]),
+    reverseReviews: function () {
+      return _.reverse(this.movieDetail.movie_reviews)
+    }
   },
   created: function () {
     this.getMovieDetail(this.$route.params.movieId)
+  },
+  updated: function () {
+      document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${this.movieDetail.backdrop_path})`;
   },
   beforeDestroy: function () {
     document.body.style.backgroundImage = ""
