@@ -18,7 +18,7 @@ urlpatterns = [
     path('movie/recommend/genre/most/', views.recommend_genre_most),
     path('movie/recommend/keyword/', views.recommend_keyword_most),
     path('movie/recommend/genre/', views.recommend_genre),
-    path('movie/recommend/likes/', views.recommend_likes),
+    
     # 비슷한 장르 추천
     path('movie/recommend/similargenre/<int:movie_pk>/',views.recommend_similar_genre),
     # 최신 인기순
