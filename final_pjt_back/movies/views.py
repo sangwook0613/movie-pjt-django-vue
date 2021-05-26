@@ -130,6 +130,13 @@ def movie_hate(request, movie_pk):
 @permission_classes([IsAuthenticated])
 def search(request, search_word):
     movies = Movie.objects.all()
+    persons = Person.objects.all()
+    # for person in persons:
+    #     if search_word in person.name or search_word in person.eng_name:
+    #         print(person.id)
+            # print(search_person)
+
+    print(persons)
     if request.method == 'GET':
         search_title = movies.filter(title__contains=search_word)
         search_overview = movies.filter(overview__contains=search_word)

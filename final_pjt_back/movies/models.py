@@ -34,7 +34,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     poster_path = models.CharField(max_length=200)
     backdrop_path = models.CharField(max_length=200)
-    runtime = models.IntegerField(default=0)
+    runtime = models.IntegerField(default=0, blank=True, null=True)
     vote_average = models.IntegerField(default=0, blank=True)
     vote_count = models.IntegerField(default=0, blank=True)
     genres = models.ManyToManyField(Genre)
@@ -50,4 +50,12 @@ class Movie(models.Model):
     def display_genre(self):
         return ', '.join(genre.name for genre in self.genres.all())
 
+    def display_actors(self):
+        return ', '.join(actor.name for actor in self.actors.all())
+
+    def display_directors(self):
+        return ', '.join(director.name for director in self.directors.all())
+
     display_genre.short_description = 'Genre'
+    display_actors.short_description = 'Actor'
+    display_directors.short_description = 'Director'
