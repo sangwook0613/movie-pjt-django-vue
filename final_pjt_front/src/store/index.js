@@ -18,6 +18,9 @@ const movieStore = {
     mostGenreRecommendMovie: [],
     genreRecommendMovie: [],
     keywordRecommendMovie: [],
+    newRecommendMovie: [],
+    ratingRecommendMovie: [],
+    runtimeRecommendMovie: [],
     movieDetail: [],
     // 영화 관련 영상 state
     movieVideos: [],
@@ -62,6 +65,16 @@ const movieStore = {
     GET_KEYWORD_RECOMMEND_MOVIES: function (state, movies) {
       state.keywordRecommendMovie = movies
     },
+    GET_NEW_RECOMMEND_MOVIES: function (state, movies) {
+      state.newRecommendMovie = movies
+    },
+    GET_RATING_RECOMMEND_MOVIES: function (state, movies) {
+      state.ratingRecommendMovie = movies
+    },
+    GET_RUNTIME_RECOMMEND_MOVIES: function (state, movies) {
+      state.runtimeRecommendMovie = movies
+    },
+
     // 영화 영상 관련 mutations
     SET_MOVIE_VIDEOS: function (state, videos) {
       state.movieVideos = videos
@@ -211,6 +224,51 @@ const movieStore = {
       .then((res) => {
         commit('GET_KEYWORD_RECOMMEND_MOVIES', res.data)
         console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getNewRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getNewRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_NEW_RECOMMEND_MOVIES', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getRatingRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getRatingRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_RATING_RECOMMEND_MOVIES', res.data)
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    getRuntimeRecommendMovie: function ({ commit, getters }) {
+      const headers = getters.config
+      axios({
+        url: SERVER.URL + SERVER.ROUTES.getRuntimeRecommendMovie,
+        method: 'get',
+        headers,
+      })
+      .then((res) => {
+        commit('GET_RUNTIME_RECOMMEND_MOVIES', res.data)
+        // console.log(res)
       })
       .catch((err) => {
         console.log(err)
@@ -652,6 +710,9 @@ const store = new Vuex.Store({
       movieStore.state.mostGenreRecommendMovie = [],
       movieStore.state.genreRecommendMovie = [],
       movieStore.state.keywordRecommendMovie = [],
+      movieStore.state.newRecommendMovie = [],
+      movieStore.state.ratingRecommendMovie = [],
+      movieStore.state.runtimeRecommendMovie = [],
       movieStore.state.movieDetail = [],
       movieStore.state.movieVideos = [],
       movieStore.state.selectedVideo = '',
