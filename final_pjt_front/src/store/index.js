@@ -434,7 +434,7 @@ const communityStore = {
       })
       .then((res) => {
         commit('GET_REVIEW_DETAIL', res.data)
-        document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url(${res.data.movie.backdrop_path})`;
+        document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${res.data.movie.backdrop_path})`;
       })
       .catch((err) => {
         console.log(err)
