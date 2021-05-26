@@ -24,6 +24,7 @@
           >
             리뷰 상세보기
           </router-link> -->
+          <span>{{ review.user }}</span>
         </div>
       </div>
     </div>

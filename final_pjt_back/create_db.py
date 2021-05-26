@@ -167,6 +167,9 @@ for i in range(2):
                             director_null = True
                             break
 
+                    if director_null:
+                        continue
+
                     # Director 테이블에 중복검사
                     if not Person.objects.filter(id=director_id).exists():
                         # 테이블에 없는 감독이면 추가         
@@ -218,8 +221,14 @@ for i in range(2):
 
 ### 키워드 전처리 작업 진행
 # cut_num = 10
+# cnt = 0
 # for keyword in Keyword.objects.all():
 #     if keyword.keyword_count < cut_num:
+#         cnt += 1
 #         keyword.delete()
+#     if cnt % 100 == 0:
+#         print(cnt)
+
+# print(cnt)
 
 # 키워드 번역 작업진행

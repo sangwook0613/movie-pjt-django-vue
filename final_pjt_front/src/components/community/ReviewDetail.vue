@@ -10,6 +10,9 @@
         <span>작성일: {{ reviewDetail.created_at|moment("from", "now") }} | </span>
         <span>수정일: {{ reviewDetail.updated_at|moment("from", "now") }}</span>
       </div>
+      <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }" class="text-decoration-none text-dark btn btn-info">
+        {{ reviewDetail.movie.title }} 정보 보기
+      </router-link>  
       <div class="row" v-if="reviewDetail.user.id === jwtUserId">
         <div class="col-2"></div>
         <input
