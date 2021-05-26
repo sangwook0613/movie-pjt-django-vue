@@ -39,42 +39,21 @@
                   class="vector"
                   src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
                 />
-              <!-- comment 수 필요 -->
               <span class="ps-2 rating">{{ review.comment_count }}</span>
             </div>
           </div>
         </div>
-        <!-- <div class="card p-2 review-short-card">
-          <div class="d-flex justify-content-between">
-            <span class="fw-bold fs-5 pe-2">
-              <router-link
-                :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
-                class="text-decoration-none text-dark text-end"
-              >
-                {{ review.title }}
-              </router-link>
-            </span>
-            <button :id="`likeCount-${review.id}`" class="btn" @click="updateReviewLikes(review, review.user)">
-              <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
-              <span>{{ review.likes.length }}</span>
-            </button>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span :class="[makeBadge(review.rating), 'text-center']" style="width: 80px">평점: {{ review.rating }}</span>
-            <span>{{ review.user }}</span>
-          </div>
-        </div> -->
       </div>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-3">
       <div v-if="reviews.length > 4">
-        <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none text-dark btn btn-info">
-          더 많은 리뷰
+        <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none rounded-pill fw-bold btn custom-black-btn">
+          리뷰 모음
         </router-link>  
       </div>
       <input
         type="button"
-        class="text-decoration-none text-dark btn custom-btn text-white btn-xs m-3"
+        class="text-decoration-none btn custom-btn rounded-pill fw-bold text-white ms-3"
         @click="openReviewCreateModal"
         value="리뷰 작성"
       >
@@ -250,5 +229,13 @@ export default {
 
 .custom-btn {
   background-color: #00cecb;
+  width: 110px;
+}
+
+.custom-black-btn {
+  border: 2px solid #00cecb;
+  background-color: #292828;
+  color: #00cecb;
+  width: 110px;
 }
 </style>

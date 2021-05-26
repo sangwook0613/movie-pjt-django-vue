@@ -42,22 +42,19 @@
           </div>
         </div>
       </div>
-      <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }" class="text-decoration-none text-dark btn btn-info">
+      <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }" class="text-decoration-none">
         {{ reviewDetail.movie.title }} 정보 보기
       </router-link>  
-      <div class="row" v-if="reviewDetail.user.id === jwtUserId">
-        <div class="col-2"></div>
+      <div v-if="reviewDetail.user.id === jwtUserId" class="d-flex justify-content-end">
         <input
           type="button"
-          class="text-decoration-none btn btn-primary col-3 btn-xs"
+          class="fw-bold btn white-btn rounded-pill mt-3 me-3"
           @click="openUpdateReviewModal"
           value="수정"
         >
-        <div class="col-2"></div>
         <button
-          class="col-3 btn btn-danger"
+          class="fw-bold btn rounded-pill mt-3 black-btn text-light"
           @click="deleteReview(reviewDetail.id)">삭제</button>
-        <div class="col-1"></div>
       </div>
     </div>
     <div class="comment-create-card col-6 offset-3 mt-3 py-3">
@@ -65,13 +62,13 @@
       <div>
         <textarea v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
         </textarea>
-        <button class="fw-bold btn bg-white rounded-pill mt-3" @click="[createComment(commentInput), resetCommentInput()]" style="width: 90px;">작성</button>
+        <button class="fw-bold btn white-btn rounded-pill mt-3" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
       </div>
     </div>
-    <div class="comment-card col-6 offset-3 mt-3">
+    <div class="col-6 offset-3 mt-3 mb-4">
       <div v-if="reviewDetail.comment_count !== 0">
-        <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx" >
-          <CommentCard :comment="comment" :movieId="reviewDetail.id"/>
+        <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx">
+          <CommentCard :comment="comment" :movieId="reviewDetail.id" class="mt-3 comment-card"/>
         </div>
       </div>
       <div v-else>
@@ -290,6 +287,18 @@ textarea {
 
 .custom-btn {
   background-color: #00cecb;
+}
+
+.black-btn {
+  background-color: #292828;
+  border-color: #FFFFFF;
+  width: 90px;
+}
+
+.white-btn {
+  border-color: #292828;
+  background-color: #FFFFFF;
+  width: 90px;
 }
 
 .review-date {
