@@ -1,13 +1,12 @@
 <template>
   <div>
-    {{ movieTitle }}
-    <ul class="video-list">
+    <div class="video-list container row">
       <MovieVideoItem
         v-for="(video, idx) in movieVideos" 
         :key="idx"
         :video="video"
       />
-    </ul>
+    </div>
   </div>
 </template>
 
@@ -35,9 +34,9 @@ export default {
       'getRelatedVideos',
     ])
   },
-  // created: function () {
-  //   this.getRelatedVideos(this.movieTitle)
-  // }
+  created: function () {
+    this.getRelatedVideos(this.movieTitle)
+  }
 }
 </script>
 

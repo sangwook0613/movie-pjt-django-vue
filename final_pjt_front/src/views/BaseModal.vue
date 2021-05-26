@@ -9,6 +9,9 @@
     <div v-if="modalData.profileUpdateModalStatus">
       <ProfileUpdateModal/>
     </div>
+    <div v-if="modalData.movieVideoModalStatus">
+      <MovieVideoModal/>
+    </div>
 
   </div>
   <!-- <transition name="modal">
@@ -45,6 +48,7 @@ import { mapState, mapActions } from 'vuex'
 import ReviewUpdateModal from '@/components/modals/ReviewUpdateModal'
 import ReviewCreateModal from '@/components/modals/ReviewCreateModal'
 import ProfileUpdateModal from '@/components/modals/ProfileUpdateModal'
+import MovieVideoModal from '@/components/modals/MovieVideoModal'
 
 export default {
   name: 'BaseModal',
@@ -52,6 +56,7 @@ export default {
     ReviewUpdateModal,
     ReviewCreateModal,
     ProfileUpdateModal,
+    MovieVideoModal,
   },
   computed: {
     ...mapState([

@@ -1,39 +1,42 @@
 <template>
-  <div class="profile">
-      <div class="mx-3 mt-3">
-        <div class="text-dark fw-bold">
-        <p><i class="fw-bold far fa-user-circle big-icon fa-5x"></i></p>
-          <h3>@{{ profile.username }}</h3>
-        </div>
-        <div>
-          <span class="text-secondary">게시글</span>
-          <span class="fw-bold mx-1 text-secondary pe-1">{{ profile.reviews.length }}</span>
-          <span class="text-secondary">팔로잉</span>
-          <span class="fw-bold mx-1 text-secondary pe-1">{{ profile.followings.length }}</span>
-          <span class="text-secondary">팔로워</span>
-          <span class="fw-bold mx-1 pe-1 text-secondary">{{ profile.followers.length }}</span>
+  <div class="profile row">
+    <div class="col-6 offset-3">
+      <div class="d-flex flex-column align-items-center profile-card">
+        <img
+          alt="profile-image"
+          class="ellipse-2 mb-2"
+          src="https://randomuser.me/api/portraits/lego/1.jpg"
+        />
+        <h3>@{{ profile.username }}</h3>
+        <div class="point-color">
+          <span class="ms-3">게시글</span>
+          <span class="fw-bold mx-1  pe-1">{{ profile.reviews.length }}</span>
+          <span>팔로잉</span>
+          <span class="fw-bold mx-1  pe-1">{{ profile.followings.length }}</span>
+          <span>팔로워</span>
+          <span class="fw-bold mx-1 pe-1 ">{{ profile.followers.length }}</span>
         </div>
         <h4 v-if=profile.introduction class="fw-bold pt-3">{{ profile.introduction }}</h4>
-
-      <div v-if="isMyself">
-        <span v-if="isFollow">
-          <button @click="followUser($route.params.username)" class="mt-3 btn btn-danger btn-sm text-white">팔로우 취소</button>
-        </span>
-        <span v-else>
-          <button @click="followUser($route.params.username)" class="mt-3 btn btn-sm btn-primary">팔로우</button>
-        </span>
+        <div v-if="isMyself">
+          <span v-if="isFollow">
+            <button @click="followUser($route.params.username)" class="mt-3 btn btn-danger btn-sm text-white">팔로우 취소</button>
+          </span>
+          <span v-else>
+            <button @click="followUser($route.params.username)" class="mt-3 btn btn-sm btn-primary">팔로우</button>
+          </span>
+        </div>
+        <div v-else class="mt-3">
+          <!-- <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">프로필 수정</button> -->
+          <span type="button"
+            class="material-icons md-28"
+            @click="openReviewCreateModal">settings</span>
+          <!-- <input
+            type="button"
+            class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
+            @click="openReviewCreateModal"
+            value="소개글 변경"
+          > -->
       </div>
-      <div v-else class="mt-3">
-        <!-- <button @click="followUser($route.params.username)" class="mt-3 btn btn-primary">프로필 수정</button> -->
-        <span type="button"
-          class="material-icons md-28"
-          @click="openReviewCreateModal">settings</span>
-        <!-- <input
-          type="button"
-          class="text-decoration-none text-dark btn btn-primary text-white btn-xs"
-          @click="openReviewCreateModal"
-          value="소개글 변경"
-        > -->
       </div>
     </div>
     <h3 class="pt-4 fw-bold">Post Reviews</h3>
@@ -138,13 +141,17 @@ export default {
 .material-icons.md-28 { font-size: 29px; }
 
 .profile {
-  background: rgba(250,250,250,0.9);
-  text-align: center;
   padding: 20px;
   border-width: 5px;
-  border-color: rgba(37,150,151,0.7);
-  border-style: solid;
+  color: #FFFFFF;
 }
+
+.profile-card {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
+}
+
 .profile-detail{
   padding: 20px;
   border-width: 1.5px;
@@ -156,5 +163,16 @@ export default {
   border-width: 1.5px;
   border-style: solid;
   border-color: rgba(37,150,151,0.5);
+}
+
+.ellipse-2 {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+  border-radius: 50%;
+}
+
+.point-color {
+  color: #00cecb;
 }
 </style>
