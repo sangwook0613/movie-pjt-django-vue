@@ -6,7 +6,7 @@
         <div v-for="(movie, idx) in searchedMovies" :key="'xx'+idx" class="col">
           <div class="card ">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
             </router-link>
             <!-- <div class="card-footer bg-transparent border-dark">
               <p class="card-text text-center fw-bold text-dark">{{ movie.title }}</p>
@@ -27,12 +27,23 @@ import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Search',
+  data(){
+    return {
+      backgroundLoading:'#141414',
+    }
+  },
   methods: {
     ...mapActions('movieStore', [
       'clickSearchBtn',
       'clickSearchCancelBtn',
       'searchMovie',
-    ])
+    ]),
+    openLoadingBackground(){
+      this.$vs.loading({background:this.backgroundLoading,color:'rgb(255, 255, 255)'})
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 1500);
+    },
   },
   computed: {
     ...mapGetters('movieStore', [
@@ -44,15 +55,17 @@ export default {
       'searchBtn',
       'searchedMovies',
       'searchInput',
-    ])
+    ]),
   },
   watch: {
     '$route.query.q': function() {
       this.searchMovie()
+      this.openLoadingBackground()
     },
   },
   created: function () {
     this.searchMovie()
+    this.openLoadingBackground()
   },
 }
 </script>

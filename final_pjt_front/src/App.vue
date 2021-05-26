@@ -3,7 +3,8 @@
     <div v-if="modalStatus">
       <BaseModal/>
     </div>
-    <div v-if="showNav" class="navbar-sticky">
+    <!-- <div v-if="showNav" class="navbar-sticky"> -->
+    <div class="navbar-sticky">
       <Nav />
     </div>
 

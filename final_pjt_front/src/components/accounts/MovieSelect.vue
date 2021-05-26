@@ -19,7 +19,7 @@
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <div v-for="(movie, idx) in choiceMovies" :key="idx" class="col">
           <div class="card">
-            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top"
+            <img :src="movie.poster_path" alt="movie-poster" class="card-img-top" loading="lazy"
             :class="{ 'animate__animated animate__pulse animate__infinite' : selectLikeMovies.includes(movie.id) }"
             @click="updateLikeMovies(movie.id)">
           </div>
@@ -37,6 +37,7 @@ export default {
   data: function () {
     return {
       selectLikeMovies: [],
+      backgroundLoading:'#141414',
     }
   },
   methods: {
@@ -61,6 +62,12 @@ export default {
     ...mapActions([
       'updateShowNav',
     ]),
+    openLoadingBackground(){
+      this.$vs.loading({background:this.backgroundLoading,color:'rgb(255, 255, 255)'})
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 2000);
+    },
   },
   computed: {
     ...mapState('movieStore', [
@@ -78,14 +85,15 @@ export default {
       if (this.profile.like_movies.length >= 5) {
         this.$router.push({name: 'Movie'})
       } 
-      else {
-        this.updateShowNav(false)
-      }
+      // else {
+      //   this.updateShowNav(false)
+      // }
     },
   },
   created: function () {
     this.getLikeChoiceMovie()
     this.getProfile(this.jwtUsername)
+    this.openLoadingBackground()
   },
 }
 </script>
