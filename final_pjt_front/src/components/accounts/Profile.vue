@@ -27,16 +27,16 @@
         </div>
         <div v-else class="mt-3">
           <span type="button"
-            class="material-icons md-28"
+            class="material-icons md-28 hovering"
             @click="openReviewCreateModal">settings</span>
         </div>
       </div>
     </div>
     
     <div class="my-3 d-flex justify-content-center moreinfo-tag py-2 rounded">
-      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">작성한 리뷰</button>
-      <button @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 리뷰</button>
-      <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 작품</button>
+      <button @click="showClickAdditionalDetail(0)" class="hovering btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">작성한 리뷰</button>
+      <button @click="showClickAdditionalDetail(1)" class="hovering btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 리뷰</button>
+      <button @click="showClickAdditionalDetail(2)" class="hovering btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 작품</button>
     </div>
     <div class="additional-info-card d-flex flex-column align-items-center">
       <div class="d-flex flex-column align-items-center" v-if="checkMovieDetailClicked[0]">
@@ -47,14 +47,14 @@
               <router-link
                 :to="{ name: 'ReviewDetail',
                 params: { movieId: review.movie.id, reviewId: review.id }}"
-                class="text-decoration-none text-light"
+                class="text-decoration-none text-light hovering"
               >
                 <div class="fs-5 fw-bold py-2" style="word-break:break-all; word-wrap:break-word;">{{ review.title }}</div>
               </router-link>
 
               <router-link
               :to="{ name: 'MovieDetail', params: { movieId: review.movie.id }}"
-              class="text-decoration-none text-light">
+              class="text-decoration-none text-light hovering">
               {{ review.movie.title }}</router-link>
 
               <div class="fw-bold pt-2">{{ review.rating }}/10</div>
@@ -219,5 +219,11 @@ export default {
   border-color: #292828;
   background-color: #FFFFFF;
   width: 120px;
+}
+
+.hovering:hover {
+  /* text-decoration: underline; */
+  /* font-weight: bold; */
+  color:blue !important;
 }
 </style>
