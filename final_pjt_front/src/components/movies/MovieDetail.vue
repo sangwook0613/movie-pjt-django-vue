@@ -2,8 +2,10 @@
   <div class="text-light">
     <div class="mb-3 my-4">
       <div class="row g-0 rounded" :style="{ 
-        backgroundImage: `linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 50%), url(${movieDetail.backdrop_path})`, backgroundSize: '800px 100%', backgroundPosition: 'right center', backgroundRepeat: 'no-repeat',
-        }">
+        backgroundImage: `linear-gradient(to right, #141414, rgba(20, 20, 20, 0) 50%), linear-gradient(to left, #141414, rgba(20, 20, 20, 0) 30%), url(${movieDetail.backdrop_path})`,
+        backgroundSize: '840px 100%',
+        backgroundPosition: 'right center',
+        backgroundRepeat: 'no-repeat'}">
         <div class="col-5">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
@@ -57,9 +59,15 @@
       </div>
     </div>
     <div class="my-3 d-flex justify-content-center moreinfo-tag py-2 rounded">
-      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">리뷰 정보</button>
-      <button @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">관련 영상</button>
-      <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">비슷한 작품</button>
+      <div @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light"
+        :style="this.checkMovieDetailClicked[0] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''"
+      >리뷰 정보</div>
+      <div @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light"
+        :style="this.checkMovieDetailClicked[1] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''"
+      >관련 영상</div>
+      <div @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light"
+        :style="this.checkMovieDetailClicked[2] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''"
+      >비슷한 작품</div>
     </div>
     <div class="additional-info-card d-flex flex-column align-items-center">
       <div v-if="checkMovieDetailClicked[0]">
@@ -177,16 +185,9 @@ export default {
 
 
 <style scoped>
-.basic-info-card {
-  background-color: rgba(34, 41, 66, 0.7);
-  border: 3px solid rgba(41, 146, 152, 1);
-  border-radius: .3rem;
-}
-
 .card {
   background-color: inherit;
 }
-
 
 .additional-info-card {
   /* border-radius: .3rem; */

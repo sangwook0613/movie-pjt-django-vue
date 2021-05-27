@@ -1,6 +1,14 @@
 <template>
   <div>
-    <h1 class="text-light">{{ movieDetail.title }} 리뷰</h1>
+    <div class="fw-bold fs-2 text-light text-center mb-3">{{ movieDetail.title }} 리뷰</div>
+    <div class="d-flex align-items-center justify-content-center">
+      <router-link :to="{ name: 'MovieDetail', params: { movieId: movieDetail.id } }"
+        class="text-decoration-none pb-2 fw-bold text-light"
+      >
+        <i class="fas fa-film pe-1"></i>
+        {{ movieDetail.title }} 정보 보기
+      </router-link>
+    </div>
     <div class="col-6 offset-3">
       <!-- <div class="text-white">{{ movieDetail }}</div> -->
       <div class="card-body h-50 component-1 mb-2" v-for="(review, idx) in reverseReviews" :key="idx">
@@ -24,11 +32,9 @@
               <div class="title fw-bold">
                 {{ review.title }}
               </div>
-              <!-- 내용이 없음 -->
-              <div class="content">
+              <div class="content" style="word-break:break-all; word-wrap:break-word;">
                 {{ review.content }}
               </div>
-              <div class="rating">&#43; 더보기</div>
             </div>
           </div>
         </router-link>
@@ -47,31 +53,8 @@
             </div>
           </div>
       </div>
-        <!-- <div class="card p-2 mb-3">
-          <div class="d-flex justify-content-between pb-2">
-            <div class="d-flex align-items-center">
-              <span class="fw-bold fs-5 pe-2">{{ review.title }}</span>
-              <span :class="[makeBadge(review.rating), 'text-center']" style="width: 80px">평점: {{ review.rating }}</span>
-            </div>
-            <button :id="`likeCount-${review.id}`" class="btn" @click="updateReviewLikes(review, review.user)">
-              <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
-              <span>{{ review.likes.length }}</span>
-            </button>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>작성자: {{ review.user }}</span>
-            <router-link
-              :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
-              class="text-decoration-none text-dark text-end"
-            >
-              리뷰 상세보기
-            </router-link>
-          </div>
-        </div> -->
-      </div>
     </div>
-    <!-- <button @click="goBack" class="btn btn-info">이전 페이지로</button>
-  </div> -->
+  </div>
 </template>
 
 <script>

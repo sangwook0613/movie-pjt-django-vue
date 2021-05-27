@@ -3,34 +3,34 @@
     <div class="modal-mask">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header fw-bold fs-4">
             <h4 class="modal-title">리뷰 수정</h4>
-            <button type="button" class="close" @click="[openModal(), modalData.reviewUpdateModalStatus = false]"><span aria-hidden="true">&times;</span></button>
+            <div class="close" @click="[openModal(), modalData.reviewUpdateModalStatus = false]">
+              <i class="fas fa-times 5x fs-3 my-3 me-3"></i>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group pt-2">
-              <label for="reviewUpdateTitle">제목: </label>      
+              <label class="fw-bold fs-6" for="reviewUpdateTitle">제목</label>      
               <input type="text" class="form-control" v-model.trim="reviewUpdateData.title" required>
             </div>
             <div class="form-group pt-2">
-              <label for="reviewUpdateContent">내용: </label>
+              <label class="fw-bold fs-6" for="reviewUpdateContent">내용</label>
               <textarea cols="30" rows="10" class="form-control" v-model.trim="reviewUpdateData.content" required></textarea>
-              <!-- <input type="text" class="form-control" v-model.trim="reviewUpdateData.content" required> -->
             </div>
-            <div class="form-group pt-3">
-              <label for="rating-10">평점</label>
+            <div class="form-group pt-2">
+              <label class="fw-bold fs-6" for="rating-10">평점</label>
               <b-form-rating show-value show-value-max id="rating-10" v-model="reviewUpdateData.rating" stars="10"></b-form-rating>
-              <!-- <p class="mt-2">: {{ reviewUpdateData.rating }}</p> -->
-              <!-- <input type='number' v-model="reviewUpdateData.rating" min='1' max='10' step='1' required> -->
             </div>
             <br />
-            <button
-              @click="[updateReview(reviewUpdateData), openModal(), modalData.reviewUpdateModalStatus = false]"
-              class="btn btn-primary"
-            >수정 완료</button>
-            <!-- <div align="center">
-              <input type="button" class="btn btn-success btn-xs" v-model="actionButton" @click="submitData" />
-            </div> -->
+            <div class="d-flex justify-content-end">
+              <div
+                @click="[updateReview(reviewUpdateData), openModal(), modalData.reviewUpdateModalStatus = false]"
+                class="btn rounded-pill custom-btn text-white fw-bold me-2"
+              >
+                수정 완료
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -80,13 +80,17 @@ export default {
 </script>
 
 <style scoped>
-
 .modal-mask {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   padding: 20px;
-  margin-top: 50px;
+  padding-top: 50px;
+}
+
+.custom-btn {
+  background-color: #00cecb;
+  width: 120px;
 }
 </style>

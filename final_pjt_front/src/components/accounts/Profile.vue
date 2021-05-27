@@ -86,27 +86,37 @@
       <div v-if="checkMovieDetailClicked[2]">
         <h3 class="pt-4 fw-bold">Like Movies</h3>
         <p>이미지를 클릭하면 해당 영화 정보로 이동합니다.</p>
-        <carousel v-if="profile.like_movies.length > 0" :nav="false" :items="5" class="mx-3 profile-detail">
-          <div v-for="(movie, idx) in profile.like_movies" :key="idx" class='card'>
+        <!-- <carousel v-if="profile.like_movies.length > 0" :nav="false" :items="5" class="mx-3 profile-detail">
+          <div v-for="(movie, idx) in profile.like_movies" :key="idx">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
               <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
-        </carousel>
+        </carousel> -->
         <!-- <SimilarMovies/> -->
+        
+        <VueSlickCarousel :arrows="true" v-bind="settings">
+          <div v-for="(movie, idx) in profile.like_movies" :key="idx">
+            <div class="mx-2">
+              <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+                <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              </router-link>
+            </div>
+          </div>
+        </VueSlickCarousel>
       </div>
     </div>    
   </div>
 </template>
 
 <script>
-import carousel from 'vue-owl-carousel'
+import VueSlickCarousel from 'vue-slick-carousel'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Profile',
   components: {
-    carousel,
+    VueSlickCarousel,
   },
   data: function () {
     return {

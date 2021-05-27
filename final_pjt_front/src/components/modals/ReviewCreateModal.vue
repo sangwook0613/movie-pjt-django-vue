@@ -5,34 +5,31 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">리뷰 작성</h4>
-            <button type="button" class="close" @click="[openModal(), modalData.reviewCreateModalStatus = false]"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title fw-bold fs-4">리뷰 작성</h4>
+            <div class="close" @click="[openModal(), modalData.reviewCreateModalStatus = false]">
+              <i class="fas fa-times 5x fs-3 my-3 me-3"></i>
+            </div>
           </div>
           <div class="modal-body">
             <div class="form-group pt-2">
-              <label for="reviewCreateTitle">제목: </label>      
+              <label class="fw-bold fs-6" for="reviewCreateTitle">제목</label>      
               <input type="text" class="form-control" v-model.trim="reviewCreateData.title" required>
             </div>
             <div class="form-group pt-2">
-              <label for="reviewCreateContent">내용: </label>
+              <label class="fw-bold fs-6" for="reviewCreateContent">내용</label>
               <textarea cols="30" rows="10" class="form-control" v-model.trim="reviewCreateData.content" required></textarea>
-              <!-- <input type="text" class="form-control" v-model.trim="reviewCreateData.content" required> -->
             </div>
-            <div class="form-group pt-3">
-              <!-- <label for="reviewCreateRating">평점: </label>
-              <input type='number' v-model="reviewCreateData.rating" min='1' max='10' step='1' required> -->
-            </div>
-            <!-- <br /> -->
-            <label for="rating-10">평점</label>
+            <label class="fw-bold fs-6 pt-2" for="rating-10">평점</label>
             <b-form-rating show-value show-value-max id="rating-10" v-model="reviewCreateData.rating" stars="10"></b-form-rating>
-            <!-- <p class="mt-2">Value: {{ reviewCreateData.rating }}</p> -->
             <br />
-            <button
-              @click="[createReview(reviewCreateData), openModal(), modalData.reviewCreateModalStatus = false]"
-              class="btn btn-primary"
-            >
-              작성
-            </button>
+            <div class="d-flex justify-content-end">
+              <div
+                @click="[createReview(reviewCreateData), openModal(), modalData.reviewCreateModalStatus = false]"
+                class="btn rounded-pill custom-btn text-white fw-bold me-2"
+              >
+                작성
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -79,8 +76,11 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   padding: 20px;
-  margin-top: 50px;
+  padding-top: 50px;
 }
 
-
+.custom-btn {
+  background-color: #00cecb;
+  width: 70px;
+}
 </style>

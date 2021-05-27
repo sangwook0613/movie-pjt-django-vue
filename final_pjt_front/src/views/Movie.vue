@@ -3,49 +3,54 @@
     <div>
       <MovieMainPage/>
     </div>
-    <!-- 가장 좋아하는 장르 추천 영화 -->
-    <div v-if="mostGenreRecommendMovie.length > 0" class="mt-3">
-      <h3 class="fw-bold">가장 좋아하는 장르 영화</h3>
-      <VueSlickCarousel :arrows="true" v-bind="settings">
-        <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx">
-          <div class="mx-2 scale">
-            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
-            </router-link>
-          </div>
-        </div>
-      </VueSlickCarousel>
+    <div v-if="profile.like_movies.length < 5" class="text-light d-flex flex-column align-items-center my-5 pb-5">
+      <div class="fw-bold fs-2">좋아하는 영화를 선택하시면 <span style="color: #00cecb;">추천 영화</span>를 볼 수 있습니다.</div>
+      <div class="mt-4">
+        <router-link :to="{ name: 'MovieSelect'}">
+          <button class="btn rounded-pill white-btn fw-bold fs-5">선택하러 가기</button>
+        </router-link>
+      </div>
     </div>
-    <!-- 장르 추천 영화 -->
-    <div v-if="genreRecommendMovie.length > 0" class="mt-3">
-      <h3 class="fw-bold">장르 추천 영화</h3>
-      <VueSlickCarousel :arrows="true" v-bind="settings">
-        <div v-for="(movie, idx) in genreRecommendMovie" :key="idx">
-          <div class="mx-2 scale">
-            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
-            </router-link>
+    <div v-else>
+      <!-- 가장 좋아하는 장르 추천 영화 -->
+      <div v-if="mostGenreRecommendMovie.length > 0" class="mt-3">
+        <h3 class="fw-bold">가장 좋아하는 장르 영화</h3>
+        <VueSlickCarousel :arrows="true" v-bind="settings">
+          <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx">
+            <div class="mx-2">
+              <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+                <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              </router-link>
+            </div>
           </div>
-        </div>
-      </VueSlickCarousel>
-    </div>
-    <div v-if="keywordRecommendMovie.length > 0" class="mt-3">
-      <h3 class="fw-bold">키워드 추천 영화</h3>
-      <VueSlickCarousel :arrows="true" v-bind="settings">
-        <div v-for="(movie, idx) in keywordRecommendMovie" :key="idx">
-          <div class="mx-2 scale">
-            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
-            </router-link>
+        </VueSlickCarousel>
+      </div>
+      <!-- 장르 추천 영화 -->
+      <div v-if="genreRecommendMovie.length > 0" class="mt-3">
+        <h3 class="fw-bold">장르 추천 영화</h3>
+        <VueSlickCarousel :arrows="true" v-bind="settings">
+          <div v-for="(movie, idx) in genreRecommendMovie" :key="idx">
+            <div class="mx-2">
+              <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+                <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              </router-link>
+            </div>
+
           </div>
-        </div>
-      </VueSlickCarousel>
-    </div>
-    <div v-else class="text-light">
-      <h1>좋아하는 영화를 선택하시면 추천 영화를 볼 수 있습니다.</h1>
-      <router-link :to="{ name: 'MovieSelect'}">
-        <button class="btn btn-light">선택하러 가기</button>
-      </router-link>
+        </VueSlickCarousel>
+      </div>
+      <div v-if="keywordRecommendMovie.length > 0" class="mt-3">
+        <h3 class="fw-bold">키워드 추천 영화</h3>
+        <VueSlickCarousel :arrows="true" v-bind="settings">
+          <div v-for="(movie, idx) in keywordRecommendMovie" :key="idx">
+            <div class="mx-2">
+              <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+                <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              </router-link>
+            </div>
+          </div>
+        </VueSlickCarousel>
+      </div>
     </div>
     
     <!-- 랜덤 추천 영화 -->
@@ -138,6 +143,9 @@ export default {
       'ratingRecommendMovie',
       'runtimeRecommendMovie',
     ]),
+    ...mapState('accountStore', [
+      'profile',
+    ]),
     ...mapState([
       'showNav',
     ]),
@@ -204,20 +212,18 @@ h3 {
   top: 100px !important;
 }
 
-/* .prev-slide{
-  background: no-repeat scroll 0 0;
-  left: -33px;
-}
-.next-slide{
-  background: no-repeat scroll -24px 0px;
-  right: -33px;
-} */
 .prev-slide:hover{
   background-position: 0px -53px;
 }
 .next-slide:hover{
   background-position: -24px -53px;
 }   
+
+.white-btn {
+  border-color: #292828;
+  background-color: #FFFFFF;
+  width: 180px;
+
 .scale {
   transform: scale(1);
   -webkit-transform: scale(1);

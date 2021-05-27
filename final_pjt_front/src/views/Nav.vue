@@ -26,7 +26,7 @@
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
             <li><a href="http://127.0.0.1:8000/admin" class="dropdown-item fw-bold text-primary" v-if="profile.is_superuser">관리자 페이지</a></li>
             <li><router-link :to="{ name: 'Profile', params: { username: jwtUsername } }" class="dropdown-item fw-bold">
-              프로필 수정</router-link></li>
+              내 프로필</router-link></li>
             <li><router-link @click.native="logout" to="#" class="dropdown-item text-danger fw-bold">로그아웃</router-link></li>
           </ul>
         </div>
