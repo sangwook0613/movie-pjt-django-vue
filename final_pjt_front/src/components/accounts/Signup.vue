@@ -1,75 +1,38 @@
 <template>
-  <div class="signup fs-2">
-    <br><br>
-    <div id="login-page" class="row">
-      <div class="input-field col s12 center">
-        <h1>회원 가입</h1>
-        <p class="text-center text-light">환상의 SSAFY에 오신걸 환영합니다!</p>
+  <div class="signup d-flex flex-column align-items-center justify-content-center mt-5 pt-5 row">
+    <h1 class="text-light fw-bold ">환상의 SSAFY에 오신걸 환영합니다.</h1>
+    <!-- animate__animated animate__heartBeat animate__infinite -->
+    <div class="py-5 px-5 form-signin text-dark signup-card mt-5 col-3">
+      <div class="form-floating pb-3">
+        <input type="text" class="form-control" id="floatingInput" placeholder="Username" v-model="credentials.username">
+        <label for="floatingInput">Username</label>
       </div>
-          
-      <div class="row">
-          <div class="input-group mt-3 mb-1 justify-content-center">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">ID</span>
-            </div>
-          <input type="text" name="username" class="form-control"
-          placeholder="ID를 입력해주세요."
-          v-model="credentials.username">
-          </div>
+      <div class="form-floating pb-3">
+        <input type="text" class="form-control" id="floatingInput" placeholder="Email" v-model="credentials.email">
+        <label for="floatingInput">Email</label>
       </div>
-
-      <div class="row">
-          <div class="input-field col s12">
-            <div class="input-group mt-3 mb-1 justify-content-center">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">e-mail</span>
-              </div>
-            <input type="text" name="e-mail" class="form-control"
-            placeholder="e-mail을 입력해주세요."  id="e-mail"
-            v-model="credentials.email">
-            </div>
-        </div>
+      <div class="form-floating pb-3">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model="credentials.password">
+        <label for="floatingPassword">Password</label>
       </div>
-
-      <div class="row">
-        <div class="input-field col s12">
-            <div class="input-group mt-3 mb-1 justify-content-center">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Password</span>
-              </div>
-            <input type="password" id="password" name="password" class="form-control"
-            placeholder="password를 입력해주세요."
-            v-model="credentials.password">
-          </div>
-        </div>
+      <div class="form-floating">
+        <input 
+          type="password" 
+          class="form-control" 
+          id="floatingPasswordConfirm"
+          placeholder="PasswordConfirm"
+          v-model="credentials.passwordConfirmation"
+          @keypress.enter="signup(credentials)"
+        >
+        <label for="floatingPasswordConfirm">PasswordConfirm</label>
       </div>
-
-      <div class="row">
-        <div class="input-field col s12">
-            <div class="input-group mt-3 mb-1 justify-content-center">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Password Confirm</span>
-              </div>
-            <input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control"
-            placeholder="password를 다시 입력해주세요."
-            v-model="credentials.passwordConfirmation"
-            @keypress.enter="signup(credentials)">
-            </div>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-end">
-        <div class="input-field">
-          <button type="submit" class="btn waves-effect waves-light col s12 bg-light"
-          @click="signup(credentials)">가입하기</button>
-        </div>
-        
-        <div class="input-field mx-4">
-          <router-link :to="{ name: 'Login' }" class="btn btn-light btn-block">로그인 페이지로</router-link>
-        </div>
-      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center mt-4">
+        <button type="submit" class="btn white-btn rounded-pill my-3"
+        @click="signup(credentials)">회원가입</button>
+        <router-link :to="{ name: 'Login' }" class="btn black-btn rounded-pill">로그인 페이지로</router-link>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -98,56 +61,25 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 .signup {
-  font-family: 'Lobster', cursive;
-  color: white;
+  color: #FFFFFF;
 }
 
-/* .login-form {
-    width: 200px;
-} */
-
-/* html, body {
-    height: 100%;
+.signup-card {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
 }
 
-.medium-small {
-    font-size: 0.9rem;
-    margin: 0;
-    padding: 0;
+.white-btn {
+  border-color: #292828;
+  background-color: #FFFFFF;
+  width: 150px;
 }
 
-.login-form-text {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.8rem;
+.black-btn {
+  background-color: #292828;
+  border-color: #FFFFFF;
+  width: 150px;
+  color: #FFFFFF;
 }
-
-.login-text {
-    margin-top: -6px;
-    margin-left: -6px !important;
-}
-
-.margin {
-    margin: 0 !important;
-}
-
-.pointer-events {
-  pointer-events: auto !important;
-}
-
-.input-field >.material-icons  {
-  padding-top:10px;
-}
-
-.input-field div.error{
-    position: relative;
-    top: -1rem;
-    left: 3rem;
-    font-size: 0.8rem;
-    color:#FF4081;
-    -webkit-transform: translateY(0%);
-    -ms-transform: translateY(0%);
-    -o-transform: translateY(0%);
-    transform: translateY(0%);
-} */
 </style>

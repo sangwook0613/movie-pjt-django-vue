@@ -284,7 +284,7 @@ const movieStore = {
         key: YOUTUBE_API_KEY,
         part: 'snippet',
         type: 'video',
-        q: movieTitle,
+        q: `영화 ${movieTitle}`,
         maxResults: 4,
       }
       console.log(movieTitle)

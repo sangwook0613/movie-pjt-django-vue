@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <!-- style="width: 100%; height: 100%;" -->
-      <div class="close text-white text-end" @click="openModal"><i class="fas fa-times 5x fs-3 my-3 me-5"></i></div>
+      <div class="close text-white text-end" @click="[openModal(), modalData.movieVideoModalStatus = false]"><i class="fas fa-times 5x fs-3 my-3 me-5"></i></div>
       <div class="video-detail" v-if="selectedVideo">
         <div class="video-container d-flex justify-content-center">
           <iframe :src="videoURL" frameborder="0"></iframe>

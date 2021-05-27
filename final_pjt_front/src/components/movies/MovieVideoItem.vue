@@ -1,10 +1,10 @@
 <template>
   <div class="item col-3" @click="SET_SELECTED_VIDEO(video)">
-    <div class="d-flex flex-column justify-content-start" @click="openVideoModal">
-      <div class="thumbnail-box rounded" :style="{ backgroundImage: `url(${youtubeImageSrc})`, backgroundSize: 'cover' }">
+    <div class="d-flex flex-column justify-content-start align-items-center" @click="openVideoModal">
+      <div class="thumbnail-box rounded my-3" :style="{ backgroundImage: `url(${youtubeImageSrc})`, backgroundSize: 'cover' }">
       </div>
       <!-- {{ video.snippet.title | stringUnescape }} -->
-      <div>
+      <div class="fw-bold video-title">
         <p>{{ video.snippet.title | stringUnescape }}</p>
       </div>
     </div>
@@ -68,7 +68,15 @@ export default {
 }
 
 .thumbnail-box {
-  width: 210px;
-  height: 150px;
+  width: 270px;
+  height: 200px;
+}
+
+.video-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 </style>

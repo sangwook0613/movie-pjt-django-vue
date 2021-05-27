@@ -9,10 +9,10 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="card-title fw-bold fs-1">{{ movieDetail.title }}</div>
               <div>
-                <button :id="`likeCount-${movieDetail.id}`" class="btn bg-light like-btn" @click="updateMovieLikes(movieDetail)">
+                <div :id="`likeCount-${movieDetail.id}`" @click="updateMovieLikes(movieDetail)" class="d-flex align-items-center">
                   <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInMovieLikes(movieDetail.likes)}"></i>
-                  <span>{{ movieDetail.likes.length }}</span>
-                </button>
+                  <span class="text-white fw-bold fs-5 ms-2 me-4">{{ movieDetail.likes.length }}</span>
+                </div>
               </div>
             </div>
             <div class="fw-bold mb-3">
@@ -53,7 +53,6 @@
           </div>
         </div>
         <div class="col-6">
-          <!-- <img :src="movieDetail.backdrop_path" alt="backdrop-image"> -->
         </div>
       </div>
     </div>
@@ -63,7 +62,7 @@
       <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">비슷한 작품</button>
     </div>
     <div class="additional-info-card d-flex flex-column align-items-center">
-      <div class="d-flex flex-column align-items-center" v-if="checkMovieDetailClicked[0]">
+      <div v-if="checkMovieDetailClicked[0]">
         <NoMovieReview :movieDetailInfo="movieDetail"/>
         <MovieDetailReviews v-if="checkCondition(movieDetail.movie_reviews)" :reviews="movieDetail.movie_reviews"/>
       </div>
@@ -119,11 +118,11 @@ export default {
       .then(() => {
         const likeCountImage = document.querySelector(`#likeCount-${movieDetail.id} > i`)
         const likeCountNum = document.querySelector(`#likeCount-${movieDetail.id} > span`)
-        if (likeCountImage.style.color === '' || likeCountImage.style.color === 'black' ) {
+        if (likeCountImage.style.color === '' || likeCountImage.style.color === 'white' ) {
           likeCountImage.style.color = 'crimson'
           likeCountNum.innerText++
         } else {
-          likeCountImage.style.color = 'black'
+          likeCountImage.style.color = 'white'
           likeCountNum.innerText--
         }
       })
@@ -135,7 +134,7 @@ export default {
       if (_.includes(movie_likes, this.jwtUserId)) {
         return 'crimson'
       }
-      return 'black'
+      return 'white'
     },
     showClickAdditionalDetail: function (idx) {
       this.checkMovieDetailClicked = [false, false, false]
@@ -172,27 +171,13 @@ export default {
   beforeDestroy: function () {
     document.body.style.backgroundImage = "";
     document.body.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-
-    // document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
-    // document.body.style.backgroundImage = ""
-    // document.body.style.backgroundColor = "rgba(0,0,0,0.9)"
   }
-
-  // created: function () {
-  //   if (this.$store.getters.isLoggedIn) {
-  //     this.getTodos()
-  //   } else {
-  //     this.$router.push({ name: 'Login' })
-  //   }
-  // },
 }
 </script>
 
 
 <style scoped>
 .basic-info-card {
-  /* background-color: rgba(54, 61, 88, 0.8); */
-  /* background-color: rgba(46, 51, 77, 0.9); */
   background-color: rgba(34, 41, 66, 0.7);
   border: 3px solid rgba(41, 146, 152, 1);
   border-radius: .3rem;
@@ -200,19 +185,11 @@ export default {
 
 .card {
   background-color: inherit;
-  /* background-color: transparent; */
 }
 
-.like-btn {
-  border: 1px solid white;
-  background-color: inherit;
-}
-/* .more-detail-btn {
-  color: rgba(41, 146, 152, 1);
-  text-decoration: underline;
-} */
+
 .additional-info-card {
-  border-radius: .3rem;
+  /* border-radius: .3rem; */
   padding-bottom: 30px;
   margin-bottom: 50px;
 }

@@ -1,11 +1,18 @@
 <template>
-  <div>
-    <VueSlickCarousel :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="'k'+idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img loading="lazy" :src="movie.backdrop_path" alt="movie_backdrop_path" class="card-img-top">
+  <div class="main-page-movie" v-if="mostGenreRecommendMovie.length > 0">
+    <VueSlickCarousel v-bind="settings">
+      <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" >
+        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}" class="text-decoration-none">
+          <div class="main-page-movie" :style="{ backgroundImage: `linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 30%),
+          linear-gradient(to left, #141414, rgba(0, 0, 0, 0) 30%),
+          url(${movie.backdrop_path})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover' }"
+          >
+            <div class="image-text">{{ movie.title }}</div>
+            <div class="image-text-sub">지금 이 영화를 알아보세요!</div>
+          </div>
         </router-link>
-        <h3 class="text-center">{{ movie.title }}</h3>
       </div>
     </VueSlickCarousel>
   </div>
@@ -25,12 +32,13 @@ export default {
   data: function () {
     return {
       settings: {
-        "edgeFriction": 0.35,
-        "infinite": false,
-        "speed": 500,
+        "arrows": false,
+        "infinite": true,
         "slidesToShow": 1,
-        "slidesToScroll": 1
-        },
+        "autoplay": true,
+        "speed": 5000,
+        "autoplaySpeed": 5000,
+      },
     }
   },
   computed: {
@@ -50,5 +58,30 @@ export default {
 </script>
 
 <style>
+.main-page-movie {
+  background-image: linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 50%);
+  width: 1300px;
+  height: 529px;
+  margin-bottom: 40px;
+}
 
+.image-text {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 50px;
+  font-weight: 700;
+  position: relative;
+  top: 390px;
+  left: 70px;
+}
+
+.image-text-sub {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+  top: 390px;
+  left: 76px;
+}
 </style>

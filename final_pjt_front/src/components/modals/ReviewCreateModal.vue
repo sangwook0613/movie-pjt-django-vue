@@ -30,9 +30,9 @@
             <button
               @click="[createReview(reviewCreateData), openModal(), modalData.reviewCreateModalStatus = false]"
               class="btn btn-primary"
-            >작성</button>
-
-
+            >
+              작성
+            </button>
           </div>
         </div>
       </div>

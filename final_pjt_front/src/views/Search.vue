@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="fw-bold pt-1">'{{ this.$route.query.q }}' 검색 결과</h2><br>
+    <h2 class="fw-bold pt-1 text-white">'{{ this.$route.query.q }}' 검색 결과</h2><br>
     <div v-if="searchedMovies">
       <div class="row row-cols-1 row-cols-md-5 g-3">
         <div v-for="(movie, idx) in searchedMovies" :key="'xx'+idx" class="col">
@@ -15,8 +15,8 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-secondary fw-bold text-center text-white">
-      <h2 class="fs-1">검색하신 영화를 찾을 수 없습니다.<br><br>
+    <div v-else class="text-secondary fw-bold text-center text-white mt-5">
+      <h2 class="fs-1 fw-bold">검색하신 영화를 찾을 수 없습니다.<br><br>
       <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i>  <i class="fas fa-sad-cry"></i></h2>
     </div>
   </div>
