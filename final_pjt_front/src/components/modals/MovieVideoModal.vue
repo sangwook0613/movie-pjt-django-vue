@@ -48,7 +48,6 @@ export default {
 </script>
 
 <style scoped>
-
 .modal-mask {
   width: 100%;
   height: 100%;
@@ -56,13 +55,7 @@ export default {
   position: fixed;
   padding: 20px;
   padding-top: 40px;
-  /* margin-top: 30px; */
 }
-
-/* .video-detail {
-  width: 70%;
-  padding-right: 1rem;
-} */
 
 .video-container {
   position: relative;
@@ -75,5 +68,4 @@ export default {
   width: 70%;
   height: 70%;
 }
-
 </style>

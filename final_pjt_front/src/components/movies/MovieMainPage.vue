@@ -3,8 +3,8 @@
     <VueSlickCarousel v-bind="settings">
       <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx" >
         <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}" class="text-decoration-none">
-          <div class="main-page-movie" :style="{ backgroundImage: `linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 30%),
-          linear-gradient(to left, #141414, rgba(0, 0, 0, 0) 30%),
+          <div class="main-page-movie" :style="{ backgroundImage: `linear-gradient(to right, #141414, rgba(20, 20, 20, 0) 30%),
+          linear-gradient(to left, #141414, rgba(20, 20, 20, 0) 30%),
           url(${movie.backdrop_path})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover' }"
@@ -59,7 +59,6 @@ export default {
 
 <style>
 .main-page-movie {
-  background-image: linear-gradient(to right, #141414, rgba(0, 0, 0, 0) 50%);
   width: 1300px;
   height: 529px;
   margin-bottom: 40px;

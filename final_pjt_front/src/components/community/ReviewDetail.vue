@@ -1,5 +1,19 @@
 <template>
   <div class="row text-white review-detail">
+    <div class="d-flex align-items-center justify-content-center">
+      <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }"
+        class="text-decoration-none pb-2 fw-bold text-light pe-5"
+      >
+        <i class="fas fa-film pe-1"></i>
+        {{ reviewDetail.movie.title }} 정보 보기
+      </router-link>
+      <router-link :to="{ name: 'MovieReviews', params: { movieId: reviewDetail.movie.id } }"
+        class="text-decoration-none pb-2 fw-bold text-light ps-5"
+      >
+        <i class="fas fa-list pe-1"></i>
+        {{ reviewDetail.movie.title }} 전체 리뷰
+      </router-link>
+    </div>
     <div class="card col-6 offset-3 review-card">
       <div class="d-flex flex-column align-items-start">
         <!-- {{reviewDetail}} -->
@@ -41,9 +55,6 @@
           </div>
         </div>
       </div>
-      <router-link :to="{ name: 'MovieDetail', params: { movieId: reviewDetail.movie.id } }" class="text-decoration-none">
-        {{ reviewDetail.movie.title }} 정보 보기
-      </router-link>  
       <div v-if="reviewDetail.user.id === jwtUserId" class="d-flex justify-content-end">
         <input
           type="button"
@@ -177,30 +188,10 @@ export default {
   background-color: #292828;
 }
 
-/* .review-detail{
-  margin-left: 50px;
-  margin-top: 50px;
-  padding-left: 50px;
-  padding-top:50px;
-  border-width: 2.5px;
-  border-color: transparent;
-  border-style: solid;
-} */
-
 .comment-card {
-  /* padding-top: 20px; */
-  /* position: relative; */
   padding: 20px;
   border-radius: 8px;
   background-color: #292828;
-  /* display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: inherit;
-  background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem; */
 }
 
 .comment-create-card {
@@ -229,26 +220,14 @@ textarea {
   background-color: #292828;
   border-radius: 8px;
 }
-/* .frame-11 {
-  width: calc(100% - 48px);
-  height: calc(100.73% - 48px);
-  padding: 24px;
-  position: absolute;
-  left: 0;
-  top: -1px;
-} */
-.frame-10 {
-  margin-bottom: 24px;
-}
+
 .ellipse-2 {
   width: 48px;
   height: 48px;
   margin-right: 15px;
   border-radius: 50%;
 }
-.frame-7 {
-  padding: 0 44px 0 0;
-}
+
 .username {
   color: #FFFFFF;
   margin-bottom: 4px;

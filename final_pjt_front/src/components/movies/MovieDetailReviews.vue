@@ -2,7 +2,7 @@
   <div class="px-4">
     <div class="row d-flex justify-content-center">
       <div class="col-3 card-body main-card" v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
-        <div class="d-flex flex-column align-items-start review-card">
+        <div class="d-flex flex-column align-items-start card-text">
           <router-link
             :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
             class="text-decoration-none"
@@ -25,7 +25,6 @@
               <div class="content" style="word-break:break-all; word-wrap:break-word;">
                 {{ review.content }}
               </div>
-              <div class="rating">&#43; 더보기</div>
             </div>
           </router-link>
           <div class="d-flex align-items-center">
@@ -183,5 +182,13 @@ export default {
   background-color: #292828;
   color: #00cecb;
   width: 110px;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>
