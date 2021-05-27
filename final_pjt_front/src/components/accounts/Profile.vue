@@ -222,8 +222,6 @@ export default {
 }
 
 .hovering:hover {
-  /* text-decoration: underline; */
-  /* font-weight: bold; */
-  color:blue !important;
+  color:#00cecb !important;
 }
 </style>

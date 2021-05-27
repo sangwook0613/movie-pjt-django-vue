@@ -204,7 +204,8 @@ export default {
   background-color: #292828;
 }
 span.underline:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   font-weight: bold;
+  color:#00cecb !important;
 }
 </style>

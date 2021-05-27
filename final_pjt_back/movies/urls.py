@@ -41,7 +41,7 @@ urlpatterns = [
     # 최신 인기순
     path('movie/recommend/new/',views.movie_new),
     # 평점순
-    path('movie/recommend/rating/',views.movie_rating),
+    # path('movie/recommend/rating/',views.movie_rating),
     # 상영시간순
     path('movie/recommend/runtime/',views.movie_runtime),
 
