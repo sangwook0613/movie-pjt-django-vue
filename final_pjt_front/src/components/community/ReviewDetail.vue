@@ -20,11 +20,15 @@
         <div class="d-flex justify-content-start mt-3">
           <img
             alt="profile-image"
-            class="ellipse-2"
+            class="profile-image"
             src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
           />
           <div>
-            <p class="username fw-bold fs-6">{{ reviewDetail.user.username }}</p>
+            <router-link :to="{ name: 'Profile', params: { username: reviewDetail.user.username } }"
+              class="text-decoration-none"
+            >
+              <p class="username fw-bold fs-6">{{ reviewDetail.user.username }}</p>
+            </router-link>
             <p class="rating">평점 {{ reviewDetail.rating }}</p>
           </div>
         </div>
@@ -218,13 +222,7 @@ textarea {
   position: inherit;
 }
 
-
-.component-1 {
-  background-color: #292828;
-  border-radius: 8px;
-}
-
-.ellipse-2 {
+.profile-image {
   width: 48px;
   height: 48px;
   margin-right: 15px;
@@ -234,29 +232,22 @@ textarea {
 .username {
   color: #FFFFFF;
   margin-bottom: 4px;
-  @include noto-sans-kr-14-bold;
 }
+
 .rating {
   color: #FFFFFF;
-  @include noto-sans-kr-14-regular;
 }
+
 .title {
   color: #FFFFFF;
   margin-bottom: 14px;
-  @include noto-sans-kr-14-bold;
 }
+
 .content {
   color: #FFFFFF;
   margin-bottom: 14px;
-  @include noto-sans-kr-14-regular;
 }
-.frame-12 {
-  margin-right: 14px;
-}
-.favorite-border-black-24dp-1 {
-  margin-right: 8px;
-  padding: 3px 2px 2.65px;
-}
+
 .vector {
   width: 50%;
   height: 50%;
