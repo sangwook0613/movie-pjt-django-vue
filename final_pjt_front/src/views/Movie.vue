@@ -223,6 +223,7 @@ h3 {
   border-color: #292828;
   background-color: #FFFFFF;
   width: 180px;
+}
 
 .scale {
   transform: scale(1);
