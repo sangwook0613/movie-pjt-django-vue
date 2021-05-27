@@ -469,13 +469,13 @@ def movie_new(request):
 
 
 # 평점순
-@api_view(['GET'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
-def movie_rating(request):
-    movies = Movie.objects.order_by('likes__count')[:20]
-    serializer = MovieListSerializer(movies, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @authentication_classes([JSONWebTokenAuthentication])
+# @permission_classes([IsAuthenticated])
+# def movie_rating(request):
+#     movies = Movie.objects.order_by('likes__count')[:20]
+#     serializer = MovieListSerializer(movies, many=True)
+#     return Response(serializer.data)
 
 
 # 시간순

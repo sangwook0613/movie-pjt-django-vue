@@ -28,7 +28,8 @@
             <div class="feature-box row">
               <div class="fw-bold col-2">감독: </div>
               <div class="col">
-                <span @click="[updateSearchQuery(movieDetail.directors[0].name) ,
+                <span class="underline" 
+                @click="[updateSearchQuery(movieDetail.directors[0].name) ,
               $router.push({name: 'Search', query: {q: movieDetail.directors[0].name }})]">
               {{ movieDetail.directors[0].name }}
               </span>
@@ -38,7 +39,7 @@
               <span class="fw-bold col-2">출연진: </span>
               <div class="col">
                 <span @click="[updateSearchQuery(actor.name) ,$router.push({name: 'Search', query: {q: actor.name }})]" 
-                class="me-1" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
+                class="me-1 underline" v-for="(actor, idx) in movieDetail.actors" :key="idx">{{ actor.name }} </span>
               </div>
             </div>
             <div class="feature-box row">
@@ -210,5 +211,10 @@ export default {
 
 .moreinfo-tag {
   background-color: #292828;
+}
+span.underline:hover {
+  /* text-decoration: underline; */
+  font-weight: bold;
+  color:#00cecb !important;
 }
 </style>

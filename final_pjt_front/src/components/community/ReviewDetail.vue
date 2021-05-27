@@ -27,7 +27,7 @@
             <router-link :to="{ name: 'Profile', params: { username: reviewDetail.user.username } }"
               class="text-decoration-none"
             >
-              <p class="username fw-bold fs-6">{{ reviewDetail.user.username }}</p>
+              <p class="username fw-bold fs-6 hovering">{{ reviewDetail.user.username }}</p>
             </router-link>
             <p class="rating">평점 {{ reviewDetail.rating }}</p>
           </div>
@@ -275,5 +275,10 @@ textarea {
 
 .review-date {
   font-size: 12px;
+}
+.hovering:hover {
+  /* text-decoration: underline; */
+  /* font-weight: bold; */
+  color:blue;
 }
 </style>

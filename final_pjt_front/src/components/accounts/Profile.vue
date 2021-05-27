@@ -27,7 +27,7 @@
         </div>
         <div v-else class="mt-3">
           <span type="button"
-            class="material-icons md-28"
+            class="material-icons md-28 hovering"
             @click="openReviewCreateModal">settings</span>
         </div>
       </div>
@@ -50,14 +50,14 @@
               <router-link
                 :to="{ name: 'ReviewDetail',
                 params: { movieId: review.movie.id, reviewId: review.id }}"
-                class="text-decoration-none text-light"
+                class="text-decoration-none text-light hovering"
               >
                 <div class="fs-5 fw-bold py-2" style="word-break:break-all; word-wrap:break-word;">{{ review.title }}</div>
               </router-link>
 
               <router-link
               :to="{ name: 'MovieDetail', params: { movieId: review.movie.id }}"
-              class="text-decoration-none text-light">
+              class="text-decoration-none text-light hovering">
               {{ review.movie.title }}</router-link>
 
               <div class="fw-bold pt-2">{{ review.rating }}/10</div>
@@ -223,5 +223,8 @@ export default {
   -ms-transform: scale(1.05);
   -o-transform: scale(1.05);
   opacity:0.7;
+  
+.hovering:hover {
+  color:#00cecb !important;
 }
 </style>

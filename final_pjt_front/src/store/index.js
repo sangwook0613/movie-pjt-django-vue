@@ -285,7 +285,7 @@ const movieStore = {
     },
     getSimilarRecommendMovie: function ({ commit, getters }, movieId) {
       const headers = getters.config
-      console.log(SERVER.URL + SERVER.ROUTES.getSimilarRecommendMovie + `${movieId}/`)
+      // console.log(SERVER.URL + SERVER.ROUTES.getSimilarRecommendMovie + `${movieId}/`)
       axios({
         url: SERVER.URL + SERVER.ROUTES.getSimilarRecommendMovie + `${movieId}/`,
         method: 'get',
@@ -439,27 +439,29 @@ const accountStore = {
     updateProfile: function ({  getters, state }, updateData) {
       const headers = getters.config
       const username = state.profile.username
-      console.log(state.profile)
       const updateForm = {
         ...updateData,
         id: state.profile.id,
         username,
       }
-      console.log(state.profile)
-      console.log(updateForm)
+
+      if (updateForm.introduction.length > 200) {
+        alert('소개글은 200자 이내로 작성해주세요!')
+      } else {
       axios({
         url: SERVER.URL + SERVER.ROUTES.profile + `${username}/`,
         method: 'put',
         data: updateForm,
         headers,
       })
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        // console.log(res)
         // commit('GET_PROFILE', res.data)
       })
       .catch((err) => {
         console.log(err)
-      })
+        })
+      }
     }
   }
 }
