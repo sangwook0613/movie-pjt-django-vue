@@ -12,7 +12,7 @@
             <div class="d-flex align-items-center">
               <input class="form-control-sm mx-2" @input="updateSearchInput" 
               @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" 
-              type="text" placeholder="찾을 영화를 입력해주세요."
+              type="text" placeholder="영화, 배우, 감독으로 검색"
               style="width:224px; height: 35px;"
               >
               <i class="fas fa-search fa-lg text-white ms-1" @click="$router.push({name: 'Search', query: {q: searchInput}})"></i>
@@ -80,7 +80,6 @@ export default {
       'profile'
     ]),
   },
-
 }
 </script>
 

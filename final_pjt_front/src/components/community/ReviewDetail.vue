@@ -66,7 +66,7 @@
     </div>
     <div class="col-6 offset-3 mt-3 mb-4">
       <div v-if="reviewDetail.comment_count !== 0">
-        <div v-for="(comment, idx) in reviewDetail.review_comments" :key="idx">
+        <div v-for="(comment, idx) in reverseComments" :key="idx">
           <CommentCard :comment="comment" :movieId="reviewDetail.id" class="mt-3 comment-card"/>
         </div>
       </div>
@@ -107,7 +107,10 @@ export default {
     ...mapGetters([
       'config',
       'jwtUserId',
-    ])
+    ]),
+    reverseComments: function () {
+      return _.reverse(this.reviewDetail.review_comments)
+    }
   },
   methods: {
     ...mapActions('communityStore', [
