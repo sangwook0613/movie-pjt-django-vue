@@ -68,7 +68,7 @@
       <div v-if="checkProfileDetailClicked[1]">
         <div class="py-2 fw-bold fs-6 text-center">제목 또는 작성자를 클릭하면 해당 정보로 이동합니다.
           <div>
-            <div v-for="(likeReview,idx) in profile.like_reviews" :key="'D'+idx" class="my-2 col-3 mx-5 profile-card"> 
+            <div v-for="(likeReview,idx) in profile.like_reviews" :key="'D'+idx" class="my-2 col-6 profile-card"> 
               <router-link :to="{ name: 'ReviewDetail',
                 params: { movieId: likeReview.movie.id, reviewId: likeReview.id }}"
                 class="text-decoration-none text-light py-2"
@@ -86,8 +86,7 @@
         </div>
       </div>
       <div v-if="checkProfileDetailClicked[2]">
-        <h3 class="pt-4 fw-bold">Like Movies</h3>
-        <p>이미지를 클릭하면 해당 영화 정보로 이동합니다.</p>
+        <div class="py-2 fw-bold fs-6 text-center">이미지를 클릭하면 해당 영화 정보로 이동합니다.</div>
         <div class="container row">
           <div v-for="(movie, idx) in profile.like_movies" :key="idx" class="col-3 mb-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
@@ -223,7 +222,7 @@ export default {
   -ms-transform: scale(1.05);
   -o-transform: scale(1.05);
   opacity:0.7;
-  
+}
 .hovering:hover {
   color:#00cecb !important;
 }

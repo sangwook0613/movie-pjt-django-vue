@@ -91,6 +91,8 @@ export default {
     this.getLikeChoiceMovie()
     this.getProfile(this.jwtUsername)
     this.openLoadingBackground()
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundColor = "rgb(20, 20, 20)";
   },
 }
 </script>

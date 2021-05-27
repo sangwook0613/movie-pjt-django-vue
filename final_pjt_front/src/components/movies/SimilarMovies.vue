@@ -2,10 +2,14 @@
   <div>
     <div v-if="similarRecommendMovie.length > 0" class="d-flex">
       <div v-for="(movie, idx) in similarRecommendMovie.slice(0, 4)" :key="idx" class="mx-3">
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+        <a :href="`./${movie.id}`">
+        <div class="create-box rounded scale" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
+          </div>
+        </a>
+        <!-- <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
           <div class="create-box rounded scale" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
           </div>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </div>
