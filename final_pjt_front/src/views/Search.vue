@@ -8,9 +8,6 @@
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}" >
               <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top scale">
             </router-link>
-            <!-- <div class="card-footer bg-transparent border-dark">
-              <p class="card-text text-center fw-bold text-dark">{{ movie.title }}</p>
-            </div> -->
           </div>
         </div>
       </div>

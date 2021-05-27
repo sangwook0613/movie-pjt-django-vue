@@ -6,17 +6,7 @@
           <div class="create-box rounded scale" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
           </div>
         </router-link>
-          <!-- <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top"> -->
-
-
-        <!-- <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img :src="movie.poster_path" alt="movie-poster" class="card-img-top similar-transparent"
-          @click="[showClickMovieDetail(),getRandomRecommendMovie()]"> -->
-                    <!-- @mouseover="moveDetail(movie.id)" -->
-
-        <!-- </router-link> -->
       </div>
-
     </div>
   </div>
 </template>
@@ -58,10 +48,6 @@ export default {
 </script>
 
 <style scoped>
-/* .similar-transparent{
-    opacity: 0.4;
-} */
-
 .create-box {
   width: 210px;
   height: 350px;

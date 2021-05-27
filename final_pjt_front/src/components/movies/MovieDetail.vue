@@ -5,7 +5,8 @@
         backgroundImage: `linear-gradient(to right, #141414, rgba(20, 20, 20, 0) 50%), linear-gradient(to left, #141414, rgba(20, 20, 20, 0) 30%), url(${movieDetail.backdrop_path})`,
         backgroundSize: '840px 100%',
         backgroundPosition: 'right center',
-        backgroundRepeat: 'no-repeat'}">
+        backgroundRepeat: 'no-repeat',
+        height: '640px'}">
         <div class="col-5">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
@@ -117,6 +118,7 @@ export default {
     ]),
     updateMovieLikes: function (movieDetail) {
       const headers = this.config
+      console.log(movieDetail.likes)
       console.log(!_.includes(movieDetail.likes, this.jwtUserId))
       console.log(movieDetail.id, this.jwtUserId)
       axios({
@@ -175,7 +177,6 @@ export default {
   created: function () {
     this.getMovieDetail(this.$route.params.movieId)
     this.checkMovieDetailClicked = [true, false, false]
-    // this.movieDetail.
   },
   beforeDestroy: function () {
     document.body.style.backgroundImage = "";
@@ -185,10 +186,18 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .card {
   background-color: inherit;
 }
+
+/* .card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+} */
 
 .additional-info-card {
   /* border-radius: .3rem; */

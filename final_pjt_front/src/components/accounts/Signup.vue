@@ -1,7 +1,6 @@
 <template>
   <div class="signup d-flex flex-column align-items-center justify-content-center mt-5 pt-5 row">
-    <h1 class="text-light fw-bold ">환상의 SSAFY에 오신걸 환영합니다.</h1>
-    <!-- animate__animated animate__heartBeat animate__infinite -->
+    <h1 class="text-light fw-bold animate__animated animate__heartBeat animate__infinite">환상의 SSAFY에 오신걸 환영합니다.</h1>
     <div class="py-5 px-5 form-signin text-dark signup-card mt-5 col-3">
       <div class="form-floating pb-3">
         <input type="text" class="form-control" id="floatingInput" placeholder="Username" v-model="credentials.username">
@@ -58,10 +57,6 @@ export default {
   created: function () {
     document.body.style.backgroundImage = "linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.5)), url('https://image.tmdb.org/t/p/original/i34ijHY5hr52uYcKZ48wq7K6yUs.jpg')";
   },
-  beforeDestroy: function () {
-    document.body.style.backgroundImage = "";
-    document.body.style.backgroundColor = "rgba(20, 20, 20, 0.9)";
-  }
 }
 </script>
 

@@ -1,44 +1,46 @@
 <template>
   <div class="px-4">
     <div class="row d-flex justify-content-center">
-      <div class="col-3 card-body main-card" v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
-        <div class="d-flex flex-column align-items-start card-text">
-          <router-link
-            :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
-            class="text-decoration-none"
-          >
-            <div class=" d-flex justify-content-start">
-              <img
-                alt="profile-image"
-                class="profile-image"
-                src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
-              />
-              <div>
-                <p class="username">{{ review.user.username }}</p>
-                <p class="rating">평점 {{ review.rating }}</p>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="title fw-bold">
-                {{ review.title }}
-              </div>
-              <div class="content" style="word-break:break-all; word-wrap:break-word;">
-                {{ review.content }}
-              </div>
-            </div>
-          </router-link>
-          <div class="d-flex align-items-center">
-            <div :id="`likeCount-${review.id}`" class="" @click="updateReviewLikes(review, review.user.id)">
-              <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
-              <span class="ps-2 rating">{{ review.likes.length }}</span>
-            </div>
-            <div class="comment-count">
+      <div class="col-3 " v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
+        <div class="main-card card-body">
+          <div class="d-flex flex-column align-items-start card-text">
+            <router-link
+              :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
+              class="text-decoration-none"
+            >
+              <div class=" d-flex justify-content-start">
                 <img
-                  alt=""
-                  class="vector"
-                  src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
+                  alt="profile-image"
+                  class="profile-image"
+                  src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
                 />
-              <span class="ps-2 rating">{{ review.comment_count }}</span>
+                <div>
+                  <p class="username">{{ review.user.username }}</p>
+                  <p class="rating">평점 {{ review.rating }}</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="title fw-bold">
+                  {{ review.title }}
+                </div>
+                <div class="content" style="word-break:break-all; word-wrap:break-word;">
+                  {{ review.content }}
+                </div>
+              </div>
+            </router-link>
+            <div class="d-flex align-items-center">
+              <div :id="`likeCount-${review.id}`" class="" @click="updateReviewLikes(review, review.user.id)">
+                <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
+                <span class="ps-2 rating">{{ review.likes.length }}</span>
+              </div>
+              <div class="comment-count">
+                  <img
+                    alt=""
+                    class="vector"
+                    src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
+                  />
+                <span class="ps-2 rating">{{ review.comment_count }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -170,6 +172,11 @@ export default {
 
 .comment-count {
   margin-left: 10px;
+}
+
+.create-box {
+  width: 240px;
+  height: 300px;
 }
 
 .custom-btn {

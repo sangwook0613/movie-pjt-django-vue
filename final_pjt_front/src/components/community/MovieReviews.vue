@@ -11,28 +11,28 @@
     </div>
     <div class="col-6 offset-3">
       <!-- <div class="text-white">{{ movieDetail }}</div> -->
-      <div class="card-body h-50 component-1 mb-2" v-for="(review, idx) in reverseReviews" :key="idx">
+      <div class="card-body review-card mb-2" v-for="(review, idx) in reverseReviews" :key="idx">
         <router-link
           :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
-          class="text-decoration-none text-dark"
+          class="text-decoration-none"
         >
           <div class="d-flex flex-column align-items-start">
             <div class=" d-flex justify-content-start">
               <img
                 alt="profile-image"
-                class="ellipse-2"
+                class="profile-image"
                 src="https://static.overlay-tech.com/assets/eba0d02d-858f-4cab-9e4e-d897a0d4800d.png"
               />
               <div>
-                <p class="username">{{ review.user.username }}</p>
+                <p class="username fw-bold fs-6">{{ review.user.username }}</p>
                 <p class="rating">평점 {{ review.rating }}</p>
               </div>
             </div>
             <div class="mb-3">
-              <div class="title fw-bold">
+              <div class="title fw-bold fs-5">
                 {{ review.title }}
               </div>
-              <div class="content" style="word-break:break-all; word-wrap:break-word;">
+              <div class="content fs-6" style="word-break:break-all; word-wrap:break-word;">
                 {{ review.content }}
               </div>
             </div>
@@ -43,7 +43,7 @@
               <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(review.likes)}"></i>
               <span class="ps-2 rating">{{ review.likes.length }}</span>
             </div>
-            <div class="comment-count">
+            <div class="comment-count d-flex align-items-center">
                 <img
                   alt=""
                   class="vector"
@@ -83,11 +83,11 @@ export default {
         .then(() => {
           const likeCountImage = document.querySelector(`#likeCount-${review.id} > i`)
           const likeCountNum = document.querySelector(`#likeCount-${review.id} > span`)
-          if (likeCountImage.style.color === '' || likeCountImage.style.color === 'black' ) {
+          if (likeCountImage.style.color === '' || likeCountImage.style.color === 'white' ) {
             likeCountImage.style.color = 'crimson'
             likeCountNum.innerText++
           } else {
-            likeCountImage.style.color = 'black'
+            likeCountImage.style.color = 'white'
             likeCountNum.innerText--
           }
         })
@@ -109,7 +109,7 @@ export default {
       if (_.includes(review_likes, this.jwtUserId)) {
         return 'crimson'
       }
-      return 'black'
+      return 'white'
     },
     openReviewCreateModal: function () {
       this.openModal()
@@ -148,6 +148,42 @@ export default {
 </script>
 
 <style scoped>
+
+.review-card {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #292828;
+}
+.profile-image {
+  width: 48px;
+  height: 48px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+.username {
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.rating {
+  color: #FFFFFF;
+}
+
+.title {
+  color: #FFFFFF;
+  margin-bottom: 14px;
+}
+
+.content {
+  color: #FFFFFF;
+  margin-bottom: 14px;
+}
+
+.vector {
+  width: 50%;
+  height: 50%;
+}
 .card {
   background-color: #ffffff;
 }
