@@ -1,8 +1,8 @@
 <template>
   <div class="px-4">
     <div class="row d-flex justify-content-center">
-      <div class="col-3 " v-for="(review, idx) in reviews.slice(0, 4)" :key="idx">
-        <div class="main-card card-body">
+      <div class="col-3 main-card card-body mx-2" v-for="(review, idx) in reviews.slice(0, 3)" :key="idx">
+        <div class="me-5">
           <div class="d-flex flex-column align-items-start card-text">
             <router-link
               :to="{ name: 'ReviewDetail', params: { movieId: review.movie, reviewId: review.id }}"
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-end mt-3">
-      <div v-if="reviews.length > 4">
+      <div v-if="reviews.length > 3">
         <router-link :to="{ name: 'MovieReviews', params: { movieId: reviews[0].movie } }" class="text-decoration-none rounded-pill fw-bold btn custom-black-btn">
           리뷰 모음
         </router-link>  
