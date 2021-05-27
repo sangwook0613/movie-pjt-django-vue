@@ -1,281 +1,273 @@
-# final pjt
+# README 정리
 
-> 초기세팅: final_pjt_back에 .env 파일 만들어서 다음과 같이 사용
+## 1. 팀원 정보 및 업무 분담 내역
 
-```bash
-# install 필요
-$ pip install python-decouple
-# .env
-MOVIE_API_KEY={TMDB_KEY}
-X_Naver_Client_Id={X_Naver_Client_Id}
-X_Naver_Client_Secret={X_Naver_Client_Secret}
-```
+**박상욱(팀장)**  
 
-```python
-# movies/views.py
-from decouple import config
-MOVIE_API_KEY = config('MOVIE_API_KEY')
-X_Naver_Client_Id = config('X_Naver_Client_Id')
-X_Naver_Client_Secret = config('X_Naver_Client_Secret')
-```
+> front-end 책임자
 
+- 프로젝트 방향 구상 및 ERD 작성
+- 피그마 UI, UX 디자인
+- vuex store module 설계
+- front-end 최종 디자인
 
 
-```bash
-$ python manage.py migrate
-$ python manage.py createsuperuser
-```
 
+**방지환** 
 
+> back-end 책임자
 
-### front
+- 프로젝트 방향 구상 및 ERD 작성
+- DRF 서버, django-model 설계
 
-> npm i + .env.local 에 아래꺼 추가
+- 추천 알고리즘 설계
+- front-end 필요한 위치에 간단히 구현
 
-```bash
-VUE_APP_SERVER_URL=http://127.0.0.1:8000
-```
 
 
 
-### Commit 규칙
 
-1. 첫 문자는 대문자 and 동사 (Update, Create, Delete...)
-2. 두 번째는 front 인지 back 인지 (front, back)
-3. 추가한 기능 + (수정한 파일)
+## 2. 데이터베이스 모델링(ERD)
 
-```bash
-$ git commit -m "Update back signup view.py"
+> draw.io 를 이용하여 설계
 
-$ git commit -m "Update front movie_detail Detail.Vue"
-```
+- Movies와 Genres, Keyword, Person(배우 ,감독), user_likes는 M:N관계
+  - 하나의 영화가 여러개의 값을 가질 수 있고 하나의 Genre, Keyword, Person, User도 여러개의 좋아요를 누를 수 있다.
+- Movies와 Review 는 1: N 관계
+  - 하나의 영화는 여러개의 리뷰를 가질 수 있다.
+  - Review와 Comment도 1:N 관계
+    - 하나의 리뷰에 여러개의 댓글을 가질 수 있다.
 
+![image-20210527204419517](README 정리.assets/image-20210527204419517.png)
 
 
-### Git branch
 
-```bash
-# 확인
-$ git branch
 
-# 생성
-$ git branch <branch name>
 
-# 이동
-$ git switch <branch name>
+## 3. 필수 기능
 
-# 삭제
-$ git branch -D <branch name>
+#### A. 관리자뷰
 
-# 병합
-$ git merge <branch name>
-$ git log --oneline --graph
-$ git branch -d <branch name> 삭제해준다
-```
+1. 관리자 권한의 유저만 영화 등록 / 수정 / 삭제 권한을 가집니다.
+2. 관리자 권한의 유저만 유저 관리 권한을 가집니다.
+3. 장고에서 기본적으로 제공하는 admin 기능을 이용하여 구현합니다.
+4. Vue.js를 활용하는 경우에도 Django admin기능을 이용하여 구현할 수 있습니다.
 
+- 영화와 유저에 대한 등록/ 수정/ 삭제 기능은 따로 만들지 않고 관리자 권한을 가진 유저만 Django의 admin페이지에 접근하여 수정 가능하도록 설계하엿습니다.
+- Navbar의 프로필 버튼을 누르면 다음과 같이 관리자 유저면 관리자 페이지로 이동할 수 있는 버튼이 보입니다.
 
+**<프로필 버튼 눌렀을 때>**
 
-#### 작업 순서
+![image-20210527163737176](README 정리.assets/image-20210527163737176.png)
 
-1. 생성
-2. 이동
-3. 작업 (이동한 branch에서 작업)
-4. git push (작업한 branch에서 push)
-   - $ git push origin `<branch name>`
-5. 원격 저장소에서 merge(pull request)
-6. 충돌 없으면 merge 하고, 충돌 있으면 상의
-7. 로컬 + 원격에서  branch 삭제
+- 관리자 페이지를 누르면 a태그로 Django의 admin 페이지로 이동하도록 구현하였습니다.
 
 
 
+#### B. 영화 정보
 
+1. 영화 정보는 Database Seeding 을 활용하여 최소 50 개 이상의 데이터가 존재하도록 구성해야 합니다.
 
-#### 0519
+- 저희 팀은 TMDB API를 이용하여 TMDB 서버로부터 한국 인기 영화와 평점 높은 영화를 받아서 간단한 필터링 작업을 거친 후 DB를 구축하였습니다.
+  - 영화 포스터가 없는경우
+  - 감독, 배우 등의 필수 DB가 누락된 경우
+  - 두 API에서 겹치는 데이터를 필터링 하기 위해서 이미 저장한 영화인 경우 패스
+- 배우와 감독의 이름이 영어로 제공되기 때문에 한글로 변환하는 작업을 진행하였습니다.
+  - 배우의 Detail 페이지에 한글 이름이 있는 경우가 있고 없는 경우가 있었기 때문에, 네이버의 한글 감지 API를 이용하여 한글이 있는 경우에 한국어 이름까지 저장했습니다.
+- TMDB에서 제공하는 영화별 키워드도 받아서 저장하였는데 중복되는 키워드를 카운트하는 속성을 따로 만들었습니다.
+  - 6000개가 넘는 전체 데이터중에서 10개 미만의 데이터가 나오는 경우 무의미한 데이터라고 판단하여 삭제하는 후처리 작업을 진행하였습니다.
 
-- **movies model 작성**
-- **URL 정리**
-- account 수업때 했던 코드 옮겨놈
-- drf, drf-jwt, cors 설치해놈 -> freeze완료
+- 사용 API
+  1. 영화에 대한 정보: TMDB `/movie/popular`, `/movie/top_rated`
+  2. 장르에 대한 정보: TMDB `/genre/movie/list`
+  3. 단일 영화의 배우와 감독에 대한 정보: TMDB `/movie/{movie_id}/credits`
+  4. 단일 배우와 감독에 대한 정보:`/person/{person_id}`
+  5. 단일 영화에 대한 키워드: `/movie/{movie_id}/keywords`
+  6. 네이버 파파고 언어감지
 
-```python
-# top_rated 영화
-MOVIE_URL = f'https://api.themoviedb.org/3/movie/top_rated?api_key={token}&language=ko-KR&page={page}'
 
-# popular region = KR
-f'https://api.themoviedb.org/3/movie/popular?api_key={token}&language=ko-KR&page={pagee}&region=KR'
 
-# 전체 장르
-GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={token}&language=ko-KR'
+- `urls.py`에 path를 만들어서 `127.0.0.1:8000/api/m1/updateDB/` 로 요청을 보내면 TMDB API를 이용한 알고리즘을 통해 자동으로 DB를 업데이트 할 수 있습니다.
+- 최종적으로 **6176개의 영화**와 **19개의 장르**, **16236명의 배우와 감독**, **684개의 키워드**로 이루어진 데이터베이스를 구축했습니다.
 
-# 영화의 CREDIT 목록 (PEOPLE)
-MOVIE_CREDIT_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={token}&language=ko-KR'
+![image-20210527164857178](README 정리.assets/image-20210527164857178.png)
 
-# 배우 DETAIL
-ACTOR_DETAIL_URL = f'https://api.themoviedb.org/3/person/{actor_id}?api_key={token}&language=ko-KR'
 
-# 감독 DETAIL
-DIRECTOR_DETAIL_URL = f'https://api.themoviedb.org/3/person/{director_id}?api_key={token}&language=ko-KR'
 
-# 영화 KEYWORD
-MOVIE_KEYWORD_URL = f'https://api.themoviedb.org/3/movie/{movie_id}/keywords?api_key={token}'
-```
 
 
+- 모든 로그인 된 유저는 영화에 대한 평점 등록 / 수정 / 삭제 등을 할 수 있어야 합니다.
 
-- 현재 모델 상황
+1. **평점등록**
 
-![image-20210520020642874](README.assets/image-20210520020642874.png)
+**<리뷰+평점 등록>**
 
+![image-20210527171355769](README 정리.assets/image-20210527171355769.png)
 
+- 리뷰를 등록하면 리뷰가 등록되며 등록한 리뷰 상세정보 페이지로 이동한다.
 
 
 
-#### 0520
+2. **수정 및 삭제**
 
-- 현재 모델 상황
-- Director + Actor = Person 으로 교체
+**<리뷰 상세정보 페이지>**
 
-![image-20210520181056564](README.assets/image-20210520181056564.png)
+![image-20210527171432134](README 정리.assets/image-20210527171432134.png)
 
 
 
-- server/url 수정 완료
-- 전체 영화, 단일 영화 시리얼라이즈+view 완료
-- serializers 추천 알고리즘, Profile 제외하고 완료
+**<리뷰 수정>**
 
-#### 0521
+![image-20210527171542971](README 정리.assets/image-20210527171542971.png)
 
-- serializers profile, 검색
-- profile 페이지 초안 완료
+- 리뷰 수정 버튼을 누르면 기존에 작성한 리뷰를 보여주는 모달 창이 나온다.
+- 리뷰를 수정하고 수정 완료 버튼을 누르면 리뷰 및 평점이 수정된다.
+- 삭제 버튼을 누르면 리뷰가 삭제되면서 Home 페이지로 돌아간다.
 
 
 
+**<리뷰 수정 완료>**
 
+![image-20210527171639383](README 정리.assets/image-20210527171639383.png)
 
-## 고민해야 할 사항
 
-### 0520
 
-#### back
 
-1. review 작성 시 영화를 DB에 있는 것만 작성을 할 수 있게 하려고 하는데 선택지가 너무 많아진다
-   - 해결할 방법 필요 or 검색
-2. Keyword 번역문제 아직 해결 안됨
-3. user_profile_image => 사진으로 하면 저장할 방법 필요 => 캐릭터같은거 선택지를 준다.
-4. movie에 연결된 like와 hate 각각 처리했는데, like가 눌리면 hate가 취소되고 반대로도 되야함
-   - front랑 back 에서 모두 처리해야 할듯
 
-### 0521
+#### C. 추천 알고리즘
 
-#### back
+1. 평점을 등록한 유저는 해당 정보를 기반으로 영화를 추천 받을 수 있어야 합니다
+   - 좋아요를 누른 영화를 기반으로 추천 알고리즘을 작성
+   - 좋아요를 누른 영화와 장르가 최대한 많이 겹치는 영화를 추천했습니다.
+   - 제일 좋아하는 1개의 장르를 가장 상단에 보여주고 그 다음으로 좋아하는 1번과 겹치지 않는 2, 3, 4순위의 장르들의 장르를 추천했습니다.
+   - 로그인한 사용자가 제일 좋아하는 키워드 1개를 선정하여, 같은 키워드를 갖는 영화를 추천했습니다.
 
-1. keyword로 검색 기능 구현해야함
+2. 추천 알고리즘의 지정된 형식은 없으나 사용자는 반드시 최소 1 개 이상의 방식으로 영화를 추천 받을 수 있어야 합니다.
 
-3. 키워드 관련 전처리 필요
-   - 키워드를 비율로 보고 정리할지? 혹은 일정 count 수가 안되면 바로 삭제할지?
-   - 만약 키워드가 하나도 없는 영화가 있다면 어떻게 보여줄지? -> front에서 만약 length가 0이면 보여주지 않는다?
-4. review 모델 컬럼명 수정 필요할듯..!
-   - movie -> movie_id
+3. 추천 방식은 각 팀별로 자유롭게 선택할 수 있으며 어 떠한 방식으로 추천 시스템을 구성 했는지 설명할 수 있어야 합니다.
 
 
 
+🔎**제일 좋아하는 장르 + 2,3,4순위 장르와 유사한 영화 추천**
 
+![image-20210527193515357](README 정리.assets/image-20210527193515357.png)
 
-### 0522
 
-#### front
 
-네비게이션 에러
+🔎**키워드별 + 랜덤 추천 + 최신 영화 추천**
 
-```
-NavigationDuplicated: Avoided redundant navigation to current location: "/search?q=%EC%B9%B4%EC%98%A4%EC%8A%A4"."
-```
+![image-20210527193741233](README 정리.assets/image-20210527193741233.png)
 
 
 
-타입에러
+🔎 **영화 정보 상세보기 페이지**
 
-```
-TypeError: Cannot read property 'length' of undefined
-```
+> 영화 디테일 페이지에서 비슷한 장르 버튼을 누르면 모든 장르가 완전히 겹치거나(장르가 1,2개 인 경우도 있기 때문)
+>
+> 3개 이상 겹치는 영화들을 비슷한 작품으로 추천해준다.
 
-=> 데이터 없는 경우 undefined는 length 구할수 없음
+![image-20210527194403493](README 정리.assets/image-20210527194403493.png)
 
 
 
+#### D. 커뮤니티
 
+i. 영화 정보와 관련된 대화를 할 수 있는 커뮤니티 기능을 구현해야 합니다
 
+- 영화 상세정보에 들어가면 사용자들끼리 리뷰를 작성하고 댓글을 남길 수 있도록 구현해놨습니다.
 
+**🔎영화 Detail 페이지**
 
-### 0522
+![image-20210527210337360](README 정리.assets/image-20210527210337360.png)
 
-> JavaScript 배열에서 값 제거할 때 pop(data)로 안되고 indexOf로 값 찾은다음 splice 해야함
 
 
+ii. 로그인한 사용자만 글을 조회 / 생성 할 수 있으며 작성자 본인만 글을 수정 삭제 할 수 있습니다.
 
-처음에 선택할 때 15개 중에서 이미 좋아요 누른게 있을 수 있음
+iii. 사용자는 작성된 게시글에 댓글을 작성할 수 있어야 하며 작성자 본인만 댓글을 삭제 할 수 있습니다.
 
-- 처리 필요함
+iv. 각 게시글 및 댓글은 생성 및 수정 시각 정보가 포함되어야 합니다.
 
+**🔎 리뷰 Detail**
 
+- 리뷰와 댓글 모두 본인이 아니면 수정/ 삭제 버튼이 보이지 않고, django-server로 요청이 가더라도 저장이 되지 않도록 막아놨습니다.
 
+![image-20210527210948347](README 정리.assets/image-20210527210948347.png)
 
 
-```
-if serializer.is_valid(raise_exception=True):
-=> 통과 못해서
-Validation error => 400 bad request 발생
-```
 
-print(serializer.errors) 찍으면 무슨 에러인지 알 수 있음
 
-movie를 id값 넘겨줘야 되고, user정보를 넘기지 않아서 발생했었음.
 
 
 
+#### E. 기타
 
+i. 최소한 5 개 이상의 URL 및 페이지를 구성해야 합니다.
 
--> 리뷰 작성 시에 rating 1~10 아닌 값 입력으로 작성은 되서 막는 방법 필요
+- `SERVER_URL`  +
+  - /login/ : 로그인 페이지
+  - /signup/ : 회원가입 페이지
+  - /movieselect/ : 초기 5개의 선호 영화 고르는 페이지
+  - /movie/ :  메인 페이지
+  - /movie/{movie_id} : 영화 상세정보 페이지
+  - /movie/{movie_id}/review/{review_id} : 영화에 해당하는 리뷰 보여주는 페이지
+  - /profile/username : 유저 프로필
+  - /search?q={검색어} : 검색 결과 보여주는 페이지
 
 
 
-### 0523
+ii. HTTP Method 와 상태 코드는 상황에 맞게 적절하게 반환되어야 하며 필요에 따라 메시지 프레임워크 등을 사용하여 에러 페이지를 구성해야 합니다.
 
-초기 좋아요 영화 설정 시에 이미 좋아요 누른 영화 표시하려고함
+- 로그인, 회원 가입 시 실패하면 경고창으로 에러 관련 경고창 구현
 
-=> 이미 좋아요 누른건 좋아요 취소 안되도록 view하나 더 만들어서 해결
+![image-20210527203516733](README 정리.assets/image-20210527203516733.png)
 
 
 
-### 0524
+- 제공하지 않는 url 접근 시(404 error) 보여주는 페이지 생성
 
-profile/admin -> profile/jihwn 으로 넘어가는데 라우터링크로 하면  jihwan으로 바뀌었다가 다시 돌아옴.
+![image-20210527203702455](README 정리.assets/image-20210527203702455.png)
 
-a태그로 하니까 새로고침되면서 해결되는데 정확한 이유는 모르겠음.
 
 
+iii. 필요한 경우 Ajax 를 활용한 비동기 요청을 통해 사용자 경험을 적절하게 향상 시켜야 합니다.
 
-### 0525
+- 초기 페이지와 검색결과를 띄워줄 때 로딩 딜레이를 넣어줘서 사용자 경험을 향상 시켰습니다.
 
-movieselect 에서 skip 가능하게 => 추천영화 없으면 movie select로 이동 버튼 생성
+![image-20210527210001217](README 정리.assets/image-20210527210001217.png)
 
-초기 페이지 login페이지로
 
-없는 url 입력시 이동하는 페이지 설정
 
-a태그로 django admin 페이지 하드코딩해서 보냄 (127.0.0.1:8000/admin/)
 
-초기 페이지 장르별로 1개씩 뽑아서 보여주기  완료
 
-imdb_id 값이 없는 영화 필터링 => 이상한 영화들이 많이 저장되서 거름
 
 
+## 4. 목표 서비스 구현 및 실제 구현 정도
 
-### 0526
+🎈 **앞의 필수 기능은 모두 구현 완료**
 
-```
-# error
-django.db.utils.OperationalError: parser stack overflow
-```
+- 페이지 간 뷰라우터를 이용하여 자유롭게 이동 가능
+  - 프로필에서 다른 유저의 프로필로 이동하는 뷰 라우터가 제대로 동작하지 않아서 a태그로 대체하였습니다.
 
-person 너무 많아서 recurssion 에러발생
+- vuex module을 movie, account, community로 나누어 목적에 맞게 vuex store module을 이용하여 원하는 정보 가져다 쓸 수 있었습니다.
+
+- 처음에 로그인 하면 추천을 위한 데이터를 얻기 위해 선호 영화를 선택하는 페이지를 구상하였고 구현할 수 있었습니다.
+
+<img src="README 정리.assets/image-20210527221249754.png" alt="image-20210527221249754" style="zoom:50%;" />
+
+- 영화, 영화 내용, 배우, 감독을 이용하여 검색 기능을 구현했습니다.
+  - 검색 이후 검색창이 초기화 되도록 만드는 것을 구현하지 못했습니다.
+- heroku와 netlify를 이용한 배포 테스트 완료
+
+
+
+## 5. 배포 서버 URL
+
+DRF Server (HEROKU) : https://drf-server-deploy-test123.herokuapp.com/
+
+Vuejs Clien (netlify)t: https://trusting-boyd-cb026a.netlify.app/
+
+
+
+## 6. 기타(느낀점)
+
