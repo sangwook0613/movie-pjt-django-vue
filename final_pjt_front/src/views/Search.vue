@@ -4,9 +4,9 @@
     <div v-if="searchedMovies">
       <div class="row row-cols-1 row-cols-md-5 g-3">
         <div v-for="(movie, idx) in searchedMovies" :key="'xx'+idx" class="col">
-          <div class="card ">
-            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top ">
+          <div>
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}" >
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top scale">
             </router-link>
             <!-- <div class="card-footer bg-transparent border-dark">
               <p class="card-text text-center fw-bold text-dark">{{ movie.title }}</p>
@@ -70,6 +70,21 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.scale:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  opacity:0.5;
+}
 </style>

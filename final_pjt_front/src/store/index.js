@@ -776,7 +776,11 @@ const store = new Vuex.Store({
         router.push({ name: 'Login' })
       })
       .catch((err) => {
-        alert(err.response.data.error)
+        if (err.response.data.error === undefined){
+          alert("아이디의 특수문자는 @,.,+,-만 가능합니다")
+        } else {
+          alert(err.response.data.error)
+        }
       })
     },
     logout: function ({ commit }) {

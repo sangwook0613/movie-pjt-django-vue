@@ -1,5 +1,5 @@
 <template>
-  <div class="item col-3" @click="SET_SELECTED_VIDEO(video)">
+  <div class="item col-3 scale" @click="SET_SELECTED_VIDEO(video)">
     <div class="d-flex flex-column justify-content-start align-items-center" @click="openVideoModal">
       <div class="thumbnail-box rounded my-3" :style="{ backgroundImage: `url(${youtubeImageSrc})`, backgroundSize: 'cover' }">
       </div>
@@ -79,4 +79,20 @@ export default {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
+/* .scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;
+} */
+/* .scale:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  opacity:0.8;
+} */
 </style>

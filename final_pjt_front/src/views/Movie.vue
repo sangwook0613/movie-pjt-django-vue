@@ -35,6 +35,7 @@
                 <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
               </router-link>
             </div>
+
           </div>
         </VueSlickCarousel>
       </div>
@@ -57,7 +58,7 @@
       <h3 class="fw-bold">랜덤 추천 영화</h3>
       <VueSlickCarousel :arrows="true" v-bind="settings">
         <div v-for="(movie, idx) in randomRecommendMovies" :key="idx">
-          <div class="mx-2">
+          <div class="mx-2 scale">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
               <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
@@ -70,7 +71,7 @@
       <h3 class="fw-bold">개봉 예정 영화</h3>
       <VueSlickCarousel :arrows="true" v-bind="settings">
         <div v-for="(movie, idx) in newRecommendMovie" :key="idx">
-          <div class="mx-2">
+          <div class="mx-2 scale">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
               <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
@@ -96,7 +97,7 @@
       <h3 class="fw-bold">가볍게 시간 떼우기 좋은 영상 추천</h3>
       <VueSlickCarousel :arrows="true" v-bind="settings">
         <div v-for="(movie, idx) in runtimeRecommendMovie" :key="idx">
-          <div class="mx-2">
+          <div class="mx-2 scale">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
               <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
@@ -222,5 +223,21 @@ h3 {
   border-color: #292828;
   background-color: #FFFFFF;
   width: 180px;
+
+.scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.scale:hover {
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  opacity:0.7;
 }
 </style>
