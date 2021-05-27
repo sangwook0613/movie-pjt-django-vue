@@ -1,16 +1,16 @@
 <template>
   <div class="mb-5">
     <div>
-      <MovieMainPage />
+      <MovieMainPage/>
     </div>
     <!-- 가장 좋아하는 장르 추천 영화 -->
     <div v-if="mostGenreRecommendMovie.length > 0" class="mt-3">
-      <h3 class="fw-bold">가장 좋아하는 장르 추천 영화</h3>
+      <h3 class="fw-bold">가장 좋아하는 장르 영화</h3>
       <VueSlickCarousel :arrows="true" v-bind="settings">
         <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx">
           <div class="mx-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(2)">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
         </div>
@@ -23,7 +23,7 @@
         <div v-for="(movie, idx) in genreRecommendMovie" :key="idx">
           <div class="mx-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
         </div>
@@ -35,7 +35,7 @@
         <div v-for="(movie, idx) in keywordRecommendMovie" :key="idx">
           <div class="mx-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(3)">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
         </div>
@@ -47,62 +47,72 @@
         <button class="btn btn-light">선택하러 가기</button>
       </router-link>
     </div>
+    
     <!-- 랜덤 추천 영화 -->
-    <div class="mt-3">
+    <div v-if="randomRecommendMovies.length > 0" class="mt-3">
       <h3 class="fw-bold">랜덤 추천 영화</h3>
-      <VueSlickCarousel v-if="randomRecommendMovies.length > 0" :arrows="true" v-bind="settings">
+      <VueSlickCarousel :arrows="true" v-bind="settings">
         <div v-for="(movie, idx) in randomRecommendMovies" :key="idx">
           <div class="mx-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(1)">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
         </div>
       </VueSlickCarousel>
     </div>
 
-    <h3>따끈 따끈한 최신 영화</h3>
-    <VueSlickCarousel :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in newRecommendMovie" :key="'x'+idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(5)">
-        </router-link>
-      </div>
-    </VueSlickCarousel>
+    <div v-if="newRecommendMovie.length > 0" class="mt-3">
+      <h3 class="fw-bold">개봉 예정 영화</h3>
+      <VueSlickCarousel :arrows="true" v-bind="settings">
+        <div v-for="(movie, idx) in newRecommendMovie" :key="idx">
+          <div class="mx-2">
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+            </router-link>
+          </div>
+        </div>
+      </VueSlickCarousel>
+    </div>
 
-    <h3>평점이 높은 영화</h3>
-    <VueSlickCarousel :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in keywordRecommendMovie" :key="'y'+idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(6)">
-        </router-link>
-      </div>
-    </VueSlickCarousel>
+    <!-- <div v-if="ratingRecommendMovie.length > 0" class="mt-3">
+      <h3 class="fw-bold">평점이 높은 영화</h3>
+      <VueSlickCarousel :arrows="true" v-bind="settings">
+        <div v-for="(movie, idx) in ratingRecommendMovie" :key="idx">
+          <div class="mx-2">
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+            </router-link>
+          </div>
+        </div>
+      </VueSlickCarousel>
+    </div> -->
 
-    <h3>가볍게 시간 떼우기 좋은 영상 추천</h3>
-    <VueSlickCarousel :arrows="true" v-bind="settings">
-      <div v-for="(movie, idx) in runtimeRecommendMovie" :key="'z'+idx" class='card'>
-        <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-          <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top" @click="showClickMovieDetail(7)">
-        </router-link>
-      </div>
-    </VueSlickCarousel>
+    <div v-if="runtimeRecommendMovie.length > 0" class="mt-3">
+      <h3 class="fw-bold">가볍게 시간 떼우기 좋은 영상 추천</h3>
+      <VueSlickCarousel :arrows="true" v-bind="settings">
+        <div v-for="(movie, idx) in runtimeRecommendMovie" :key="idx">
+          <div class="mx-2">
+            <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
+              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+            </router-link>
+          </div>
+        </div>
+      </VueSlickCarousel>
+    </div>
   </div>
 </template>
 
 <script>
-// import carousel from 'vue-owl-carousel'
 import MovieMainPage from '@/components/movies/MovieMainPage'
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-// optional style for arrows & dots
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Movie',
   components: {
-    // carousel,
     VueSlickCarousel,
     MovieMainPage
   },
@@ -110,15 +120,11 @@ export default {
     return {
       backgroundLoading:'#141414',
       settings: {
-        // "dots": true,
-        // "infinite": true,
         "initialSlide": 2,
         "speed": 500,
         "slidesToShow": 6,
         "slidesToScroll": 1,
         "swipeToSlide": true,
-        // "adaptiveHeight": true,
-        // "variableWidth": true,
       },
     }
   },
@@ -134,7 +140,10 @@ export default {
     ]),
     ...mapState([
       'showNav',
-    ])
+    ]),
+    ...mapGetters([
+      'jwtUsername',
+    ]),
   },
   methods: {
     ...mapActions('movieStore', [
@@ -145,15 +154,13 @@ export default {
       'getNewRecommendMovie',
       'getRatingRecommendMovie',
       'getRuntimeRecommendMovie',
-
+    ]),
+    ...mapActions('accountStore', [
+      'getProfile',
     ]),
     ...mapActions([
       'updateShowNav',
     ]),
-    showClickMovieDetail: function (idx) {
-      this.checkClicked = [false, false, false, false, false, false, false, false]
-      this.checkClicked[idx] = true
-    },
     openLoadingBackground(){
       this.$vs.loading({background:this.backgroundLoading,color:'rgb(255, 255, 255)'})
       setTimeout( ()=> {
@@ -169,9 +176,10 @@ export default {
     this.getGenreRecommendMovie()
     this.getKeywordRecommendMovie()
     this.getNewRecommendMovie()
-    this.getRatingRecommendMovie()
+    // this.getRatingRecommendMovie()
     this.getRuntimeRecommendMovie()
     this.updateShowNav(true)
+    this.getProfile(this.jwtUsername)
     // document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
 
     // if (this.$store.getters.isLoggedIn) {

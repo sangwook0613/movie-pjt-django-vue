@@ -24,7 +24,6 @@
           </div>
           <div class="content fs-6">
             {{ reviewDetail.content }}
-            얼씨구절씨구얼씨구절씨구얼씨구절씨얼씨구절씨구얼씨구절씨구얼씨구절씨구얼씨구...
           </div>
         </div>
         <div class="d-flex align-items-center">
@@ -60,7 +59,7 @@
     <div class="comment-create-card col-6 offset-3 mt-3 py-3">
       <div class="fw-bold pb-4">댓글 남기기</div>
       <div>
-        <textarea v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]">
+        <textarea v-model.trim="commentInput.inputText" @keypress.enter="[createComment(commentInput), resetCommentInput()]" class="text-light">
         </textarea>
         <button class="fw-bold btn white-btn rounded-pill mt-3" @click="[createComment(commentInput), resetCommentInput()]">작성</button>
       </div>
