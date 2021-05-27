@@ -40,10 +40,6 @@ export default {
   created: function () {
     document.body.style.backgroundImage = "linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.5)), url('https://image.tmdb.org/t/p/original/vVpEOvdxVBP2aV166j5Xlvb5Cdc.jpg')";
   },
-  beforeDestroy: function () {
-    document.body.style.backgroundImage = "";
-    document.body.style.backgroundColor = "rgb(20, 20, 20)";
-  }
 } 
 </script>
 

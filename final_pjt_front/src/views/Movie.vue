@@ -19,7 +19,7 @@
           <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx">
             <div class="mx-2 scale">
               <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-                <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+                <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
               </router-link>
             </div>
           </div>
@@ -60,7 +60,7 @@
         <div v-for="(movie, idx) in randomRecommendMovies" :key="idx">
           <div class="mx-2 scale">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
             </router-link>
           </div>
         </div>
@@ -173,12 +173,13 @@ export default {
       this.$vs.loading({background:this.backgroundLoading,color:'rgb(255, 255, 255)'})
       setTimeout( ()=> {
         this.$vs.loading.close()
-      }, 2000);
+      }, 2100);
     },
   },
 
   created: function () {
     this.openLoadingBackground()
+    this.getProfile(this.jwtUsername)
     this.getRandomRecommendMovie()
     this.getMostGenreRecommendMovie()
     this.getGenreRecommendMovie()
@@ -187,7 +188,8 @@ export default {
     // this.getRatingRecommendMovie()
     this.getRuntimeRecommendMovie()
     this.updateShowNav(true)
-    this.getProfile(this.jwtUsername)
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundColor = "rgb(20, 20, 20)";
   },
 }
 </script>

@@ -40,7 +40,7 @@
           <div class="title fw-bold fs-5">
             {{ reviewDetail.title }}
           </div>
-          <div class="content fs-6">
+          <div class="content fs-6" style="word-break:break-all; word-wrap:break-word;">
             {{ reviewDetail.content }}
           </div>
         </div>
@@ -49,13 +49,13 @@
             <i class="fas fa-heart fa-lg me-1" :style="{ color: checkUserIncludeInReviewLikes(reviewDetail.likes)}"></i>
             <span class="ps-2 rating">{{ reviewDetail.likes.length }}</span>
           </div>
-          <div class="comment-count">
-              <img
-                alt=""
-                class="vector"
-                src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
-              />
-          <span class="ps-2 rating">{{ reviewDetail.comment_count }}</span>
+          <div class="comment-count d-flex align-items-center">
+            <img
+              alt=""
+              class="vector"
+              src="https://static.overlay-tech.com/assets/6d5c72bb-4b13-4f8a-99e7-fc4b3a1c9049.svg"
+            />
+            <div class="ps-2 rating">{{ reviewDetail.comment_count }}</div>
           </div>
         </div>
       </div>
@@ -147,11 +147,11 @@ export default {
         .then(() => {
           const likeCountImage = document.querySelector(`#likeCount-${review.id} > i`)
           const likeCountNum = document.querySelector(`#likeCount-${review.id} > span`)
-          if (likeCountImage.style.color === '' || likeCountImage.style.color === 'black' ) {
+          if (likeCountImage.style.color === '' || likeCountImage.style.color === 'white' ) {
             likeCountImage.style.color = 'crimson'
             likeCountNum.innerText++
           } else {
-            likeCountImage.style.color = 'black'
+            likeCountImage.style.color = 'white'
             likeCountNum.innerText--
           }
         })
@@ -166,7 +166,7 @@ export default {
       if (_.includes(review_likes, this.jwtUserId)) {
         return 'crimson'
       }
-      return 'black'
+      return 'white'
     },
     openUpdateReviewModal: function () {
       this.openModal()

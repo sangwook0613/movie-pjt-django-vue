@@ -34,12 +34,15 @@
     </div>
     
     <div class="my-3 d-flex justify-content-center moreinfo-tag py-2 rounded">
-      <button @click="showClickAdditionalDetail(0)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">작성한 리뷰</button>
-      <button @click="showClickAdditionalDetail(1)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 리뷰</button>
-      <button @click="showClickAdditionalDetail(2)" class="btn btn-sm mx-1 more-detail-btn fs-5 fw-bold text-light">좋아요한 작품</button>
+      <div @click="showClickAdditionalDetail(0)" class="mx-1 more-detail-btn fs-5 px-2 fw-bold text-light"
+      :style="this.checkProfileDetailClicked[0] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''">작성한 리뷰</div>
+      <div @click="showClickAdditionalDetail(1)" class="mx-1 more-detail-btn fs-5 px-2 fw-bold text-light"
+      :style="this.checkProfileDetailClicked[1] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''">좋아요한 리뷰</div>
+      <div @click="showClickAdditionalDetail(2)" class="mx-1 more-detail-btn fs-5 px-2 fw-bold text-light"
+      :style="this.checkProfileDetailClicked[2] ? 'border-bottom:3px solid #FFFFFF; padding-bottom:3px;' : ''">좋아요한 영화</div>
     </div>
-    <div class="additional-info-card d-flex flex-column align-items-center">
-      <div class="d-flex flex-column align-items-center" v-if="checkMovieDetailClicked[0]">
+    <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center" v-if="checkProfileDetailClicked[0]">
         <div class="d-flex flex-column justify-content-center">
           <div class="py-2 fw-bold fs-6 text-center">리뷰 또는 영화를 클릭하면 해당 페이지로 이동합니다.</div>
           <div class="row d-flex justify-content-evenly mx-3">
@@ -62,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div v-if="checkMovieDetailClicked[1]">
+      <div v-if="checkProfileDetailClicked[1]">
         <div class="py-2 fw-bold fs-6 text-center">제목 또는 작성자를 클릭하면 해당 정보로 이동합니다.
           <div>
             <div v-for="(likeReview,idx) in profile.like_reviews" :key="'D'+idx" class="my-2 col-3 mx-5 profile-card"> 
@@ -81,46 +84,31 @@
             </div>
           </div>
         </div>
-        <!-- <MovieVideos v-if="checkCondition(movieDetail.title)" :movieTitle="movieDetail.title"/> -->
       </div>
-      <div v-if="checkMovieDetailClicked[2]">
+      <div v-if="checkProfileDetailClicked[2]">
         <h3 class="pt-4 fw-bold">Like Movies</h3>
         <p>이미지를 클릭하면 해당 영화 정보로 이동합니다.</p>
-        <!-- <carousel v-if="profile.like_movies.length > 0" :nav="false" :items="5" class="mx-3 profile-detail">
-          <div v-for="(movie, idx) in profile.like_movies" :key="idx">
+        <div class="container row">
+          <div v-for="(movie, idx) in profile.like_movies" :key="idx" class="col-3 mb-2">
             <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-              <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
+              <div class="create-box rounded scale" :style="{ backgroundImage: `url(${movie.poster_path})`, backgroundSize: '100% 100%' }">
+              </div>
             </router-link>
           </div>
-        </carousel> -->
-        <!-- <SimilarMovies/> -->
-        
-        <VueSlickCarousel :arrows="true" v-bind="settings">
-          <div v-for="(movie, idx) in profile.like_movies" :key="idx">
-            <div class="mx-2">
-              <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
-                <img :src="movie.poster_path" alt="movie-poster" class="card-img-top">
-              </router-link>
-            </div>
-          </div>
-        </VueSlickCarousel>
+        </div>
       </div>
     </div>    
   </div>
 </template>
 
 <script>
-import VueSlickCarousel from 'vue-slick-carousel'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Profile',
-  components: {
-    VueSlickCarousel,
-  },
   data: function () {
     return {
-      checkMovieDetailClicked: [true, false, false]
+      checkProfileDetailClicked: [true, false, false],
     }
   },
   methods: {
@@ -136,8 +124,8 @@ export default {
       this.modalData.profileUpdateModalStatus = true
     },
     showClickAdditionalDetail: function (idx) {
-      this.checkMovieDetailClicked = [false, false, false]
-      this.checkMovieDetailClicked[idx] = true
+      this.checkProfileDetailClicked = [false, false, false]
+      this.checkProfileDetailClicked[idx] = true
     },
     checkCondition: function (item1) {
       if (Object.keys(item1).length !== 0) {
@@ -184,12 +172,11 @@ export default {
   background-color: #292828;
 }
 
-/* .profile-detail{
-  padding: 20px;
-  border-width: 1.5px;
-  border-style: solid;
-  border-color: rgba(37,150,151,0.5);
-} */
+.create-box {
+  width: 210px;
+  height: 350px;
+}
+
 .card-css {
   background-color: rgba(188,188,188,0.4);
   border-width: 1.5px;
@@ -200,7 +187,6 @@ export default {
 .ellipse-2 {
   width: 100px;
   height: 100px;
-  margin-left: 20px;
   border-radius: 50%;
 }
 
@@ -219,5 +205,23 @@ export default {
   border-color: #292828;
   background-color: #FFFFFF;
   width: 120px;
+}
+
+.scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+
+.scale:hover {
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  opacity:0.7;
 }
 </style>
