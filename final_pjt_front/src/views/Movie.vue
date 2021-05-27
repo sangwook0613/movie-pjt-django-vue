@@ -17,7 +17,7 @@
         <h3 class="fw-bold">가장 좋아하는 장르 영화</h3>
         <VueSlickCarousel :arrows="true" v-bind="settings">
           <div v-for="(movie, idx) in mostGenreRecommendMovie" :key="idx">
-            <div class="mx-2">
+            <div class="mx-2 scale">
               <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
                 <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
               </router-link>
@@ -30,7 +30,7 @@
         <h3 class="fw-bold">장르 추천 영화</h3>
         <VueSlickCarousel :arrows="true" v-bind="settings">
           <div v-for="(movie, idx) in genreRecommendMovie" :key="idx">
-            <div class="mx-2">
+            <div class="mx-2 scale">
               <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
                 <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
               </router-link>
@@ -43,7 +43,7 @@
         <h3 class="fw-bold">키워드 추천 영화</h3>
         <VueSlickCarousel :arrows="true" v-bind="settings">
           <div v-for="(movie, idx) in keywordRecommendMovie" :key="idx">
-            <div class="mx-2">
+            <div class="mx-2 scale">
               <router-link :to="{ name: 'MovieDetail', params: { movieId: movie.id }}">
                 <img loading="lazy" :src="movie.poster_path" alt="movie-poster" class="card-img-top">
               </router-link>
@@ -188,13 +188,6 @@ export default {
     this.getRuntimeRecommendMovie()
     this.updateShowNav(true)
     this.getProfile(this.jwtUsername)
-    // document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.squarespace-cdn.com/content/v1/5a173f16ace86416b07c25f1/1513939530902-DILPHAAJ9F0DI627449M/ke17ZwdGBToddI8pDm48kK0QKSDttGV1ap9dyeIseHF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0mxU0godxi02JM9uVemPLqw3ZQRv6tY2V6nZIOWGhJ3qaH6uCpMgOc4rPl-G2eiFCQ/fantasy+album+cover6+-+in+wide+format.jpg?format=1500w')";
-
-    // if (this.$store.getters.isLoggedIn) {
-    //   this.getTodos()
-    // } else {
-    //   this.$router.push({ name: 'Login' })
-    // }
   },
 }
 </script>
@@ -233,6 +226,7 @@ h3 {
   -o-transform: scale(1);
   transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
 }
+
 .scale:hover {
   transform: scale(1.05);
   -webkit-transform: scale(1.05);

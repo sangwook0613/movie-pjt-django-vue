@@ -37,6 +37,13 @@ export default {
       'login',
     ])
   },
+  created: function () {
+    document.body.style.backgroundImage = "linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.5)), url('https://image.tmdb.org/t/p/original/vVpEOvdxVBP2aV166j5Xlvb5Cdc.jpg')";
+  },
+  beforeDestroy: function () {
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundColor = "rgb(20, 20, 20)";
+  }
 } 
 </script>
 
@@ -49,7 +56,7 @@ export default {
 .login-card {
   padding: 20px;
   border-radius: 8px;
-  background-color: #292828;
+  background-color: rgba(41, 40, 40, 0.9);
 }
 
 .white-btn {

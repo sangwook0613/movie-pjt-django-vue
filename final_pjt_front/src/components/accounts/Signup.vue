@@ -54,6 +54,13 @@ export default {
     ...mapActions([
       'signup',
     ])
+  },
+  created: function () {
+    document.body.style.backgroundImage = "linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.5)), url('https://image.tmdb.org/t/p/original/i34ijHY5hr52uYcKZ48wq7K6yUs.jpg')";
+  },
+  beforeDestroy: function () {
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundColor = "rgba(20, 20, 20, 0.9)";
   }
 }
 </script>
@@ -67,7 +74,7 @@ export default {
 .signup-card {
   padding: 20px;
   border-radius: 8px;
-  background-color: #292828;
+  background-color: rgba(41, 40, 40, 0.9);
 }
 
 .white-btn {

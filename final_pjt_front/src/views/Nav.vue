@@ -9,17 +9,16 @@
                 <img src="@/assets/logo.png" alt="logo-image" >
               </router-link>
             </div>
-            <div class="d-flex align-items-center">
-              <input class="form-control-sm mx-2" @input="updateSearchInput" 
-              @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" 
-              type="text" placeholder="영화, 배우, 감독으로 검색"
-              style="width:224px; height: 35px;"
-              >
-              <i class="fas fa-search fa-lg text-white ms-1" @click="$router.push({name: 'Search', query: {q: searchInput}})"></i>
-            </div>
           </div>
 
-        <div class="dropdown mr-auto me-3 ms-5 d-flex align-items-center">
+        <div class="d-flex align-items-center">
+          <input class="form-control-sm mx-2 search-bar" @input="updateSearchInput" 
+            @keypress.enter="$router.push({name: 'Search', query: {q: searchInput}})" 
+            type="text" placeholder="영화, 배우, 감독으로 검색"
+          >
+          <i class="fas fa-search fa-lg text-white ms-1" @click="$router.push({name: 'Search', query: {q: searchInput}})"></i>
+        </div>
+        <div class="dropdown mr-auto me-3 ms-4 d-flex align-items-center">
           <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" class="text-light">
             <i class="fs-2 fw-bold far fa-user-circle"></i>
           </a>
@@ -110,5 +109,11 @@ export default {
   max-width: 100px;
   margin-top: -36%;
   margin-left: -10%;
+}
+
+.search-bar {
+  width: 224px;
+  height: 35px;
+  border: 1px solid #FFFFFF;
 }
 </style>

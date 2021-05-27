@@ -178,7 +178,7 @@ export default {
   },
   beforeDestroy: function () {
     document.body.style.backgroundImage = "";
-    document.body.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+    document.body.style.backgroundColor = "rgb(20, 20, 20)";
   }
 }
 </script>
