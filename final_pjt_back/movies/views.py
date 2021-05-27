@@ -447,7 +447,7 @@ def recommend_similar_genre(request, movie_pk):
                 result.add(movie)
 
         # 5개의 데이터만 리턴
-        if len(result) >= 5:
+        if len(result) >= 4:
             serializer = MovieListSerializer(result, many=True)
             return Response(serializer.data)
     # 5개 미만이면 그대로 리턴
