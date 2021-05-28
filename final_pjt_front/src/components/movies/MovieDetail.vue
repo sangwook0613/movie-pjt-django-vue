@@ -5,8 +5,7 @@
         backgroundImage: `linear-gradient(to right, #141414, rgba(20, 20, 20, 0) 50%), linear-gradient(to left, #141414, rgba(20, 20, 20, 0) 30%), url(${movieDetail.backdrop_path})`,
         backgroundSize: '840px 100%',
         backgroundPosition: 'right center',
-        backgroundRepeat: 'no-repeat',
-        height: '640px'}">
+        backgroundRepeat: 'no-repeat'}">
         <div class="col-5">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
